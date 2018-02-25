@@ -157,7 +157,7 @@ Page({
         let currentCourseIdx = this.data.currentCourseIdx;   // 当前页面课程的索引
 
         // 从本地读取数据，用来初始化页面显示课程
-        let userInfo = StorageUtils.loadData(app.Settings.Storage.WeChatUser);
+        let userInfo = StorageUtils.loadUserInfo();
 
         // 1、根据页面进入入口，判断如何初始化，提取当前应该显示的课程
 

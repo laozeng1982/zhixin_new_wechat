@@ -37,7 +37,6 @@ class WeChatUser {
         this.parentSet = [];  // (Array[UserParent], optional), （家长列表，数组，可选，默认：空）
 
         this.authorities = [];  // (Array[GrantedAuthority], optional),     （权限字段，自定义类型，可选，默认：空）
-        this.currentAuth = "";  // （当前角色，字符串，可选，默认：空）
 
         this.weChatInfo = {unionId: ""};  // (WeChatUserBasic, optional)    （用户微信基本账号信息，自定义类）
 

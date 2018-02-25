@@ -3,6 +3,7 @@
 
 import DataStructure from '../../../../datamodel/DataStructure'
 import StorageUtils from '../../../../utils/StorageUtils'
+import NetworkUtils from '../../../../utils/NetworkUtils'
 
 const app = getApp();
 
@@ -119,11 +120,15 @@ Page({
         console.log('form发生了submit事件，携带数据为：', e.detail.value);
         let userInfo = this.data.userInfo;
 
+        // 准备提交到后端服务器上的数据，为空的数据不能上传
+        let userData = {};
+
         // 1、校验表单信息
 
         // 1.1、收集昵称
         if (e.detail.value.nickName !== '') {
             userInfo.nickName = e.detail.value.nickName;
+            userData.nickName = e.detail.value.nickName;
         } else {
             wx.showModal({
                 title: 'Warning',
@@ -134,12 +139,13 @@ Page({
 
         // 1.2、收集性别
         userInfo.gender = e.detail.value.gender;
+        userData.gender = e.detail.value.gender;
 
         // 1.3、收集角色
         let roleSet = [];
         if (e.detail.value.authorities.length !== 0) {
             userInfo.authorities = e.detail.value.authorities;
-            userInfo.currentAuth = e.detail.value.authorities[0];
+            // userInfo.currentAuth = e.detail.value.authorities[0];
             for (let item of e.detail.value.authorities) {
                 switch (item) {
                     case "teacher":
@@ -156,6 +162,7 @@ Page({
                 }
             }
 
+            userData.roleSet = roleSet;
             console.log("roleSet:", roleSet);
         } else {
             wx.showModal({
@@ -167,104 +174,47 @@ Page({
 
         // 1.4、收集生日
         userInfo.dateOfBirth = e.detail.value.dateOfBirth;
+        userData.dateOfBirth = e.detail.value.dateOfBirth;
+
+        userData.weChatInfo= userInfo.weChatInfo;
 
         // 1.5、收集其他信息
         if (typeof e.detail.value.cnName !== 'undefined' && e.detail.value.cnName !== '') {
             userInfo.cnName = e.detail.value.cnName;
+            userData.cnName = e.detail.value.cnName;
         }
         if (typeof e.detail.value.enName !== 'undefined' && e.detail.value.enName !== '') {
             userInfo.enName = e.detail.value.enName;
+            userData.enName = e.detail.value.enName;
         }
         if (typeof e.detail.value.mobileNumber !== 'undefined' && e.detail.value.mobileNumber !== '') {
             userInfo.mobileNumber = e.detail.value.mobileNumber;
+            userData.mobileNumber = e.detail.value.mobileNumber;
         }
         if (typeof e.detail.value.email !== 'undefined' && e.detail.value.email !== '') {
             userInfo.email = e.detail.value.email;
+            userData.email = e.detail.value.email;
         }
-
-        // 准备提交到后端服务器上的数据，为空的数据不能上传
-        let userData;
-        if (this.data.options.model === "register") {
-            userData = {
-                nickName: userInfo.nickName,
-                gender: userInfo.gender,
-                roleSet: roleSet,
-                weChatInfo: {
-                    unionId: app.tempData.unionId
-                }
-            };
-        } else {
-            userData = {
-                nickName: userInfo.nickName,
-                cnName: userInfo.cnName,
-                enName: userInfo.enName,
-                gender: userInfo.gender,
-                dateOfBirth: userInfo.dateOfBirth,
-                mobileNumber: userInfo.mobileNumber,
-                email: userInfo.email,
-                roleSet: roleSet,
-                weChatInfo: {
-                    unionId: app.tempData.unionId
-                }
-            };
-        }
- 
 
         // 准备跳转页面及保存数据
         let tabUrl = '';
-
         if (this.data.options.model === "register") {
-            console.log("go to register on server!");
-            console.log("userData:", userData);
-            // 去服务器注册
-            wx.request({
-                url: 'https://www.yongrui.wang/WeChatMiniProgram/user/viaWeChat',
-                method: 'POST',
-                data: userData,
-                success: res => {
-                    userInfo.id = res.data.id;
-                    // 后台创建或更新，并同步保存到本地
-                    console.log("saved userInfo:", userInfo);
-                    wx.setStorageSync("WeChatUser", userInfo);
-                    console.log("Post succeeded, res.data:", res.data);
-                },
-                fail: res => {
-                    // 失败也要保存本地
-                    wx.setStorageSync("WeChatUser", userInfo);
-                    console.log("Post failed, res:", res);
-                }
-            });
 
+            NetworkUtils.createUserInfo(userData, userInfo);
             // 由新建页面进入，创建用户信息，页面设置完成，跳转到首页
-            tabUrl = '../../../tabpages/student/student';
+            tabUrl = "../../../tabpages/" + userInfo.authorities[0] + "/index";
         } else {
-            // 由更新页面进入，页面设置完成，跳转到设置
-            console.log(app.tempData.request_header);
-            // 这里PUT方法，要给id
             userData.id = userInfo.id;
 
-            console.log("userData:", userData);
-
-            wx.request({
-                url: 'https://www.yongrui.wang/WeChatMiniProgram/user/',
-                method: 'PUT',
-                header: app.tempData.request_header,
-                data: userData,
-                success: res => {
-                    console.log("Put succeeded, res.data:", res.data);
-                },
-                fail: res => {
-                    console.log("Put failed, res:", res);
-                }
-            });
-
-            // 失败也要保存本地
-            wx.setStorageSync("WeChatUser", userInfo);
-
-            tabUrl = '../../tabpages/setting/setting';
+            NetworkUtils.updateUserInfo(userData, userInfo);
+            // 由新建页面进入，创建用户信息，页面设置完成，跳转设置页
+            tabUrl = '../../../tabpages/setting/setting';
         }
 
-        wx.switchTab({
+        // 根据状态重新装载Tab
+        app.bottom_tabBar.reload();
+
+        wx.redirectTo({
             url: tabUrl,
         });
     },
@@ -274,7 +224,7 @@ Page({
      * 恢复到未修改之前
      */
     onFormReset: function () {
-        let userInfo = wx.getStorageSync("WeChatUser");
+        let userInfo = StorageUtils.loadUserInfo("WeChatUser");
         let authorities = this.data.authorities;
         // 重置角色选项
         if (userInfo.authorities.length > 0) {

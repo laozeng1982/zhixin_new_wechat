@@ -310,7 +310,7 @@ function createData(type, data2Sever, data2Local) {
                         saveData(Settings.Storage.UserPlanSet, data2Local);
                         console.log("create plan successful, res.data:", res.data);
                         wx.hideLoading();
-                        wx.switchTab({
+                        wx.switchIndexTab({
                             url: '../../student/student',
                         });
                         break;
@@ -329,7 +329,7 @@ function createData(type, data2Sever, data2Local) {
         },
         fail: function (res) {
             wx.hideLoading();
-            wx.switchTab({
+            wx.switchIndexTab({
                 url: '../../student/student',
             });
             console.log("create fail: ", res.data);
@@ -368,7 +368,7 @@ function updateData(type, data2Sever, data2Local) {
                         saveData(Settings.Storage.UserPlanSet, data2Local);
                         console.log("update plan successful, res.data:", res.data);
                         wx.hideLoading();
-                        wx.switchTab({
+                        wx.switchIndexTab({
                             url: '../../student/student',
                         });
                         break;

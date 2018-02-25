@@ -3,6 +3,7 @@
 /* 全局通用的一些样式 */
 
 @import "common.wxss";
+@import "index.wxss";
 
 button {
     margin-top: 20rpx;

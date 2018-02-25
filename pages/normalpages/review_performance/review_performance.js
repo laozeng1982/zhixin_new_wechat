@@ -1,7 +1,7 @@
 // pages/normalpages/review_homework/review_homework.js
 // 评价作业和课堂表现页面
 
-import Media from '../../../utils/Media'
+import Media from '../../../utils/MediaUtils'
 
 Page({
 
@@ -317,7 +317,7 @@ Page({
         // 后台创建或更新，并同步保存到本地
         // app.DateTimeUtils.syncData(null, "user", data, userInfo);
 
-        wx.switchTab({
+        wx.switchIndexTab({
             url: tabUrl,
         });
     },

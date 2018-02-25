@@ -71,7 +71,7 @@
 }
 
 .course-tab-item-left {
-    width: 200rpx;
+    width: 250rpx;
     /* margin-left: 40rpx; *//* margin-right: 40rpx; */
 }
 
@@ -313,7 +313,7 @@
 }
 
 .weekday-label-days {
-    /* width: 14.28%; 
+    /* width: 14.28%;
      position: relative; */
     float: left;
     text-align: center;

@@ -31,7 +31,7 @@
                     <view class='item-value-input' style='margin-right:0'>
                         <input id="{{courseItems.location.name.id}}" name="{{courseItems.location.name.id}}" value='{{courseItems.location.name.value}}' placeholder='{{courseItems.location.name.tip}}' bindinput='onInput' />
                     </view>
-                    <image class='image-arrow' src='../../image/right_arrow.png' bindtap='onChooseLocation'></image>
+                    <image class='image-arrow' src='../../../image/right_arrow.png' bindtap='onChooseLocation'></image>
                 </view>
 
             </view>
@@ -86,7 +86,7 @@
                     <view class='item-value-picker-text' style='width:20rpx'></view>
                     <view class='item-value-picker'>
                         <view class='item-value-picker-text'>{{courseItems.recurringRule.value}}</view>
-                        <image class='image-arrow' src='../../image/down_arrow.png'></image>
+                        <image class='image-arrow' src='../../../image/down_arrow.png'></image>
                     </view>
                 </view>
             </view>
@@ -111,7 +111,7 @@
                     <picker id="{{courseItems.startTime.id}}" name="{{courseItems.startTime.id}}" mode='time' start='{{courseItems.startTime.start}}' value='{{courseItems.startTime.value}}' bindchange='onPickerChange'>
                         <view class='item-value-picker'>
                             <view class='item-value-picker-text'>{{courseItems.startTime.value}}</view>
-                            <image class='image-arrow' src='../../image/down_arrow.png'></image>
+                            <image class='image-arrow' src='../../../image/down_arrow.png'></image>
                         </view>
                     </picker>
                 </view>
@@ -132,7 +132,7 @@
                                 分钟
                             </view>
                             <view class='item-image'>
-                                <image class='image-arrow' src='../../image/down_arrow.png'></image>
+                                <image class='image-arrow' src='../../../image/down_arrow.png'></image>
                             </view>
                         </view>
 

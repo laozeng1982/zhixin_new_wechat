@@ -79,7 +79,7 @@
                             <view class='userinfo-item-picker'>
                                 {{genderChArray[genderIdx]}}
                             </view>
-                            <image class='userinfo-item-image' src='../../image/down_arrow.png'> </image>
+                            <image class='userinfo-item-image' src='../../../image/down_arrow.png'> </image>
                         </view>
                     </picker>
                 </view>
@@ -99,7 +99,7 @@
                             <view class='userinfo-item-picker'>
                                 {{userInfo.dateOfBirth}}
                             </view>
-                            <image class='userinfo-item-image' src='../../image/down_arrow.png'> </image>
+                            <image class='userinfo-item-image' src='../../../image/down_arrow.png'> </image>
                         </view>
                     </picker>
 

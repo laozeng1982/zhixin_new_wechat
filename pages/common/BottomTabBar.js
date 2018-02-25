@@ -9,18 +9,21 @@ class BottomTabBar {
         this.selectedColor = "#f00";
         this.backgroundColor = "#fff";
         this.borderStyle = "#ccc";
-        this.list = [];
+        this.list = this.makeList();
 
 
+    }
+
+    makeList() {
         let userInfo = StorageUtils.loadUserInfo();
+        let list = [];
 
         // 根据总的角色来决定宽度
         let width = 100 / (userInfo.authorities.length + 1) + "%";
         for (let auth of userInfo.authorities) {
-
             switch (auth) {
                 case "teacher":
-                    this.list.push({
+                    list.push({
                         pagePath: "/pages/tabpages/teacher/index",
                         text: "老师",
                         iconPath: "/pages/image/tabbar_home_unselected.png",
@@ -32,7 +35,7 @@ class BottomTabBar {
                     });
                     break;
                 case "student":
-                    this.list.push({
+                    list.push({
                         pagePath: "/pages/tabpages/student/index",
                         text: "学生",
                         iconPath: "/pages/image/tabbar_home_unselected.png",
@@ -44,7 +47,7 @@ class BottomTabBar {
                     });
                     break;
                 case "parent":
-                    this.list.push({
+                    list.push({
                         pagePath: "/pages/tabpages/parent/index",
                         text: "家长",
                         iconPath: "/pages/image/tabbar_home_unselected.png",
@@ -60,7 +63,7 @@ class BottomTabBar {
             }
         }
 
-        this.list.push({
+        list.push({
             pagePath: "/pages/tabpages/setting/setting",
             text: "我的",
             iconPath: "/pages/image/tabbar_me_unselected.png",
@@ -72,9 +75,15 @@ class BottomTabBar {
         });
 
         // 默认选中第一个
-        this.list[0].active = true;
+        list[0].active = true;
 
         console.log("tabs", this);
+
+        return list;
+    }
+
+    reload() {
+        this.list = this.makeList();
     }
 
     /**

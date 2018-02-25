@@ -14,7 +14,7 @@ Page({
                     {
                         img: "../../image/friend_64px.png",
                         name: "个人信息",
-                        url: "../../normalpages/user/modify/modify"
+                        url: "../../normalpages/user/info/info"
                     },
                     // {
                     //     img: "../../image/writing_64px.png",

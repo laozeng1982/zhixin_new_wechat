@@ -52,7 +52,7 @@ Page({
         // 应对用户删除本地存储，在获取了用户id之后，更新用户信息，这步必须的。
         let tabUrl = '../../tabpages/setting/setting';
 
-        wx.switchTab({
+        wx.switchIndexTab({
             url: tabUrl,
         });
     },

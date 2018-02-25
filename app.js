@@ -1,7 +1,7 @@
 // app.js
 // 小程序入口
 
-import NetWork from './utils/Network'
+import NetWorkUtils from './utils/NetworkUtils'
 import TabBar from '/pages/common/BottomTabBar.js'
 
 App({
@@ -11,25 +11,29 @@ App({
         console.log("App.onLoad, options:", options);
 
         // 判断入口
-        // if (options.scene === 1044) {
-        //     wx.getShareInfo({
-        //         shareTicket: options.shareTicket,
-        //         success: function (res) {
-        //             console.log("from share, res:", res);
-        //             let encryptedData = res.encryptedData;
-        //             let iv = res.iv;
-        //         }
-        //     })
-        // }
+        if (options.scene === 1044) {
+            wx.getShareInfo({
+                shareTicket: options.shareTicket,
+                success: function (res) {
+                    console.log("from share, res:", res);
+                    let encryptedData = res.encryptedData;
+                    let iv = res.iv;
+                }
+            });
+        }
 
         // 登录，同步用户数据
-        NetWork.syncUserInfo(this);
-
+        NetWorkUtils.syncUserInfo(this);
 
     },
 
     onShow: function () {
         console.log("App.onShow");
+    },
+
+    loadTab: function () {
+        this.bottom_tabBar = new TabBar.BottomTabBar();
+
     },
 
     bottom_tabBar: new TabBar.BottomTabBar(),
