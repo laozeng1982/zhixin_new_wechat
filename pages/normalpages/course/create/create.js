@@ -444,15 +444,43 @@ Page({
 
         userInfo.teacherCourseSet.push(course);
 
-        delete course.id;
-        let userData = {
-            weChatInfo: userInfo.weChatInfo,
-            course: course
+        // delete course.id;
+        // course.teacherSet.push({
+        //     id: userInfo.id
+        // });
+
+        course = {
+            "name": "test",
+            "location": {
+                "name": "春熙路",
+                "address": "四川省成都市锦江区春熙路",
+                "latitude": 30.653144,
+                "longitude": 104.076894,
+                "room": "sample"
+            },
+            "startDate": "2018-02-26",
+            "endDate": "2018-02-26",
+            "startTime": "09:00",
+            "duration": 45,
+            "recurringRule": "WED,FRI",
+            "recurringTimes": 10,
+            "grade": "5",
+            "description": "test",
+            "status": "Preparing",
+            "maxCapacity": 10,
+            "teacherSet": [
+                {
+                    "id": 2
+                }
+            ],
+            "scoreType": "Five"
         };
 
-        console.log("userData", userData);
+        console.log("course", course);
 
-        NetworkUtils.createCourse(userData, userInfo);
+        // for ()
+
+        NetworkUtils.createCourse(course, userInfo);
 
         // 4.2、保存
         // StorageUtils.saveUserInfo(userInfo);

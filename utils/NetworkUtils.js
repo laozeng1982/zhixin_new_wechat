@@ -3,41 +3,61 @@
  */
 import StorageUtils from './StorageUtils'
 import Settings from '../datamodel/Settings'
+import wxApi from './wxApi'
+import wxRequest from './wxRequest'
 
 const BASE_URL = "https://www.yongrui.wang/WeChatMiniProgram/";
 const Setting = new Settings.Settings();
-const promisify = require('./Promisify');
 
+const wxLogin = wxApi.wxLogin();
+const wxGetSystemInfo = wxApi.wxGetSystemInfo();
+const wxGetSetting = wxApi.wxGetSetting();
+const wxGetUserInfo = wxApi.wxGetUserInfo();
 
-const login = promisify(wx.login);
-const request = promisify(wx.request);
-const getSetting = promisify(wx.getSetting);
-const getUserInfo = promisify(wx.getUserInfo);
+function startSync(type) {
+    console.log("start to " + type);
+
+    // 显示同步数据，等待
+    wx.showLoading({
+        title: '同步数据',
+        duration: 10000
+    });
+}
+
+function finishSync(userInfo, pageUrl) {
+    let app = getApp();
+    StorageUtils.saveUserInfo(userInfo);
+
+    // 根据状态重新装载Tab
+    app.bottom_tabBar.reload();
+    wx.hideLoading();
+
+    if (typeof pageUrl !== "undefined") {
+        wx.redirectTo({
+            url: pageUrl,
+        });
+    }
+
+    console.log("sync end!");
+}
 
 /**
  * 同步用户数据
  */
 function syncUserInfo() {
-    // 登录，等待服务器反应
-    console.log("syncUserInfo");
-
-    // 显示同步数据，等待
-    wx.showLoading({
-        title: '同步数据',
-    });
+    startSync("syncUserInfo");
 
     // 先读取本地内容
     let userInfoLocal = StorageUtils.loadData(Setting.Storage.WeChatUser);
 
-    login().then(res => {
-        console.log("login success, res:", res.code);
-        request({
-            url: 'https://www.yongrui.wang/WeChatMiniProgram/user/weChatMPOpenIdByJSCode/' + res.code,
-        }).then(res => {
+    wxLogin().then(res => {
+        console.log("wxLogin success, res:", res.code);
+        let url = 'https://www.yongrui.wang/WeChatMiniProgram/user/weChatMPOpenIdByJSCode/' + res.code;
+        wxRequest.getRequest(url).then(res => {
             console.log("get OpenId success, res.data:", res.data);
             let mpOpenId = res.data.mpOpenId;
-            getSetting().then(res => {
-                getUserInfo({
+            wxGetSetting().then(res => {
+                wxGetUserInfo({
                     data: {
                         'withCredentials': true
                     }
@@ -50,39 +70,35 @@ function syncUserInfo() {
                     userInfoLocal.avatarUrl = res.userInfo.avatarUrl;
 
                     // 取得openId后去获取unionId，并带回服务器上用户的数据
-                    request({
-                        url: 'https://www.yongrui.wang/WeChatMiniProgram/user/weChatMPUnionIdQuery',
-                        method: 'POST',
-                        data: {
-                            mpOpenId: mpOpenId,
-                            encryptedData: res.encryptedData,
-                            iv: res.iv
-                        }
-                    }).then(res => {
+                    let url = 'https://www.yongrui.wang/WeChatMiniProgram/user/weChatMPUnionIdQuery';
+                    let data = {
+                        mpOpenId: mpOpenId,
+                        encryptedData: res.encryptedData,
+                        iv: res.iv
+                    };
+                    wxRequest.postRequest(url, data).then(res => {
                         // 最核心的部分，获取成功以后，保存信息
                         console.log("get data from server success, res:", res);
+                        wx.hideLoading();
                         saveInfo(userInfoLocal, res);
                     }).catch(res => {
                         console.log("get data from server failed, res:", res);
-                        wx.hideLoading();
                     });
                 }).catch(res => {
                     console.log("getUserInfo failed, res:", res);
-                    wx.hideLoading();
                 });
             }).catch(res => {
-                console.log("getSetting failed, res:", res);
-                wx.hideLoading();
+                console.log("wxGetSetting failed, res:", res);
             });
-
         }).catch(res => {
             console.log("get OpenId failed, res:", res);
-            wx.hideLoading();
         });
-
     }).catch(res => {
-        console.log("login failed, res: ", res);
-        wx.hideLoading();
+        console.log("wxLogin failed, res:", res);
+        // wx.hideLoading();
+    }).finally(() => {
+        console.log("wxLogin finally!");
+        finishSync(userInfoLocal);
     });
 
 }
@@ -92,139 +108,82 @@ function syncUserInfo() {
  * @param userData
  * @param userInfo
  */
-function createUserInfo(userData, userInfo) {
-    // 显示同步数据，等待
-    wx.showLoading({
-        title: '同步数据',
-    });
+function createUserInfo(userData, userInfo, pageUrl) {
+    startSync("createUserInfo");
 
+    let app = getApp();
     let url = 'https://www.yongrui.wang/WeChatMiniProgram/user/viaWeChat';
-    postData(url, userData, userInfo);
 
-    // 即时保存，不在complete里完成，以防其他页面再次读取到未更新的数据
-    // StorageUtils.saveUserInfo(userInfo);
+    wxRequest.postRequest(url, userData).then(res => {
+        userInfo.id = res.data.id;
+        // 后台创建或更新，并同步保存到本地
+        console.log("saved userInfo:", userInfo);
+        console.log("createUserInfo succeeded, res.data:", res.data);
+        // 即时保存，不在complete里完成，以防其他页面再次读取到未更新的数据
+    }).catch(res => {
+        console.log("createUserInfo failed, res:", res);
+        // 即时保存，不在complete里完成，以防其他页面再次读取到未更新的数据
+    }).finally(() => {
+        console.log("createUserInfo finally!");
+        finishSync(userInfo, pageUrl);
+    });
 
 }
 
 /**
  * 更新用户数据
  */
-function updateUserInfo(userData, userInfo) {
+function updateUserInfo(userData, userInfo, pageUrl) {
     // 登录，等待服务器反应
-    console.log("updateUserInfo");
-
-    // 显示同步数据，等待
-    wx.showLoading({
-        title: '同步数据',
-    });
+    startSync("updateUserInfo");
 
     let url = 'https://www.yongrui.wang/WeChatMiniProgram/user/';
-    putData(url, userData, userInfo);
 
-    console.log(userInfo.request_header);
-
-    // 即时保存，不在complete里完成，以防其他页面再次读取到未更新的数据
-    // StorageUtils.saveUserInfo(userInfo);
+    wxRequest.putRequest(url, userInfo.request_header, userData)
+        .then(res => {
+            console.log("updateUserInfo succeeded, res.data:", res.data);
+        })
+        .catch(res => {
+            console.log("updateUserInfo succeeded, res.data:", res.data);
+        })
+        .finally(() => {
+            console.log("updateUserInfo finally!");
+            finishSync(userInfo, pageUrl);
+        });
 }
 
 /**
  *
+ * @param courseData
+ * @param userInfo
  */
-function createCourse(userData, userInfo) {
+function createCourse(courseData, userInfo, pageUrl) {
+    startSync("createCourse");
 
     let url = 'https://www.yongrui.wang/WeChatMiniProgram/course';
-    wx.request({
-        url: url,
-        method: 'POST',
-        header: userInfo.request_header,
-        data: userData,
-        success: res => {
+    wxRequest.postRequestWithAuth(url, userInfo.request_header, courseData)
+        .then(res => {
             // userInfo.id = res.data.id;
             // 后台创建或更新，并同步保存到本地
             console.log("saved userInfo:", userInfo);
-            console.log("Post succeeded, res.data:", res.data);
-        },
-        fail: res => {
-            console.log("Post failed, res:", res);
-        },
-        complete: res => {
-            // 即时保存，不在complete里完成，以防其他页面再次读取到未更新的数据
-            StorageUtils.saveUserInfo(userInfo);
-            // 根据状态重新装载Tab
-
-            wx.hideLoading();
+            console.log("createCourse succeeded, res.data:", res.data);
+        })
+        .catch(res => {
+            console.log("createCourse failed, res:", res);
+        })
+        .finally(() => {
+            console.log("createCourse finally!");
+            finishSync(userInfo, pageUrl);
             wx.navigateBack({});
-        }
-    });
+        });
 }
 
 /**
- * 基础函数，在后台创建数据
- * @param url
- * @param userData
+ *
  * @param userInfo
+ * @param response
  */
-function postData(url, userData, userInfo, pageUrl) {
-    const app = getApp();
-    wx.request({
-        url: url,
-        method: 'POST',
-        data: userData,
-        success: res => {
-            userInfo.id = res.data.id;
-            // 后台创建或更新，并同步保存到本地
-            console.log("saved userInfo:", userInfo);
-            console.log("Post succeeded, res.data:", res.data);
-        },
-        fail: res => {
-            console.log("Post failed, res:", res);
-        },
-        complete: res => {
-            // 即时保存，不在complete里完成，以防其他页面再次读取到未更新的数据
-            StorageUtils.saveUserInfo(userInfo);
-            // 根据状态重新装载Tab
-            app.bottom_tabBar.reload();
-            wx.hideLoading();
-            wx.redirectTo({
-                url: pageUrl,
-            });
-        }
-    });
-}
-
-/**
- * 基础函数，在后台修改数据
- * @param url
- * @param userData
- * @param userInfo
- */
-function putData(url, userData, userInfo, pageUrl) {
-    const app = getApp();
-    wx.request({
-        url: url,
-        method: 'PUT',
-        header: userInfo.request_header,
-        data: userData,
-        success: res => {
-            console.log("Put succeeded, res.data:", res.data);
-        },
-        fail: res => {
-            console.log("Put failed, res:", res);
-        },
-        complete: res => {
-            // 即时保存，不在complete里完成，以防其他页面再次读取到未更新的数据
-            StorageUtils.saveUserInfo(userInfo);
-            // 根据状态重新装载Tab
-            app.bottom_tabBar.reload();
-            wx.hideLoading();
-            wx.redirectTo({
-                url: pageUrl,
-            });
-        }
-    });
-}
-
-function saveInfo(userInfoLocal, response) {
+function saveInfo(userInfo, response) {
     // 形成其他request要的header
     let userAuth = response.data.weChatInfo.unionId + ":password";
     let arrayBuffer = new ArrayBuffer(userAuth.length * 2);
@@ -242,51 +201,48 @@ function saveInfo(userInfoLocal, response) {
     console.log(request_header);
 
     // 将来注册和查询用
-    userInfoLocal.request_header = request_header;
+    userInfo.request_header = request_header;
 
-    userInfoLocal.weChatInfo.unionId = response.data.weChatInfo.unionId;
+    userInfo.weChatInfo.unionId = response.data.weChatInfo.unionId;
 
     // 判断本地是否数据
-    if (userInfoLocal.id === -1) {
+    if (userInfo.id === -1) {
         // 如果未注册，不返回id，去注册页面
         if (typeof response.data.id === "undefined") {
             // 先保存，然后在另外一个页面再调用localStorage
-            StorageUtils.saveUserInfo(userInfoLocal);
-            wx.hideLoading();
+            // StorageUtils.saveUserInfo(userInfo);
 
             wx.redirectTo({
                 url: '/pages/normalpages/user/info/info' + '?model=register',
             });
         } else {
             // 如果返回id，表示本地删除过小程序，找回用户信息，在获取了用户id之后，更新用户信息，这步必须的。
-
             // 复制信息
             for (let item in response.data) {
-                if (userInfoLocal.hasOwnProperty(item)) {
-                    userInfoLocal[item] = response.data[item];
+                if (userInfo.hasOwnProperty(item)) {
+                    userInfo[item] = response.data[item];
                 }
             }
 
             if (typeof response.data.roleSet !== "undefined") {
-                userInfoLocal.authorities = response.data.roleSet.map(transferRole);
+                userInfo.authorities = response.data.roleSet.map(transferRole);
             }
         }
     } else {
         // 有的话也要同步，万一多设备登录
         for (let item in response.data) {
-            if (userInfoLocal.hasOwnProperty(item)) {
-                userInfoLocal[item] = response.data[item];
+            if (userInfo.hasOwnProperty(item)) {
+                userInfo[item] = response.data[item];
             }
         }
 
         if (typeof response.data.roleSet !== "undefined") {
-            userInfoLocal.authorities = response.data.roleSet.map(transferRole);
+            userInfo.authorities = response.data.roleSet.map(transferRole);
         }
     }
 
     // 保存善后
-    StorageUtils.saveUserInfo(userInfoLocal);
-    wx.hideLoading();
+    StorageUtils.saveUserInfo(userInfo);
 
 }
 

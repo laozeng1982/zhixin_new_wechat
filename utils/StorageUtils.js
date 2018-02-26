@@ -75,7 +75,7 @@ function loadData(dataType) {
 function saveData(dataType, dataToSave) {
     // 根据类型来判断是否需要替换其中的数据，还是直接覆盖
     try {
-        console.log("in saveData, targetToSave: ", dataToSave);
+        console.log("saved Data:", dataToSave);
         wx.setStorageSync(dataType.key, dataToSave);
     } catch (e) {
         saveData(dataType, dataToSave);

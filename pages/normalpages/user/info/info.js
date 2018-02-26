@@ -176,7 +176,7 @@ Page({
         userInfo.dateOfBirth = e.detail.value.dateOfBirth;
         userData.dateOfBirth = e.detail.value.dateOfBirth;
 
-        userData.weChatInfo= userInfo.weChatInfo;
+        userData.weChatInfo = userInfo.weChatInfo;
 
         // 1.5、收集其他信息
         if (typeof e.detail.value.cnName !== 'undefined' && e.detail.value.cnName !== '') {
@@ -197,20 +197,18 @@ Page({
         }
 
         // 准备跳转页面及保存数据
-        let tabUrl = '';
+        let pageUrl = '';
         if (this.data.options.model === "register") {
-
-            NetworkUtils.createUserInfo(userData, userInfo);
             // 由新建页面进入，创建用户信息，页面设置完成，跳转到首页
-            tabUrl = "../../../tabpages/" + userInfo.authorities[0] + "/index";
+            pageUrl = "../../../tabpages/" + userInfo.authorities[0] + "/index";
+
+            NetworkUtils.createUserInfo(userData, userInfo, pageUrl);
         } else {
             userData.id = userInfo.id;
-
-            NetworkUtils.updateUserInfo(userData, userInfo);
             // 由新建页面进入，创建用户信息，页面设置完成，跳转设置页
-            tabUrl = '../../../tabpages/setting/setting';
+            pageUrl = '../../../tabpages/setting/setting';
+            NetworkUtils.updateUserInfo(userData, userInfo, pageUrl);
         }
-
 
     },
 
