@@ -83,7 +83,9 @@ class BottomTabBar {
     }
 
     reload() {
+        delete this.list;
         this.list = this.makeList();
+        console.log("tabBar reload()");
     }
 
     /**
@@ -107,9 +109,7 @@ class BottomTabBar {
         for (let idx = 0; idx < this.list.length; idx++) {
             this.list[idx].active = this.list[idx].pagePath === pagePath;
         }
-        // _curPage.setData({
-        //     tabBar: tabBar
-        // });
+
     }
 
 }

@@ -1,8 +1,8 @@
 /**
  * 初始化页面数据
  */
-import DateTimeUtils from "../../../../utils/DateTimeUtils";
-import StorageUtils from "../../../../utils/StorageUtils";
+import DateTimeUtils from "./DateTimeUtils";
+import StorageUtils from "./StorageUtils";
 
 const app = getApp();
 
@@ -71,17 +71,24 @@ function initPageCourse(self) {
         // 2、根据课程初始化页面数据，需要分别处理上课地址和重复规律
         for (let item in currentCourse) {
             for (let displayItem in courseItems)
-                if (displayItem === item && displayItem !== "location") {
+                if (displayItem === item) {
+                    if (displayItem === "location") {
+                        // 初始化上课地址和教室
+                        courseItems.location.latitude.value = currentCourse.location.latitude;
+                        courseItems.location.longitude.value = currentCourse.location.longitude;
+                        courseItems.location.address.value = currentCourse.location.address;
+                        courseItems.location.name.value = currentCourse.location.name;
+                        courseItems.location.room.value = currentCourse.location.room;
+                        continue;
+                    }
+                    if (displayItem === "studentSet") {
+                        courseItems.studentSet.value = currentCourse.studentSet.length;
+                        continue;
+                    }
                     courseItems[displayItem].value = currentCourse[item];
                 }
         }
 
-        // 初始化上课地址和教室
-        courseItems.location.latitude.value = currentCourse.location.latitude;
-        courseItems.location.longitude.value = currentCourse.location.longitude;
-        courseItems.location.address.value = currentCourse.location.address;
-        courseItems.location.name.value = currentCourse.location.name;
-        courseItems.location.room.value = currentCourse.location.room;
 
         // 初始化重复规则
         app.tempData.recurringRule = currentCourse.recurringRule;

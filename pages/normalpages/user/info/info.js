@@ -211,12 +211,7 @@ Page({
             tabUrl = '../../../tabpages/setting/setting';
         }
 
-        // 根据状态重新装载Tab
-        app.bottom_tabBar.reload();
 
-        wx.redirectTo({
-            url: tabUrl,
-        });
     },
 
     /**

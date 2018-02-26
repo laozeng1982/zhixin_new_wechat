@@ -1,0 +1,177 @@
+{
+  "id": 2,
+  "cnName": "真的是你剑哥",
+  "enName": "Jay",
+  "nickName": "你剑哥",
+  "username": "o4J8406TiEJnpL0O88vA1M6UsXr0",
+  "gender": "Male",
+  "dateOfBirth": "1987-08-30",
+  "email": "25741915@qq.com",
+  "avatarUrl": "https://wx.qlogo.cn/mmopen/vi_32/DYAIOgq83erOqa7aLd5fqiaIRS2mKvicRZzjLcxpvXY8FM0U5sNVvyaBlhN634Wzf8HQib06VwunMdEdGDhVibgZvA/0",
+  "mobileNumber": "13568810350",
+  "studentCourseSet": [],
+  "teacherCourseSet": [
+    {
+      "name": "第一堂课",
+      "location": {
+        "name": "春熙路",
+        "address": "四川省成都市锦江区春熙路",
+        "latitude": 30.653144,
+        "longitude": 104.076894,
+        "room": "501"
+      },
+      "startDate": "2018-02-25",
+      "endDate": "2018-09-25",
+      "startTime": "10:00",
+      "duration": 60,
+      "recurringRule": [
+        "Mon",
+        "Wed",
+        "Fri"
+      ],
+      "recurringTimes": "",
+      "grade": "",
+      "description": "",
+      "lessonSet": [],
+      "status": "Preparing",
+      "totalStudentNumber": 10,
+      "studentSet": [],
+      "teacherSet": [],
+      "scoreType": "",
+      "id": -1
+    },
+    {
+      "name": "第二堂课",
+      "location": {
+        "name": "四川省人民政府",
+        "address": "四川省成都市锦江区督院街30号",
+        "latitude": 30.651652,
+        "longitude": 104.075931,
+        "room": "A501"
+      },
+      "startDate": "2018-02-26",
+      "endDate": "2018-06-26",
+      "startTime": "10:00",
+      "duration": 60,
+      "recurringRule": [
+        "Tue",
+        "Thu",
+        "Sat"
+      ],
+      "recurringTimes": "",
+      "grade": "",
+      "description": "",
+      "lessonSet": [],
+      "status": "Preparing",
+      "totalStudentNumber": 10,
+      "studentSet": [],
+      "teacherSet": [],
+      "scoreType": "",
+      "id": -1
+    },
+    {
+      "name": "abc",
+      "location": {
+        "name": "acd",
+        "address": "",
+        "latitude": "",
+        "longitude": "",
+        "room": "sdfas"
+      },
+      "startDate": "2018-02-26",
+      "endDate": "2018-04-26",
+      "startTime": "09:00",
+      "duration": 45,
+      "recurringRule": [
+        "Tue",
+        "Thu"
+      ],
+      "recurringTimes": "",
+      "grade": "",
+      "description": "",
+      "lessonSet": [],
+      "status": "Preparing",
+      "maxCapacity": 10,
+      "studentSet": [],
+      "teacherSet": [],
+      "scoreType": "",
+      "id": -1
+    },
+    {
+      "name": "adfad",
+      "location": {
+        "name": "fasd",
+        "address": "",
+        "latitude": "",
+        "longitude": "",
+        "room": "adf"
+      },
+      "startDate": "2018-02-26",
+      "endDate": "2018-06-26",
+      "startTime": "09:00",
+      "duration": 45,
+      "recurringRule": [
+        "Tue",
+        "Fri"
+      ],
+      "recurringTimes": "",
+      "grade": "",
+      "description": "",
+      "lessonSet": [],
+      "status": "Preparing",
+      "maxCapacity": 10,
+      "studentSet": [],
+      "teacherSet": [],
+      "scoreType": "",
+      "id": -1
+    },
+    {
+      "name": "aa",
+      "location": {
+        "name": "春熙路",
+        "address": "四川省成都市锦江区春熙路",
+        "latitude": 30.653144,
+        "longitude": 104.076894,
+        "room": "aaa"
+      },
+      "startDate": "2018-02-26",
+      "endDate": "2018-02-26",
+      "startTime": "09:00",
+      "duration": 45,
+      "recurringRule": [
+        "Wed",
+        "Fri"
+      ],
+      "recurringTimes": 10,
+      "grade": "",
+      "description": "",
+      "lessonSet": [],
+      "status": "Preparing",
+      "maxCapacity": 10,
+      "studentSet": [],
+      "teacherSet": [],
+      "scoreType": "",
+      "id": -1
+    }
+  ],
+  "userSetting": {
+    "createdDate": "2018-02-24 14:20:00 000",
+    "createdBy": "o4J8406TiEJnpL0O88vA1M6UsXr0",
+    "lastModifiedDate": "2018-02-24 14:20:00 000",
+    "lastModifiedBy": "o4J8406TiEJnpL0O88vA1M6UsXr0",
+    "id": 1
+  },
+  "noticeSet": [],
+  "parentSet": [],
+  "authorities": [
+    "teacher",
+    "student"
+  ],
+  "weChatInfo": {
+    "unionId": "o4J8406TiEJnpL0O88vA1M6UsXr0"
+  },
+  "request_header": {
+    "Authorization": "Basic bzRKODQwNlRpRUpucEwwTzg4dkExTTZVc1hyMDpwYXNzd29yZA=="
+  },
+  "currentAuth": "teacher"
+}

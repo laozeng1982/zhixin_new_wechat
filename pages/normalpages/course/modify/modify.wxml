@@ -74,7 +74,7 @@
 
                     <view class=''>到</view>
 
-                    <picker id="{{courseItems.endDate.id}}" name="{{courseItems.endDate.id}}" mode='date' start='{{courseItems.endDate.start}}' value='{{courseItems.endDate.value}}' bindchange='onPickerChange'>
+                    <picker id="{{courseItems.endDate.id}}" name="{{courseItems.endDate.id}}" style='margin-right:60rpx' mode='date' start='{{courseItems.endDate.start}}' value='{{courseItems.endDate.value}}' bindchange='onPickerChange'>
                         <view class='item-value-picker'>
                             <view class='item-value-picker-text'>{{courseItems.endDate.value}}</view>
                             <!-- <image class='image-arrow' src='../../image/down_arrow.png'></image> -->
@@ -154,11 +154,11 @@
             <!-- 上课学生人数上限 -->
             <view class="item-box row">
                 <view class='item-name'>
-                    {{courseItems.totalStudentNumber.name}}
+                    {{courseItems.maxCapacity.name}}
                 </view>
                 <view class='item-value'>
                     <view class='item-value-input'>
-                        <input id="{{courseItems.totalStudentNumber.id}}" name="{{courseItems.totalStudentNumber.id}}" type='number' value='{{courseItems.totalStudentNumber.value}}' placeholder='{{courseItems.totalStudentNumber.tip}}' bindinput='onInput' />
+                        <input id="{{courseItems.maxCapacity.id}}" name="{{courseItems.maxCapacity.id}}" type='number' value='{{courseItems.maxCapacity.value}}' placeholder='{{courseItems.maxCapacity.tip}}' bindinput='onInput' />
                     </view>
                 </view>
             </view>
@@ -176,9 +176,9 @@
 
         </view>
 
-        <view class="btn-area">
+        <!-- <view class="btn-area">
             <button type='primary' formType="submit">确定</button>
-        </view>
+        </view> -->
     </form>
 
     <form wx:else class='form-container' bindsubmit="onFormSubmit">
@@ -270,13 +270,29 @@
             <!-- 上课学生人数上限 -->
             <view class="item-box row">
                 <view class='item-name'>
-                    {{courseItems.totalStudentNumber.name}}
+                    {{courseItems.maxCapacity.name}}
                 </view>
                 <view class='item-value'>
                     <view class='item-value-input'>
-                        <input id="{{courseItems.totalStudentNumber.id}}" name="{{courseItems.totalStudentNumber.id}}" type='number' value='{{courseItems.totalStudentNumber.value}}' placeholder='{{courseItems.totalStudentNumber.tip}}' bindinput='onInput' />
+                        <input id="{{courseItems.maxCapacity.id}}" name="{{courseItems.maxCapacity.id}}" type='number' value='{{courseItems.maxCapacity.value}}' placeholder='{{courseItems.maxCapacity.tip}}' bindinput='onInput' />
                     </view>
                 </view>
+            </view>
+
+            <!-- 上课学生列表编辑 -->
+            <view class="item-box row">
+                <view class='item-name'>
+                    {{courseItems.studentSet.name}}
+                </view>
+
+                <view class='item-value' bindtap='onChangeStudentSet'>
+                    <view class='item-text-container'>
+                        当前 {{courseItems.studentSet.value}} 人
+                    </view>
+
+                    <image class='image-arrow' src='../../../image/right_arrow.png'></image>
+                </view>
+
             </view>
 
             <!-- 文本输入框 -->
@@ -292,9 +308,13 @@
 
         </view>
 
-        <view class="btn-area">
-            <button type='primary' formType="submit">确定</button>
-        </view>
+      
     </form>
+
+
+  <view class="btn-area">
+            <button type='primary' bindtap="onFormSubmit">确定</button>
+             <button type='primary' bindtap='onDeleteCourse'>删除</button>
+        </view>
 
 </view>

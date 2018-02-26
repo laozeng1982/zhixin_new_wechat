@@ -1,9 +1,10 @@
 /**app.wxss**/
 
 /* 全局通用的一些样式 */
-
 @import "common.wxss";
 @import "index.wxss";
+@import "course.wxss";
+@import "user.wxss";
 
 button {
     margin-top: 20rpx;
@@ -145,20 +146,20 @@ button {
     border-bottom: 1rpx solid #eee;
 }
 
-.item-image {
+/* .item-image {
     height: 90rpx;
     width: 90rpx;
     border-radius: 50%;
-    margin-right: 40rpx;
-}
+    margin-right: 40rpx; 
+} */
 
-.item-text {
+/* .item-text {
     display: flex;
     padding-left: 60rpx;
     width: 200rpx;
     height: 100rpx;
     align-items: center;
-}
+} */
 
 .item-name {
     display: flex;
@@ -207,28 +208,7 @@ button {
     border-radius: 5%;
 }
 
-.checkbox-item {
-    padding-left: 60rpx;
-    width: 100%;
-    height: 100rpx;
-    background: #fff;
-    display: flex;
-    flex-direction: row;
-    align-content: center;
-    align-items: center;
-}
 
-.checkbox-item-text {
-    padding-left: 60rpx;
-    height: 100rpx;
-    background: #fff;
-    display: flex;
-    font-size: 32rpx;
-    color: #888;
-    flex-direction: row;
-    align-content: center;
-    align-items: center;
-}
 
 .performance-item {
     padding-left: 60rpx;
@@ -342,7 +322,7 @@ button {
 }
 
 .btn-area {
-    position: fixed;
-    bottom: 0;
+    /* position: fixed;
+    bottom: 0; */
     width: 100%;
 }

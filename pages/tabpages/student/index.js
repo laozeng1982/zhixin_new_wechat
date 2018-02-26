@@ -22,7 +22,7 @@ Page({
      * @param e
      */
     onSwitchIndexTab: function (e) {
-        console.log(e);
+        // console.log(e);
         let currentTabIdx = e.currentTarget.dataset.current;
 
         pageUtils.switchIndexTab(this, currentTabIdx);

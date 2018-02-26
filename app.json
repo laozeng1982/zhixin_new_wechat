@@ -21,7 +21,8 @@
         "pages/normalpages/set_recurring/set_recurring",
         "pages/normalpages/notice/create/create",
         "pages/normalpages/notice/modify/modify",
-        "pages/normalpages/notice/view/view"
+        "pages/normalpages/notice/view/view",
+        "pages/normalpages/course/student_set/student_set"
     ],
     "window": {
         "navigationBarBackgroundColor": "#000000",

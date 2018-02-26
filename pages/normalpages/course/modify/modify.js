@@ -4,7 +4,7 @@
 import DataStructure from '../../../../datamodel/DataStructure'
 import StorageUtils from '../../../../utils/StorageUtils'
 import DateTimeUtils from '../../../../utils/DateTimeUtils'
-import pageUtils from './pageUtils'
+import CoursePageUtils from '../../../../utils/CoursePageUtils'
 import Util from '../../../../utils/Util'
 
 const app = getApp();
@@ -124,16 +124,24 @@ Page({
                 tip: "请选择",
                 value: "请选择",
             },
-            totalStudentNumber: {
+            maxCapacity: {
                 // 8
-                id: "totalStudentNumber",
+                id: "maxCapacity",
                 name: "人数上限*",
                 display: true,
                 tip: "请输入总人数",
                 value: "",
             },
-            description: {
+            studentSet: {
                 // 9
+                id: "maxCapacity",
+                name: "所有学生",
+                display: true,
+                tip: "",
+                value: 10,
+            },
+            description: {
+                // 10
                 id: "description",
                 name: "课程描述",
                 display: true,
@@ -164,6 +172,14 @@ Page({
 
         fromHide: false
 
+    },
+
+    onChangeStudentSet: function (e) {
+        console.log("go to change");
+
+        wx.navigateTo({
+            url: '../student_set/student_set',
+        });
     },
 
     onTabSwitch: function (e) {
@@ -388,13 +404,27 @@ Page({
         wx.navigateBack({});
     },
 
+    onDeleteCourse: function () {
+        console.log(this.data.options);
+        let userInfo = StorageUtils.loadUserInfo();
+        let courseIdx = parseInt(this.data.options.courseId);
+        userInfo.teacherCourseSet.splice(parseInt(courseIdx), 1);
+
+        StorageUtils.saveUserInfo(userInfo);
+        wx.navigateBack({});
+
+    },
+
     /**
      * 生命周期函数--监听页面加载
      */
     onLoad: function (options) {
 
-        pageUtils.initTabData(this, options);
-        // pageUtils.loadCourse(options);
+        CoursePageUtils.initTabData(this, options);
+        // CoursePageUtils.loadCourse(options);
+        this.setData({
+            options: options
+        });
 
     },
 
@@ -410,7 +440,7 @@ Page({
      */
     onShow: function () {
         // 初始化页面
-        pageUtils.initPageCourse(this);
+        CoursePageUtils.initPageCourse(this);
 
     },
 

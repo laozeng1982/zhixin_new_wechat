@@ -189,7 +189,7 @@ class Course {
 
         this.recurringRule = "请选择";    //(string, optional),   （本课程周期重复的规则，整形，必须，默认：空）
         // this.recurringRuleString = "请选择";    // UI增加部分，仅作显示用
-        this.recurringTimes = "";    //(integer, optional), （本课程重复的次数，整形，可选，默认：空）
+        this.recurringTimes = 10;    //(integer, optional), （本课程重复的次数，整形，可选，默认：空）
 
         this.grade = "";    //(string, optional),   （本课程等级，字符串，可选，默认：空）
 
@@ -199,7 +199,7 @@ class Course {
 
         this.status = "";    //(string, optional) = ['Preparing', 'Started', 'Closed', 'Finished'], （当前状态，字符串，必须，默认：空）
 
-        this.totalStudentNumber = 10; // 整形，后台需要改，增加
+        this.maxCapacity = 10; // 整形，后台需要改，增加
         this.studentSet = [];    //(Array[WeChatUser], optional),   （学生列表，数组，可选，默认：空）
         this.teacherSet = [];    //(Array[WeChatUser], optional),   （教师列表，数组，可选，默认：空）
         this.scoreType = "";	// 分制，后台需要修改

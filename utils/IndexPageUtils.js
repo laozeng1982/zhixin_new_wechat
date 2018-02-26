@@ -56,6 +56,7 @@ class IndexPageUtils {
                     this.data.courseTabData[0].selected = false;
                     this.data.courseTabData[1].selected = true;
                 }
+                // 当有课程的时候，始终显示创建
                 this.data.courseTabData[2].display = true;
 
             }
@@ -68,19 +69,20 @@ class IndexPageUtils {
         this.data.currentMonth = today.getMonth() + 1;
         this.data.currentDate = today.getDate();
 
-        if (this.data.selectedDate === "") {
-            this.data.selectedDate = DateTimeUtils.formatDateToString(today);
-        }
-
-        this.data.selectedMonth = DateTimeUtils.getMonthDateList(this.data.currentYear, this.data.currentMonth, this.data.userInfo.teacherCourseSet);
+        this.data.selectedMonth = DateTimeUtils.getMonthDateList(this.data.currentYear, this.data.currentMonth, this.data.currentCourseSet);
 
         // console.log(this.data.selectedDate);
 
-        // 根据选中日期，选中周
+        // 根据今天日期，选中周和课程
+        this.data.selectedDateCourse =[];
         for (let week of this.data.selectedMonth) {
             for (let day of week) {
-                if (day.value === this.data.selectedDate) {
+                if (day.value === DateTimeUtils.formatDateToString(today)) {
                     this.data.selectedWeek = week;
+                    this.data.selectedDate = day;
+                    for (let id of day.courseIdArray) {
+                        this.data.selectedDateCourse.push({idx: id - 1, course: this.data.currentCourseSet[id - 1]});
+                    }
                     break;
                 }
             }
@@ -162,13 +164,13 @@ class IndexPageUtils {
         if (this.data.currentAuth === "teacher") {
             let url = '../../normalpages/course/modify/modify' +
                 "?courseId=" + courseId + "&" +
-                "date=" + this.data.selectedDate;
+                "date=" + this.data.selectedDate.value;
 
             wx.navigateTo({
                 url: url,
             });
         } else {
-           console.log("view Lesson");
+            console.log("view Lesson");
         }
 
     }
@@ -186,7 +188,7 @@ class IndexPageUtils {
      */
     selectDate(self, selectedDate) {
 
-        this.data.selectedDate = selectedDate.value;
+        this.data.selectedDate = selectedDate;
 
         this.data.showWeekView = true;
 
@@ -209,8 +211,9 @@ class IndexPageUtils {
         this.data.selectedDateCourse = [];
 
         for (let id of selectedDate.courseIdArray) {
-            this.data.selectedDateCourse.push({idx: id - 1, course: userInfo.teacherCourseSet[id - 1]});
+            this.data.selectedDateCourse.push({idx: id - 1, course: this.data.currentCourseSet[id - 1]});
         }
+
         console.log("Selected Date's CourseSet: ", selectedDate.value, this.data.selectedDateCourse);
 
         this.update(self);
@@ -376,7 +379,7 @@ function makePageData() {
         currentDate: '',
 
         // 保存当月的日期
-        selectedDate: '',
+        selectedDate: {},
         selectedWeek: [],
         selectedMonth: [],
 

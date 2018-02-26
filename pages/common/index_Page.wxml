@@ -30,7 +30,7 @@
                     </view>
                 </view>
                 <view class='course-tab-right'>
-                    <view wx:if="{{pageData.courseTabData[2].display}}" id="{{pageData.courseTabData[2].type}}" class="course-tab-item-right {{pageData.courseTabData[2].selected?'':'unselected'}}" bindtap='onSelectCourseTabItem'>
+                    <view wx:if="{{pageData.courseTabData[2].display}}" id="{{pageData.courseTabData[2].type}}" class="course-tab-item-right" bindtap='onSelectCourseTabItem'>
                         {{pageData.courseTabData[2].name}}
                     </view>
                 </view>
@@ -92,7 +92,7 @@
             <view wx:if="{{pageData.courseTabData[1].selected}}" class='course-content'>
                 <!-- 日历控制 -->
                 <view class="date-control-box" bindtap='onCalendarHead'>
-                    <picker mode="date" value="{{pageData.selectedDate}}" start="2015-09-01" end="2099-12-31" bindchange="onSelectMonthYear">
+                    <picker mode="date" value="{{pageData.selectedDate.value}}" start="2015-09-01" end="2099-12-31" bindchange="onSelectMonthYear">
                         <view class="date-picker-box">
                             <view class='date-picker-item-text'>
                                 <text>{{pageData.currentYear}} 年</text>
@@ -135,7 +135,7 @@
 
                                 <!-- 日历上每天的日期 -->
                                 <view class='calender-date-item'>
-                                    <view class="{{item.inThisMonth?'':'not-in-this-month-date'}} {{item.value==pageData.selectedDate?'active-date':'nomal-date'}}">
+                                    <view class="{{item.inThisMonth?'':'not-in-this-month-date'}} {{item.value==pageData.selectedDate.value?'active-date':'nomal-date'}}">
                                         {{item.date}}
                                     </view>
                                 </view>
@@ -205,7 +205,7 @@
 
                                             <!-- 日历上每天的日期 -->
                                             <view class='calender-date-item'>
-                                                <view class="{{item.inThisMonth?'':'not-in-this-month-date'}} {{item.value==pageData.selectedDate?'active-date':'nomal-date'}}">
+                                                <view class="{{item.inThisMonth?'':'not-in-this-month-date'}} {{item.value==pageData.selectedDate.value?'active-date':'nomal-date'}}">
                                                     {{item.date}}
                                                 </view>
                                             </view>
@@ -233,17 +233,17 @@
 
             <!-- 有自己的通知 -->
             <view wx:if="{{pageData.currentNoticeSet.length > 0}}" class='course-create-contanier' bindtap='onCreatedNewNotice'>
-                <image class='course-create-image-btn' src='../../image/plus_64px1.png'> </image>
-                <view class='course-create-text'>
-                    <text>创建通知</text>
-                </view>
+                这里放通知列表
             </view>
 
             <!-- 没有属于自己的通知 -->
             <view wx:else class='course-create-contanier' bindtap='onCreatedNewNotice'>
-                <image class='course-create-image-btn' src='../../image/plus_64px1.png'> </image>
-                <view class='course-create-text'>
-                    <text>创建通知</text>
+                <!-- 老师增加创建通知 -->
+                <view wx:if="{{pageData.currentAuth==='teacher'}}">
+                    <image class='course-create-image-btn' src='../../image/plus_64px1.png'> </image>
+                    <view class='course-create-text'>
+                        <text>创建通知</text>
+                    </view>
                 </view>
             </view>
 
@@ -251,12 +251,20 @@
 
         <!-- 3、作业tab -->
         <view wx:if="{{pageData.indexTabData[2].selected}}" class='tab-item'>
-            {{pageData.indexTabData[2].type}}
-            <button type='primary' bindtap='onReviewHomework'>批改作业Test</button>
-            <view>
-                {{pageData.indexTabData[0].type}}
+            <!-- 老师视图 -->
+            <view wx:if="{{pageData.currentAuth==='teacher'}}" class='tab-item'>
+                {{pageData.indexTabData[2].type}}
+                <button type='primary' bindtap='onReviewHomework'>批改作业Test</button>
+                <view>
+                    {{pageData.indexTabData[0].type}}
+                </view>
+                <button type='primary' bindtap='onReviewLesson'>评价课堂表现Test</button>
             </view>
-            <button type='primary' bindtap='onReviewLesson'>评价课堂表现Test</button>
+
+            <!-- 学生和家长视图 -->
+            <view wx:else class='tab-item'>
+                作业回复
+            </view>
         </view>
 
     </view>

@@ -8,6 +8,7 @@ const BASE_URL = "https://www.yongrui.wang/WeChatMiniProgram/";
 const Setting = new Settings.Settings();
 const promisify = require('./Promisify');
 
+
 const login = promisify(wx.login);
 const request = promisify(wx.request);
 const getSetting = promisify(wx.getSetting);
@@ -16,7 +17,7 @@ const getUserInfo = promisify(wx.getUserInfo);
 /**
  * 同步用户数据
  */
-function syncUserInfo(self) {
+function syncUserInfo() {
     // 登录，等待服务器反应
     console.log("syncUserInfo");
 
@@ -60,7 +61,7 @@ function syncUserInfo(self) {
                     }).then(res => {
                         // 最核心的部分，获取成功以后，保存信息
                         console.log("get data from server success, res:", res);
-                        saveInfo(userInfoLocal, res, self);
+                        saveInfo(userInfoLocal, res);
                     }).catch(res => {
                         console.log("get data from server failed, res:", res);
                         wx.hideLoading();
@@ -97,8 +98,76 @@ function createUserInfo(userData, userInfo) {
         title: '同步数据',
     });
 
+    let url = 'https://www.yongrui.wang/WeChatMiniProgram/user/viaWeChat';
+    postData(url, userData, userInfo);
+
+    // 即时保存，不在complete里完成，以防其他页面再次读取到未更新的数据
+    // StorageUtils.saveUserInfo(userInfo);
+
+}
+
+/**
+ * 更新用户数据
+ */
+function updateUserInfo(userData, userInfo) {
+    // 登录，等待服务器反应
+    console.log("updateUserInfo");
+
+    // 显示同步数据，等待
+    wx.showLoading({
+        title: '同步数据',
+    });
+
+    let url = 'https://www.yongrui.wang/WeChatMiniProgram/user/';
+    putData(url, userData, userInfo);
+
+    console.log(userInfo.request_header);
+
+    // 即时保存，不在complete里完成，以防其他页面再次读取到未更新的数据
+    // StorageUtils.saveUserInfo(userInfo);
+}
+
+/**
+ *
+ */
+function createCourse(userData, userInfo) {
+
+    let url = 'https://www.yongrui.wang/WeChatMiniProgram/course';
     wx.request({
-        url: 'https://www.yongrui.wang/WeChatMiniProgram/user/viaWeChat',
+        url: url,
+        method: 'POST',
+        header: userInfo.request_header,
+        data: userData,
+        success: res => {
+            // userInfo.id = res.data.id;
+            // 后台创建或更新，并同步保存到本地
+            console.log("saved userInfo:", userInfo);
+            console.log("Post succeeded, res.data:", res.data);
+        },
+        fail: res => {
+            console.log("Post failed, res:", res);
+        },
+        complete: res => {
+            // 即时保存，不在complete里完成，以防其他页面再次读取到未更新的数据
+            StorageUtils.saveUserInfo(userInfo);
+            // 根据状态重新装载Tab
+
+            wx.hideLoading();
+            wx.navigateBack({});
+        }
+    });
+}
+
+/**
+ * 基础函数，在后台创建数据
+ * @param url
+ * @param userData
+ * @param userInfo
+ */
+function postData(url, userData, userInfo, pageUrl) {
+    const app = getApp();
+    wx.request({
+        url: url,
         method: 'POST',
         data: userData,
         success: res => {
@@ -111,31 +180,28 @@ function createUserInfo(userData, userInfo) {
             console.log("Post failed, res:", res);
         },
         complete: res => {
-
+            // 即时保存，不在complete里完成，以防其他页面再次读取到未更新的数据
+            StorageUtils.saveUserInfo(userInfo);
+            // 根据状态重新装载Tab
+            app.bottom_tabBar.reload();
             wx.hideLoading();
+            wx.redirectTo({
+                url: pageUrl,
+            });
         }
     });
-
-    // 即时保存，不在complete里完成，以防其他页面再次读取到未更新的数据
-    StorageUtils.saveUserInfo(userInfo);
 }
 
 /**
- * 更新用户数据
+ * 基础函数，在后台修改数据
+ * @param url
+ * @param userData
+ * @param userInfo
  */
-function updateUserInfo(userData, userInfo) {
-    // 登录，等待服务器反应
-    console.log("syncUserInfo");
-
-    // 显示同步数据，等待
-    wx.showLoading({
-        title: '同步数据',
-    });
-
-    console.log(userInfo.request_header);
-
+function putData(url, userData, userInfo, pageUrl) {
+    const app = getApp();
     wx.request({
-        url: 'https://www.yongrui.wang/WeChatMiniProgram/user/',
+        url: url,
         method: 'PUT',
         header: userInfo.request_header,
         data: userData,
@@ -146,15 +212,19 @@ function updateUserInfo(userData, userInfo) {
             console.log("Put failed, res:", res);
         },
         complete: res => {
+            // 即时保存，不在complete里完成，以防其他页面再次读取到未更新的数据
+            StorageUtils.saveUserInfo(userInfo);
+            // 根据状态重新装载Tab
+            app.bottom_tabBar.reload();
             wx.hideLoading();
+            wx.redirectTo({
+                url: pageUrl,
+            });
         }
     });
-
-    // 即时保存，不在complete里完成，以防其他页面再次读取到未更新的数据
-    StorageUtils.saveUserInfo(userInfo);
 }
 
-function saveInfo(userInfoLocal, response, self) {
+function saveInfo(userInfoLocal, response) {
     // 形成其他request要的header
     let userAuth = response.data.weChatInfo.unionId + ":password";
     let arrayBuffer = new ArrayBuffer(userAuth.length * 2);
@@ -216,7 +286,6 @@ function saveInfo(userInfoLocal, response, self) {
 
     // 保存善后
     StorageUtils.saveUserInfo(userInfoLocal);
-    self.loadTab();
     wx.hideLoading();
 
 }
@@ -237,5 +306,6 @@ function transferRole(role) {
 module.exports = {
     syncUserInfo: syncUserInfo,
     updateUserInfo: updateUserInfo,
-    createUserInfo: createUserInfo
+    createUserInfo: createUserInfo,
+    createCourse: createCourse
 };

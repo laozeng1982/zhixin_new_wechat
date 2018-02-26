@@ -1,5 +1,7 @@
 /* pages/normalpages/create_course/create_course.wxss */
 
+/* 课程页面的样式合计 */
+
 .item-box {
     width: 100%;
     background: #fff;
@@ -54,6 +56,10 @@
     justify-content: space-around;
     text-align: right;
     font-size: 32rpx;
+    /* color: #888; */
+}
+
+.picker-without-value {
     color: #888;
 }
 
@@ -79,12 +85,22 @@
     font-size: 32rpx;
 }
 
-.item-text {
-    display: flex;
+.item-text-container {
     align-items: center;
     align-content: center;
     font-size: 32rpx;
     width: 100%;
+    text-align: right;
+}
+
+.item-text {
+    /* display: flex;  */
+    align-items: center;
+    align-content: center;
+    font-size: 32rpx;
+    width: 100rpx;
+    /* justify-content: space-around; */
+    text-align: right;
 }
 
 .item-image {
@@ -95,7 +111,6 @@
     margin-right: 0;
     font-size: 32rpx;
 }
-
 
 .day-selector {
     width: 100%;

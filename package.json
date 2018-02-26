@@ -33,7 +33,7 @@
       "description": "",
       "lessonSet": [],
       "status": "Preparing",
-      "totalStudentNumber": 10,
+      "maxCapacity": 10,
       "studentSet": [],
       "teacherSet": [],
       "scoreType": "",

@@ -4,6 +4,7 @@
 import DataStructure from '../../../../datamodel/DataStructure'
 import StorageUtils from '../../../../utils/StorageUtils'
 import DateTimeUtils from '../../../../utils/DateTimeUtils'
+import NetworkUtils from '../../../../utils/NetworkUtils'
 import Util from '../../../../utils/Util'
 
 const app = getApp();
@@ -23,6 +24,7 @@ Page({
                 name: "课程名字*",
                 display: true,
                 tip: "请输入",
+
                 value: "",
 
             },
@@ -33,6 +35,7 @@ Page({
                     name: "纬度",
                     display: true,
                     tip: "请输入或选择",
+                    hasValue: false,
                     value: "",
                 },
                 longitude: {
@@ -40,6 +43,7 @@ Page({
                     name: "经度",
                     display: true,
                     tip: "请输入或选择",
+                    hasValue: false,
                     value: "",
                 },
                 address: {
@@ -47,6 +51,7 @@ Page({
                     name: "详细地址*",
                     display: true,
                     tip: "请输入或选择",
+                    hasValue: false,
                     value: "",
                 },
                 name: {
@@ -54,6 +59,7 @@ Page({
                     name: "上课地址*",
                     display: true,
                     tip: "请输入或选择",
+                    hasValue: false,
                     value: "",
                 },
                 room: {
@@ -61,6 +67,7 @@ Page({
                     name: "教室地址*",
                     display: true,
                     tip: "请输入",
+                    hasValue: false,
                     value: "",
                 },
             },
@@ -71,6 +78,7 @@ Page({
                 display: true,
                 start: "",
                 tip: "请选择",
+                hasValue: false,
                 value: "请选择",
             },
             endDate: {
@@ -80,6 +88,7 @@ Page({
                 start: "",
                 display: true,
                 tip: "请选择",
+                hasValue: false,
                 value: "请选择",
             },
             recurringRule: {
@@ -88,6 +97,7 @@ Page({
                 name: "重复规则*",
                 display: true,
                 tip: "请选择",
+                hasValue: false,
                 value: "请选择",
             },
             startTime: {
@@ -97,6 +107,7 @@ Page({
                 start: "",
                 display: true,
                 tip: "请选择",
+                hasValue: false,
                 value: "请选择",
             },
             duration: {
@@ -105,14 +116,16 @@ Page({
                 name: "课程时长*",
                 display: true,
                 tip: "请选择",
+                hasValue: false,
                 value: "请选择",
             },
-            totalStudentNumber: {
+            maxCapacity: {
                 // 8
-                id: "totalStudentNumber",
+                id: "maxCapacity",
                 name: "人数上限*",
                 display: true,
                 tip: "请输入总人数",
+                hasValue: false,
                 value: "",
             },
             description: {
@@ -121,6 +134,7 @@ Page({
                 name: "课程描述",
                 display: true,
                 tip: "请简要介绍一下课程",
+                hasValue: false,
                 value: "",
             },
 
@@ -430,11 +444,20 @@ Page({
 
         userInfo.teacherCourseSet.push(course);
 
+        delete course.id;
+        let userData = {
+            weChatInfo: userInfo.weChatInfo,
+            course: course
+        };
+
+        console.log("userData", userData);
+
+        NetworkUtils.createCourse(userData, userInfo);
 
         // 4.2、保存
-        StorageUtils.saveUserInfo(userInfo);
+        // StorageUtils.saveUserInfo(userInfo);
 
-        wx.navigateBack({});
+
     },
 
     /**

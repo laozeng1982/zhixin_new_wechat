@@ -30,7 +30,7 @@
     height: 100rpx;
     width: 100%;
     flex-direction: row;
-    justify-content: space-between;
+    justify-content: space-around;
     align-content: center;
     align-items: center;
     border-bottom: 1rpx solid #888;
@@ -82,7 +82,10 @@
 }
 
 .course-tab-item-right {
-    width: 250rpx;
+    width: 200rpx;
+    display: flex;
+    text-align: right;
+    justify-content: space-around;
     /* margin-left: 40rpx; *//* margin-right: 40rpx; */
 }
 
