@@ -2,27 +2,11 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="03a8d97c-c09c-4181-bebb-81947607b556" name="Default" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change beforePath="$PROJECT_DIR$/app.js" afterPath="$PROJECT_DIR$/app.js" />
-      <change beforePath="$PROJECT_DIR$/datamodel/DataStructure.js" afterPath="$PROJECT_DIR$/datamodel/Models.js" />
-      <change beforePath="$PROJECT_DIR$/datamodel/DataStructure_org.js" afterPath="$PROJECT_DIR$/datamodel/DataStructure_org.js" />
-      <change beforePath="$PROJECT_DIR$/pages/normalpages/course/create/create.js" afterPath="$PROJECT_DIR$/pages/normalpages/course/create/create.js" />
-      <change beforePath="$PROJECT_DIR$/pages/normalpages/course/create/create.wxml" afterPath="$PROJECT_DIR$/pages/normalpages/course/create/create.wxml" />
-      <change beforePath="$PROJECT_DIR$/pages/normalpages/course/modify/modify.js" afterPath="$PROJECT_DIR$/pages/normalpages/course/modify/modify.js" />
-      <change beforePath="$PROJECT_DIR$/pages/normalpages/course/modify/modify.wxml" afterPath="$PROJECT_DIR$/pages/normalpages/course/modify/modify.wxml" />
-      <change beforePath="$PROJECT_DIR$/pages/normalpages/course/view/view.js" afterPath="$PROJECT_DIR$/pages/normalpages/course/view/view.js" />
-      <change beforePath="$PROJECT_DIR$/pages/normalpages/course/view/view.json" afterPath="$PROJECT_DIR$/pages/normalpages/course/view/view.json" />
-      <change beforePath="$PROJECT_DIR$/pages/normalpages/course/view/view.wxml" afterPath="$PROJECT_DIR$/pages/normalpages/course/view/view.wxml" />
-      <change beforePath="$PROJECT_DIR$/pages/normalpages/set_location/set_location.js" afterPath="$PROJECT_DIR$/pages/normalpages/set_location/set_location.js" />
-      <change beforePath="$PROJECT_DIR$/pages/normalpages/user/info/info.js" afterPath="$PROJECT_DIR$/pages/normalpages/user/info/info.js" />
       <change beforePath="$PROJECT_DIR$/pages/tabpages/teacher/index.js" afterPath="$PROJECT_DIR$/pages/tabpages/teacher/index.js" />
       <change beforePath="$PROJECT_DIR$/utils/CoursePageUtils.js" afterPath="$PROJECT_DIR$/utils/CoursePageUtils.js" />
       <change beforePath="$PROJECT_DIR$/utils/IndexPageUtils.js" afterPath="$PROJECT_DIR$/utils/IndexPageUtils.js" />
-      <change beforePath="$PROJECT_DIR$/utils/MediaUtils.js" afterPath="$PROJECT_DIR$/utils/MediaUtils.js" />
-      <change beforePath="$PROJECT_DIR$/utils/NetworkUtils.js" afterPath="$PROJECT_DIR$/utils/SyncUtils.js" />
-      <change beforePath="$PROJECT_DIR$/utils/StorageUtils.js" afterPath="$PROJECT_DIR$/utils/StorageUtils.js" />
-      <change beforePath="$PROJECT_DIR$/utils/Util.js" afterPath="$PROJECT_DIR$/utils/Util.js" />
-      <change beforePath="$PROJECT_DIR$/utils/wxApi.js" afterPath="$PROJECT_DIR$/utils/wxApi.js" />
+      <change beforePath="$PROJECT_DIR$/utils/SyncUtils.js" afterPath="$PROJECT_DIR$/utils/SyncUtils.js" />
       <change beforePath="$PROJECT_DIR$/utils/wxRequest.js" afterPath="$PROJECT_DIR$/utils/wxRequest.js" />
     </list>
     <ignored path="$PROJECT_DIR$/.tmp/" />
@@ -39,12 +23,12 @@
     <window id="1">
       <content type="file-editors">
         <state>
-          <leaf>
+          <leaf SIDE_TABS_SIZE_LIMIT_KEY="375">
             <file leaf-file-name="CoursePageUtils.js" pinned="false" current-in-tab="true">
               <entry file="file://$PROJECT_DIR$/utils/CoursePageUtils.js">
                 <provider selected="true" editor-type-id="text-editor">
-                  <state relative-caret-position="737">
-                    <caret line="86" column="0" lean-forward="true" selection-start-line="86" selection-start-column="0" selection-end-line="86" selection-end-column="0" />
+                  <state relative-caret-position="189">
+                    <caret line="9" column="6" lean-forward="false" selection-start-line="9" selection-start-column="0" selection-end-line="9" selection-end-column="21" />
                     <folding>
                       <element signature="n#!!doc" expanded="true" />
                       <element signature="e#19#63#0" expanded="true" />
@@ -57,10 +41,8 @@
               <entry file="file://$PROJECT_DIR$/pages/normalpages/course/create/create.js">
                 <provider selected="true" editor-type-id="text-editor">
                   <state relative-caret-position="399">
-                    <caret line="73" column="24" lean-forward="false" selection-start-line="73" selection-start-column="18" selection-end-line="73" selection-end-column="24" />
-                    <folding>
-                      <element signature="e#62#111#0" expanded="true" />
-                    </folding>
+                    <caret line="20" column="6" lean-forward="false" selection-start-line="20" selection-start-column="6" selection-end-line="20" selection-end-column="6" />
+                    <folding />
                   </state>
                 </provider>
               </entry>
@@ -72,14 +54,42 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="375">
-      <file leaf-file-name="SyncUtils.js" pinned="false" current-in-tab="false">
+      <file leaf-file-name="SyncUtils.js" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/utils/SyncUtils.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="279">
-              <caret line="251" column="24" lean-forward="false" selection-start-line="251" selection-start-column="14" selection-end-line="251" selection-end-column="24" />
+            <state relative-caret-position="441">
+              <caret line="21" column="30" lean-forward="false" selection-start-line="21" selection-start-column="30" selection-end-line="21" selection-end-column="30" />
               <folding>
                 <element signature="n#!!doc" expanded="true" />
                 <element signature="e#49#90#0" expanded="true" />
+                <element signature="e#1588#4133#0" expanded="false" />
+                <element signature="n#!!block;n#getCourse2222#0;n#SyncUtils#0" expanded="false" />
+                <element signature="e#16116#18489#0" expanded="false" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="app.js" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="504">
+              <caret line="36" column="9" lean-forward="false" selection-start-line="36" selection-start-column="9" selection-end-line="36" selection-end-column="9" />
+              <folding>
+                <element signature="e#20#61#0" expanded="true" />
+                <marker date="1519740986495" expanded="true" signature="993:1530" ph="{&quot;currentAuth&quot;: &quot;&quot;...}" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="StorageUtils.js" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/utils/StorageUtils.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="231">
+              <caret line="11" column="13" lean-forward="true" selection-start-line="11" selection-start-column="13" selection-end-line="11" selection-end-column="13" />
+              <folding>
+                <element signature="e#0#45#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -88,8 +98,8 @@
       <file leaf-file-name="modify.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/pages/normalpages/course/modify/modify.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="441">
-              <caret line="102" column="0" lean-forward="true" selection-start-line="102" selection-start-column="0" selection-end-line="102" selection-end-column="0" />
+            <state relative-caret-position="378">
+              <caret line="18" column="36" lean-forward="true" selection-start-line="18" selection-start-column="36" selection-end-line="18" selection-end-column="36" />
               <folding>
                 <element signature="n#!!doc" expanded="true" />
               </folding>
@@ -97,21 +107,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="modify.wxml" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/pages/normalpages/course/modify/modify.wxml">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="315">
-              <caret line="15" column="0" lean-forward="true" selection-start-line="0" selection-start-column="0" selection-end-line="319" selection-end-column="7" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="wxRequest.js" pinned="false" current-in-tab="true">
+      <file leaf-file-name="wxRequest.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/utils/wxRequest.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="210">
-              <caret line="49" column="39" lean-forward="false" selection-start-line="49" selection-start-column="39" selection-end-line="49" selection-end-column="39" />
+            <state relative-caret-position="195">
+              <caret line="54" column="22" lean-forward="false" selection-start-line="54" selection-start-column="22" selection-end-line="54" selection-end-column="22" />
               <folding />
             </state>
           </provider>
@@ -120,8 +120,20 @@
       <file leaf-file-name="index.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/pages/tabpages/teacher/index.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="454">
-              <caret line="288" column="16" lean-forward="false" selection-start-line="288" selection-start-column="16" selection-end-line="288" selection-end-column="16" />
+            <state relative-caret-position="333">
+              <caret line="232" column="30" lean-forward="false" selection-start-line="232" selection-start-column="18" selection-end-line="232" selection-end-column="30" />
+              <folding>
+                <element signature="e#12#68#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="IndexPageUtils.js" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/utils/IndexPageUtils.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="84">
+              <caret line="6" column="16" lean-forward="false" selection-start-line="6" selection-start-column="7" selection-end-line="6" selection-end-column="16" />
               <folding />
             </state>
           </provider>
@@ -130,11 +142,9 @@
       <file leaf-file-name="view.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/pages/normalpages/course/view/view.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="588">
-              <caret line="28" column="32" lean-forward="true" selection-start-line="28" selection-start-column="32" selection-end-line="28" selection-end-column="32" />
-              <folding>
-                <element signature="n#!!doc" expanded="true" />
-              </folding>
+            <state relative-caret-position="504">
+              <caret line="28" column="29" lean-forward="false" selection-start-line="28" selection-start-column="18" selection-end-line="28" selection-end-column="29" />
+              <folding />
             </state>
           </provider>
         </entry>
@@ -142,8 +152,8 @@
       <file leaf-file-name="create.wxml" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/pages/normalpages/course/create/create.wxml">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="270">
-              <caret line="100" column="0" lean-forward="true" selection-start-line="0" selection-start-column="0" selection-end-line="173" selection-end-column="7" />
+            <state relative-caret-position="2100">
+              <caret line="100" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="173" selection-end-column="7" />
               <folding />
             </state>
           </provider>
@@ -152,28 +162,8 @@
       <file leaf-file-name="view.wxml" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/pages/normalpages/course/view/view.wxml">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="420">
-              <caret line="20" column="67" lean-forward="true" selection-start-line="20" selection-start-column="67" selection-end-line="20" selection-end-column="67" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="view.json" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/pages/normalpages/course/view/view.json">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="42">
-              <caret line="2" column="1" lean-forward="true" selection-start-line="2" selection-start-column="1" selection-end-line="2" selection-end-column="1" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="modify.json" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/pages/normalpages/course/modify/modify.json">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="21">
-              <caret line="1" column="2" lean-forward="false" selection-start-line="1" selection-start-column="2" selection-end-line="1" selection-end-column="34" />
+            <state relative-caret-position="3696">
+              <caret line="176" column="7" lean-forward="false" selection-start-line="176" selection-start-column="7" selection-end-line="176" selection-end-column="7" />
               <folding />
             </state>
           </provider>
@@ -211,13 +201,15 @@
       <find>creat</find>
       <find>var</find>
       <find>finally</find>
-      <find>SyncUtils</find>
       <find>dateDirection</find>
       <find>recurringRule</find>
       <find>Util</find>
       <find>StorageUtils</find>
       <find>self</find>
       <find>e.detail.value</find>
+      <find>app</find>
+      <find>getCourse</find>
+      <find>SyncUtils</find>
     </findStrings>
     <replaceStrings>
       <replace>tabId</replace>
@@ -228,9 +220,11 @@
       <replace>this.self</replace>
       <replace>id</replace>
       <replace>value</replace>
+      <replace>Sync</replace>
     </replaceStrings>
   </component>
   <component name="Git.Settings">
+    <option name="ROOT_SYNC" value="DONT_SYNC" />
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="IdeDocumentHistory">
@@ -259,11 +253,9 @@
         <option value="$PROJECT_DIR$/course_dat.json" />
         <option value="$PROJECT_DIR$/utils/Promisify.js" />
         <option value="$PROJECT_DIR$/utils/NetworkUtils.js" />
-        <option value="$PROJECT_DIR$/app.js" />
         <option value="$PROJECT_DIR$/utils/Util.js" />
         <option value="$PROJECT_DIR$/datamodel/DataStructure.js" />
         <option value="$PROJECT_DIR$/pages/normalpages/user/info/info.js" />
-        <option value="$PROJECT_DIR$/utils/IndexPageUtils.js" />
         <option value="$PROJECT_DIR$/utils/MediaUtils.js" />
         <option value="$PROJECT_DIR$/utils/StorageUtils.js" />
         <option value="$PROJECT_DIR$/utils/wxApi.js" />
@@ -272,11 +264,13 @@
         <option value="$PROJECT_DIR$/pages/normalpages/course/view/view.json" />
         <option value="$PROJECT_DIR$/pages/normalpages/course/modify/modify.js" />
         <option value="$PROJECT_DIR$/pages/normalpages/course/view/view.js" />
-        <option value="$PROJECT_DIR$/pages/tabpages/teacher/index.js" />
         <option value="$PROJECT_DIR$/pages/normalpages/course/view/view.wxml" />
+        <option value="$PROJECT_DIR$/utils/wxRequest.js" />
+        <option value="$PROJECT_DIR$/app.js" />
+        <option value="$PROJECT_DIR$/pages/tabpages/teacher/index.js" />
+        <option value="$PROJECT_DIR$/utils/IndexPageUtils.js" />
         <option value="$PROJECT_DIR$/utils/CoursePageUtils.js" />
         <option value="$PROJECT_DIR$/utils/SyncUtils.js" />
-        <option value="$PROJECT_DIR$/utils/wxRequest.js" />
       </list>
     </option>
   </component>
@@ -287,8 +281,8 @@
     <sorting>DEFINITION_ORDER</sorting>
   </component>
   <component name="ProjectFrameBounds" extendedState="6">
-    <option name="x" value="1954" />
-    <option name="y" value="168" />
+    <option name="x" value="5" />
+    <option name="y" value="332" />
     <option name="width" value="1696" />
     <option name="height" value="1026" />
   </component>
@@ -308,6 +302,7 @@
     </navigator>
     <panes>
       <pane id="Scratches" />
+      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -399,7 +394,6 @@
           <select />
         </subPane>
       </pane>
-      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -408,8 +402,8 @@
     <property name="project.structure.side.proportion" value="0.0" />
     <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
-    <property name="settings.editor.selected.configurable" value="editor.preferences.folding" />
+    <property name="last_opened_file_path" value="$USER_HOME$/AppData/Local/GitHubDesktop/app-1.1.0/resources/app/git/cmd/git.exe" />
+    <property name="settings.editor.selected.configurable" value="vcs.Git" />
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
@@ -537,21 +531,21 @@
       <workItem from="1519613474648" duration="16630000" />
       <workItem from="1519643538559" duration="9399000" />
       <workItem from="1519694202205" duration="24518000" />
+      <workItem from="1519731430340" duration="4861000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="69660000" />
+    <option name="totallyTimeSpent" value="74521000" />
   </component>
   <component name="ToolWindowManager">
-    <frame x="1912" y="-8" width="1936" height="1096" extended-state="6" />
+    <frame x="-8" y="-8" width="1696" height="1026" extended-state="6" />
     <layout>
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.25643778" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.25605327" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
-      <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
       <window_info id="Docker" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.22601984" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.22488038" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
@@ -562,6 +556,7 @@
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
+      <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
     </layout>
   </component>
@@ -581,7 +576,8 @@
         <state relative-caret-position="756">
           <caret line="38" column="45" lean-forward="false" selection-start-line="38" selection-start-column="45" selection-end-line="38" selection-end-column="45" />
           <folding>
-            <element signature="n#!!doc" expanded="false" />
+            <element signature="e#20#61#0" expanded="true" />
+            <marker date="1519740986495" expanded="true" signature="993:1530" ph="{&quot;currentAuth&quot;: &quot;&quot;...}" />
           </folding>
         </state>
       </provider>
@@ -732,9 +728,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="546">
           <caret line="169" column="0" lean-forward="false" selection-start-line="169" selection-start-column="0" selection-end-line="171" selection-end-column="4" />
-          <folding>
-            <element signature="e#427#3530#0" expanded="false" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -742,17 +735,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="270">
           <caret line="221" column="32" lean-forward="false" selection-start-line="221" selection-start-column="19" selection-end-line="221" selection-end-column="32" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="945">
-          <caret line="46" column="26" lean-forward="true" selection-start-line="46" selection-start-column="26" selection-end-line="46" selection-end-column="26" />
-          <folding>
-            <element signature="e#20#61#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -768,9 +750,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="105">
           <caret line="5" column="13" lean-forward="false" selection-start-line="5" selection-start-column="7" selection-end-line="5" selection-end-column="13" />
-          <folding>
-            <element signature="n#!!doc" expanded="false" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -787,17 +766,7 @@
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
-            <element signature="n#!!doc" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/utils/StorageUtils.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="231">
-          <caret line="11" column="13" lean-forward="true" selection-start-line="11" selection-start-column="13" selection-end-line="11" selection-end-column="13" />
-          <folding>
-            <element signature="e#0#45#0" expanded="true" />
+            <element signature="n#!!doc" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -814,7 +783,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="25" selection-end-column="1" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -822,17 +790,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="21" lean-forward="false" selection-start-line="0" selection-start-column="18" selection-end-line="0" selection-end-column="21" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/utils/IndexPageUtils.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="252">
-          <caret line="14" column="0" lean-forward="false" selection-start-line="14" selection-start-column="0" selection-end-line="18" selection-end-column="5" />
-          <folding>
-            <element signature="e#42#82#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -841,8 +798,8 @@
         <state relative-caret-position="286">
           <caret line="271" column="26" lean-forward="false" selection-start-line="271" selection-start-column="26" selection-end-line="271" selection-end-column="26" />
           <folding>
-            <element signature="n#!!doc" expanded="true" />
-            <element signature="e#33#65#0" expanded="true" />
+            <element signature="n#!!doc" expanded="false" />
+            <element signature="e#33#65#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -857,8 +814,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/pages/normalpages/course/view/view.json">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="42">
-          <caret line="2" column="1" lean-forward="true" selection-start-line="2" selection-start-column="1" selection-end-line="2" selection-end-column="1" />
+        <state relative-caret-position="0">
+          <caret line="0" column="1" lean-forward="false" selection-start-line="0" selection-start-column="1" selection-end-line="0" selection-end-column="1" />
           <folding />
         </state>
       </provider>
@@ -866,15 +823,15 @@
     <entry file="file://$PROJECT_DIR$/pages/normalpages/course/modify/modify.wxml">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="315">
-          <caret line="15" column="0" lean-forward="true" selection-start-line="0" selection-start-column="0" selection-end-line="319" selection-end-column="7" />
+          <caret line="15" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="319" selection-end-column="7" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/pages/normalpages/course/create/create.wxml">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="270">
-          <caret line="100" column="0" lean-forward="true" selection-start-line="0" selection-start-column="0" selection-end-line="173" selection-end-column="7" />
+        <state relative-caret-position="2100">
+          <caret line="100" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="173" selection-end-column="7" />
           <folding />
         </state>
       </provider>
@@ -882,64 +839,88 @@
     <entry file="file://$PROJECT_DIR$/pages/normalpages/course/create/create.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="399">
-          <caret line="73" column="24" lean-forward="false" selection-start-line="73" selection-start-column="18" selection-end-line="73" selection-end-column="24" />
-          <folding>
-            <element signature="e#62#111#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/pages/tabpages/teacher/index.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="454">
-          <caret line="288" column="16" lean-forward="false" selection-start-line="288" selection-start-column="16" selection-end-line="288" selection-end-column="16" />
+          <caret line="20" column="6" lean-forward="false" selection-start-line="20" selection-start-column="6" selection-end-line="20" selection-end-column="6" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/pages/normalpages/course/view/view.wxml">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="420">
-          <caret line="20" column="67" lean-forward="true" selection-start-line="20" selection-start-column="67" selection-end-line="20" selection-end-column="67" />
+        <state relative-caret-position="3696">
+          <caret line="176" column="7" lean-forward="false" selection-start-line="176" selection-start-column="7" selection-end-line="176" selection-end-column="7" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/pages/normalpages/course/view/view.js">
+    <entry file="file://$PROJECT_DIR$/utils/wxRequest.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="588">
-          <caret line="28" column="32" lean-forward="true" selection-start-line="28" selection-start-column="32" selection-end-line="28" selection-end-column="32" />
-          <folding>
-            <element signature="n#!!doc" expanded="true" />
-          </folding>
+        <state relative-caret-position="195">
+          <caret line="54" column="22" lean-forward="false" selection-start-line="54" selection-start-column="22" selection-end-line="54" selection-end-column="22" />
+          <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/pages/normalpages/course/modify/modify.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="441">
-          <caret line="102" column="0" lean-forward="true" selection-start-line="102" selection-start-column="0" selection-end-line="102" selection-end-column="0" />
+        <state relative-caret-position="378">
+          <caret line="18" column="36" lean-forward="true" selection-start-line="18" selection-start-column="36" selection-end-line="18" selection-end-column="36" />
           <folding>
             <element signature="n#!!doc" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/utils/SyncUtils.js">
+    <entry file="file://$PROJECT_DIR$/utils/StorageUtils.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="279">
-          <caret line="251" column="24" lean-forward="false" selection-start-line="251" selection-start-column="14" selection-end-line="251" selection-end-column="24" />
+        <state relative-caret-position="231">
+          <caret line="11" column="13" lean-forward="true" selection-start-line="11" selection-start-column="13" selection-end-line="11" selection-end-column="13" />
           <folding>
-            <element signature="n#!!doc" expanded="true" />
-            <element signature="e#49#90#0" expanded="true" />
+            <element signature="e#0#45#0" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="504">
+          <caret line="36" column="9" lean-forward="false" selection-start-line="36" selection-start-column="9" selection-end-line="36" selection-end-column="9" />
+          <folding>
+            <element signature="e#20#61#0" expanded="true" />
+            <marker date="1519740986495" expanded="true" signature="993:1530" ph="{&quot;currentAuth&quot;: &quot;&quot;...}" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/pages/tabpages/teacher/index.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="333">
+          <caret line="232" column="30" lean-forward="false" selection-start-line="232" selection-start-column="18" selection-end-line="232" selection-end-column="30" />
+          <folding>
+            <element signature="e#12#68#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/pages/normalpages/course/view/view.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="504">
+          <caret line="28" column="29" lean-forward="false" selection-start-line="28" selection-start-column="18" selection-end-line="28" selection-end-column="29" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/utils/IndexPageUtils.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="84">
+          <caret line="6" column="16" lean-forward="false" selection-start-line="6" selection-start-column="7" selection-end-line="6" selection-end-column="16" />
+          <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/utils/CoursePageUtils.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="737">
-          <caret line="86" column="0" lean-forward="true" selection-start-line="86" selection-start-column="0" selection-end-line="86" selection-end-column="0" />
+        <state relative-caret-position="189">
+          <caret line="9" column="6" lean-forward="false" selection-start-line="9" selection-start-column="0" selection-end-line="9" selection-end-column="21" />
           <folding>
             <element signature="n#!!doc" expanded="true" />
             <element signature="e#19#63#0" expanded="true" />
@@ -947,11 +928,17 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/utils/wxRequest.js">
+    <entry file="file://$PROJECT_DIR$/utils/SyncUtils.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="210">
-          <caret line="49" column="39" lean-forward="false" selection-start-line="49" selection-start-column="39" selection-end-line="49" selection-end-column="39" />
-          <folding />
+        <state relative-caret-position="441">
+          <caret line="21" column="30" lean-forward="false" selection-start-line="21" selection-start-column="30" selection-end-line="21" selection-end-column="30" />
+          <folding>
+            <element signature="n#!!doc" expanded="true" />
+            <element signature="e#49#90#0" expanded="true" />
+            <element signature="e#1588#4133#0" expanded="false" />
+            <element signature="n#!!block;n#getCourse2222#0;n#SyncUtils#0" expanded="false" />
+            <element signature="e#16116#18489#0" expanded="false" />
+          </folding>
         </state>
       </provider>
     </entry>

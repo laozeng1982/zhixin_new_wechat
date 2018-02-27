@@ -8,6 +8,7 @@ import Util from "./Util";
 import SyncUtils from "./SyncUtils";
 
 const app = getApp();
+const Sync = new SyncUtils.SyncUtils();
 
 class CoursePageUtils {
     constructor() {
@@ -72,7 +73,7 @@ class CoursePageUtils {
 
                 break;
             case "view":
-               SyncUtils.getCourse(this.self);
+               Sync.getCourse(this.self);
                 break;
 
         }
@@ -290,7 +291,7 @@ class CoursePageUtils {
                     courseToLocal[item] = courseToServer[item];
                 }
             }
-            SyncUtils.createCourse(courseToServer, courseToLocal);
+            Sync.createCourse(courseToServer, courseToLocal);
 
         } else if (this.self.route === "modify") {
             courseToServer.prepare(courseItems, userInfo.id, false);
@@ -301,7 +302,7 @@ class CoursePageUtils {
                     courseToLocal[item] = courseToServer[item];
                 }
             }
-            SyncUtils.updateCourse(courseToServer, courseToLocal);
+            Sync.updateCourse(courseToServer, courseToLocal);
         }
 
         console.log("courseToServer:", courseToServer);

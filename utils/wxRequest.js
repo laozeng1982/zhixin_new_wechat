@@ -52,9 +52,7 @@ function getRequestWithAuth(url, header) {
     return getRequest({
         url: url,
         method: 'GET',
-        header: {
-            'Content-Type': 'application/json'
-        }
+        header: header
     })
 }
 

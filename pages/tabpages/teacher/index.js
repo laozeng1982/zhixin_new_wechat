@@ -217,8 +217,6 @@ Page({
             bottom_tabBar: app.bottom_tabBar,
         });
 
-        console.log("index page data:", this.data);
-
     },
 
     /**

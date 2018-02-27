@@ -4,6 +4,7 @@
 import Models from '../datamodel/Models'
 import StorageUtils from "./StorageUtils";
 import DateTimeUtils from "./DateTimeUtils";
+import SyncUtils from "./SyncUtils"
 
 const app = getApp();
 
@@ -34,6 +35,7 @@ class IndexPageUtils {
      * @param role
      */
     initPageData(role) {
+
         // 1、初始化页面一级Tab
         this.data.currentAuth = role;
         this.data.userInfo = StorageUtils.loadUserInfo();
