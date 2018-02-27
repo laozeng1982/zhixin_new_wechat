@@ -1,7 +1,7 @@
 import settings from "../datamodel/Settings";
-import DataStructure from "../datamodel/DataStructure";
+import Models from "../datamodel/Models";
 
-const Course = new DataStructure.Course();
+const Course = new Models.Course();
 
 const Settings = new settings.Settings();
 
@@ -27,7 +27,7 @@ function loadData(dataType) {
             switch (dataType.id) {
                 case 0:
                     // 0. UserInfo
-                    requestData = new DataStructure.WeChatUser();
+                    requestData = new Models.WeChatUser();
                     break;
                 case 1:
                     // 1. UserProfile
@@ -48,7 +48,7 @@ function loadData(dataType) {
                     break;
                 case 5:
                     // 5. PartsWithActions
-                    // requestData = new DataStructure.artsWithActions();
+                    // requestData = new Models.artsWithActions();
                     break;
                 case 6:
                     // 6. SyncedTag

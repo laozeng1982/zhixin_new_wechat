@@ -249,7 +249,7 @@ class Role {
 class Privilege {
     constructor() {
         this.permission = "";  // (string, optional) = ['All', 'Create', 'Retrieve', 'Update', 'Delete'],
-        this.targetDomain = "";  // (string, optional) = ['All', 'DataStructure', 'Role', 'Privilege']
+        this.targetDomain = "";  // (string, optional) = ['All', 'Models', 'Role', 'Privilege']
 
         this.id = -1;  // (integer, optional),
         this.createdBy = "";  // (string, optional),    （创建者，字符串，可选，默认：空）

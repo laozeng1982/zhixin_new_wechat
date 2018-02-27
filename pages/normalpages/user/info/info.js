@@ -1,9 +1,9 @@
 // pages/userinfo/userinfo.js
 // 用户资料页，可以复用，首次进入，为注册页面精简信息，从个人设置页面，为全信息
 
-import DataStructure from '../../../../datamodel/DataStructure'
+import Models from '../../../../datamodel/Models'
 import StorageUtils from '../../../../utils/StorageUtils'
-import NetworkUtils from '../../../../utils/NetworkUtils'
+import SyncUtils from '../../../../utils/SyncUtils'
 
 const app = getApp();
 
@@ -202,12 +202,12 @@ Page({
             // 由新建页面进入，创建用户信息，页面设置完成，跳转到首页
             pageUrl = "../../../tabpages/" + userInfo.authorities[0] + "/index";
 
-            NetworkUtils.createUserInfo(userData, userInfo, pageUrl);
+            SyncUtils.createUserInfo(userData, userInfo, pageUrl);
         } else {
             userData.id = userInfo.id;
             // 由新建页面进入，创建用户信息，页面设置完成，跳转设置页
             pageUrl = '../../../tabpages/setting/setting';
-            NetworkUtils.updateUserInfo(userData, userInfo, pageUrl);
+            SyncUtils.updateUserInfo(userData, userInfo, pageUrl);
         }
 
     },

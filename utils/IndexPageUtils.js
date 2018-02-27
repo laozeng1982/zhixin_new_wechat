@@ -1,7 +1,7 @@
 /**
  * index 页面具体的业务逻辑处理功能，所有的数据在这里更新
  */
-import DataStructure from '../datamodel/DataStructure'
+import Models from '../datamodel/Models'
 import StorageUtils from "./StorageUtils";
 import DateTimeUtils from "./DateTimeUtils";
 
@@ -74,7 +74,7 @@ class IndexPageUtils {
         // console.log(this.data.selectedDate);
 
         // 根据今天日期，选中周和课程
-        this.data.selectedDateCourse =[];
+        this.data.selectedDateCourse = [];
         for (let week of this.data.selectedMonth) {
             for (let day of week) {
                 if (day.value === DateTimeUtils.formatDateToString(today)) {

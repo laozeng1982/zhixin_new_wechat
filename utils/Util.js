@@ -3,13 +3,8 @@
  * 1、日期之间的转换，日期和字符串的转换
  *
  */
-import DataStructure from '../datamodel/DataStructure'
-import settings from '../datamodel/Settings'
-
 const _ = require('./underscore.modified');
 const BASE_URL = 'https://www.newpictown.com/';
-
-const Course = new DataStructure.Course();
 
 /**
  * 格式化输出数字，固定位数

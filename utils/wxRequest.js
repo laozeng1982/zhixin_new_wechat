@@ -3,13 +3,13 @@ function wxPromisify(fn) {
         return new Promise((resolve, reject) => {
             obj.success = function (res) {
                 //成功
-                resolve(res)
+                resolve(res);
             };
             obj.fail = function (res) {
                 //失败
-                reject(res)
+                reject(res);
             };
-            fn(obj)
+            fn(obj);
         });
     }
 }
@@ -41,6 +41,23 @@ function getRequest(url, data) {
         }
     })
 }
+
+/**
+ * 微信请求get方法
+ * url
+ * data 以对象的格式传入
+ */
+function getRequestWithAuth(url, header) {
+    let getRequest = wxPromisify(wx.request);
+    return getRequest({
+        url: url,
+        method: 'GET',
+        header: {
+            'Content-Type': 'application/json'
+        }
+    })
+}
+
 
 /**
  * 微信请求post方法封装
@@ -76,7 +93,21 @@ function postRequestWithAuth(url, header, data) {
  * url
  * data 以对象的格式传入
  */
-function putRequest(url, header, data) {
+function putRequest(url, data) {
+    let putRequest = wxPromisify(wx.request);
+    return putRequest({
+        url: url,
+        method: 'PUT',
+        data: data,
+    });
+}
+
+/**
+ * 微信请求put方法封装
+ * url
+ * data 以对象的格式传入
+ */
+function putRequestWithAuth(url, header, data) {
     let putRequest = wxPromisify(wx.request);
     return putRequest({
         url: url,
@@ -90,5 +121,7 @@ module.exports = {
     postRequest: postRequest,
     postRequestWithAuth: postRequestWithAuth,
     getRequest: getRequest,
-    putRequest: putRequest
+    getRequestWithAuth: getRequestWithAuth,
+    putRequest: putRequest,
+    putRequestWithAuth: putRequestWithAuth
 }

@@ -3,13 +3,13 @@ function wxPromisify(fn) {
         return new Promise((resolve, reject) => {
             obj.success = function (res) {
                 //成功
-                resolve(res)
+                resolve(res);
             };
             obj.fail = function (res) {
                 //失败
-                reject(res)
+                reject(res);
             };
-            fn(obj)
+            fn(obj);
         })
     }
 }
@@ -20,7 +20,7 @@ Promise.prototype.finally = function (callback) {
     return this.then(
         value => P.resolve(callback()).then(() => value),
         reason => P.resolve(callback()).then(() => {
-            throw reason
+            throw reason;
         })
     );
 };

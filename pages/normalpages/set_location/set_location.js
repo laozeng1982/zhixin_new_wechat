@@ -1,6 +1,6 @@
 // pages/normalpages/set_location/set_location.js
 
-import DataStructure from '../../../datamodel/DataStructure'
+import DataStructure from '../../../datamodel/Models'
 
 const app = getApp();
 

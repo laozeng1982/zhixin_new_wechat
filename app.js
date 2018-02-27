@@ -1,7 +1,7 @@
 // app.js
 // 小程序入口
 
-import NetWorkUtils from './utils/NetworkUtils'
+import SyncUtils from './utils/SyncUtils'
 import TabBar from '/pages/common/BottomTabBar.js'
 
 App({
@@ -12,6 +12,7 @@ App({
 
         // 判断入口
         if (options.scene === 1044) {
+            // 如果从分享进来，先看课程，愿意加入，再去判断是否注册
             wx.getShareInfo({
                 shareTicket: options.shareTicket,
                 success: function (res) {
@@ -20,11 +21,11 @@ App({
                     let iv = res.iv;
                 }
             });
+        } else {
+            // 登录，同步用户数据
+            SyncUtils.syncUserInfo(this);
         }
-
-        // 登录，同步用户数据
-        NetWorkUtils.syncUserInfo(this);
-
+  
     },
 
     onShow: function () {

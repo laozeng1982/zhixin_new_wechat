@@ -2,6 +2,7 @@
  * Inner Data Structure
  */
 
+import Util from '../utils/Util'
 import DateTimeUtils from '../utils/DateTimeUtils'
 
 /**
@@ -145,7 +146,9 @@ class UserNotice {
         this.claimedBy = new WeChatUser();  // (WeChatUser, optional),  领取者
 
         this.status = "";  // (string, optional) = ['Unread', 'Claimed'],   是否领取、读取，接收状态
-        this.user = new WeChatUser();  // (WeChatUser, optional)    学生
+        this.user = {
+            id: 0
+        };  // (WeChatUser, optional)    学生
 
     }
 
@@ -191,7 +194,7 @@ class Course {
         // this.recurringRuleString = "请选择";    // UI增加部分，仅作显示用
         this.recurringTimes = 10;    //(integer, optional), （本课程重复的次数，整形，可选，默认：空）
 
-        this.grade = "";    //(string, optional),   （本课程等级，字符串，可选，默认：空）
+        this.grade = "High";    //(string, optional),   （本课程等级，字符串，可选，默认：空）
 
         this.description = "";    ////(string, optional),   （本课程描述，字符串，可选，默认：空）
 
@@ -202,10 +205,87 @@ class Course {
         this.maxCapacity = 10; // 整形，后台需要改，增加
         this.studentSet = [];    //(Array[WeChatUser], optional),   （学生列表，数组，可选，默认：空）
         this.teacherSet = [];    //(Array[WeChatUser], optional),   （教师列表，数组，可选，默认：空）
-        this.scoreType = "";	// 分制，后台需要修改
+        this.scoreType = "Five";	// 分制，后台需要修改
 
         this.id = -1; // (integer, optional),  （id，整形，可选，默认：-1）
 
+    }
+
+    /**
+     * 准备数据
+     * @param courseItems
+     * @param isCreate
+     * @returns {*}
+     */
+    prepare(courseItems, teacherId, isCreate) {
+        let app = getApp();
+
+        // 1、收集信息
+        for (let item in courseItems) {
+            // 如果有，直接添加
+            if (this.hasOwnProperty(item)) {
+                if (item === "location") {
+                    // 经纬度直接拷贝
+                    this.location.latitude = courseItems[item].latitude.value;
+                    this.location.longitude = courseItems[item].longitude.value;
+                    this.location.address = courseItems[item].address.value;
+                    this.location.name = courseItems[item].name.value;
+                    this.location.room = courseItems[item].room.value;
+
+                } else if (item === "recurringRule") {
+                    this.recurringRule = app.tempData.recurringRule.join(",");
+                } else {
+                    this[item] = courseItems[item].value;
+                }
+            }
+        }
+
+        // 2、清理信息，添加老师信息
+        if (isCreate) {
+            // 新建课程时，id值没有用处
+            delete this.id;
+
+            // 增加老师信息
+            this.teacherSet.push({
+                id: teacherId
+            });
+        } else {
+            // 查找是否已经有这个老师了
+            let hasThisTeacher = false;
+            for (let teacher of this.teacherSet) {
+                if (typeof teacher.id !== "undefined" && teacher.id === teacherId) {
+                    hasThisTeacher = true;
+                    break;
+                }
+            }
+            if (!hasThisTeacher) {
+                this.teacherSet.push({
+                    id: teacherId
+                });
+            }
+        }
+
+        // 3、整理信息
+        // 3.1、删除空值
+        for (let item in this) {
+            console.log(this[item]);
+            if (this[item].constructor === Array && this[item].length === 0) {
+                delete this[item];
+            }
+        }
+        // 3.2 整理description
+        if (this.description === "") {
+            this.description = "这个老师很懒，还没写介绍哦~~"
+        }
+
+        // 3.2、根据开课的时间来判断状态
+        if (DateTimeUtils.dateDirection(this.startDate) >= 0) {
+            this.status = "Preparing";
+        } else {
+            this.status = "Started";
+        }
+
+        console.log("after", this);
     }
 }
 

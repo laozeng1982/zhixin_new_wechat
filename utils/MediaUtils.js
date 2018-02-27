@@ -3,7 +3,7 @@
  */
 
 import Util from "../utils/Util"
-import DataStructure from '../datamodel/DataStructure'
+import Models from '../datamodel/Models'
 
 /**
  * 开始录音
@@ -44,7 +44,7 @@ function startRecordVoice(host) {
 
             for (let item of evaluation) {
                 if (item.name === host.data.currentEvaluationType) {
-                    let fileInfo = new DataStructure.FileInfo();
+                    let fileInfo = new Models.FileInfo();
                     fileInfo.path = res.tempFilePath;
                     fileInfo.time = Util.formatTimeToString(new Date);
                     fileInfo.type = "Audio";
@@ -229,7 +229,7 @@ function addImage(host) {
             for (let item of evaluation) {
                 if (item.name === host.data.currentEvaluationType) {
                     for (let picturePath of res.tempFilePaths) {
-                        let fileInfo = new DataStructure.FileInfo();
+                        let fileInfo = new Models.FileInfo();
                         fileInfo.path = picturePath;
                         fileInfo.time = Util.formatTimeToString(new Date);
                         fileInfo.type = "Image";
@@ -261,7 +261,7 @@ function addVideo(host) {
             console.log(res);
             for (let item of evaluation) {
                 if (item.name === host.data.currentEvaluationType) {
-                    let fileInfo = new DataStructure.FileInfo();
+                    let fileInfo = new Models.FileInfo();
                     fileInfo.path = res.tempFilePath;
                     fileInfo.time = Util.formatTimeToString(new Date);
                     fileInfo.type = "Video";

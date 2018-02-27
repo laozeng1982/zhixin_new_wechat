@@ -217,6 +217,8 @@ Page({
             bottom_tabBar: app.bottom_tabBar,
         });
 
+        console.log("index page data:", this.data);
+
     },
 
     /**
@@ -276,16 +278,17 @@ Page({
 
         let userInfo = StorageUtils.loadUserInfo();
 
-        let baseUrl = "/pages/normalpages/modify_course/modify_course";
+        let baseUrl = "/pages/normalpages/course/view/view";
 
-        // // 稍等半秒，等获取courseIdx
-        // setTimeout(function () {
         if (options.from === 'button') {
             // 来自页面内转发按钮
             console.log("options.target:", options.target);
             let courseIdx = options.target.id;
             shareMsg.title = userInfo.nickName + "分享的" + userInfo.teacherCourseSet[courseIdx].name;
-            shareMsg.path = baseUrl + "?courseIdx=" + courseIdx;
+            shareMsg.path = baseUrl +
+                "?shareBy=" + userInfo.nickName +
+                "&courseName" + userInfo.teacherCourseSet[courseIdx].name +
+                "&courseId=" + userInfo.teacherCourseSet[courseIdx].id;
         } else {
             shareMsg.title = userInfo.nickName + "分享的知新小程序";
             shareMsg.path = baseUrl;
@@ -326,8 +329,6 @@ Page({
                 console.log("share failed, res:", res);
             }
         }
-
-        // }, 1000);
 
     }
 
