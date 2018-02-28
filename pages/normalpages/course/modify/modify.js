@@ -3,7 +3,7 @@
 
 import CoursePageUtils from '../../../../utils/CoursePageUtils'
 
-const pageUtils = new CoursePageUtils.CoursePageUtils();
+const pageUtils = new CoursePageUtils.CoursePageUtils(true);
 
 Page({
 
@@ -95,7 +95,7 @@ Page({
 
         this.options = options;
         this.route = "modify";
-        pageUtils.self = this;
+        pageUtils.pageView = this;
 
         pageUtils.initTabData();
 

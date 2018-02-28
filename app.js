@@ -5,22 +5,16 @@ import SyncUtils from './utils/SyncUtils'
 import StroageUtils from './utils/StorageUtils'
 import TabBar from '/pages/common/BottomTabBar.js'
 
-const Sync = new SyncUtils.SyncUtils();
-
 App({
     onLaunch: function (options) {
+        let version = "v0.0.11, modify " + 1;
+        console.log("App version is:", version);
         console.log("App.onLoad");
 
         console.log("App.onLoad, options:", options);
 
-        let userInfo = StroageUtils.loadUserInfo();
-
-        if (typeof userInfo.request_header !== "undefined") {
-            this.tempData.request_header = userInfo.request_header;
-        }
-
         // 判断入口
-        if (options.scene === 1044) {
+        if (options.scene === 1044 || options.scene === 1007) {
             // 如果从分享进来，先看课程，愿意加入，再去判断是否注册
             wx.getShareInfo({
                 shareTicket: options.shareTicket,
@@ -32,19 +26,24 @@ App({
             });
         } else {
             // 登录，同步用户数据
-            Sync.syncUserInfo(this);
-        
+            SyncUtils.syncUserInfo(this);
+            this.loadTab();
         }
 
     },
 
     onShow: function () {
         console.log("App.onShow");
-       
+
     },
 
     loadTab: function () {
         this.bottom_tabBar = new TabBar.BottomTabBar();
+        if (this.bottom_tabBar.list.length > 1) {
+            wx.redirectTo({
+                url: this.bottom_tabBar.list[0].pagePath,
+            });
+        }
 
     },
 
@@ -59,6 +58,12 @@ App({
         recurringRule: [],
         request_header: {},
         location: {}
+    },
+
+    joinCourse: {
+        courseId: "",
+        course: {},
+        nextPageUrl: ""
     },
 
     globalData: {

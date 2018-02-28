@@ -55,7 +55,7 @@ Page({
      * @param e
      */
     onSelectCourse: function (e) {
-        console.log(e);
+
         let courseId = e.currentTarget.id;
 
         pageUtils.selectCourse(courseId);
@@ -285,7 +285,7 @@ Page({
             shareMsg.title = userInfo.nickName + "分享的" + userInfo.teacherCourseSet[courseIdx].name;
             shareMsg.path = baseUrl +
                 "?shareBy=" + userInfo.nickName +
-                "&courseName" + userInfo.teacherCourseSet[courseIdx].name +
+                "&courseName=" + userInfo.teacherCourseSet[courseIdx].name +
                 "&courseId=" + userInfo.teacherCourseSet[courseIdx].id;
         } else {
             shareMsg.title = userInfo.nickName + "分享的知新小程序";

@@ -4,7 +4,7 @@
 <import src="../../common/index_Page.wxml" />
 <import src="../../common/bottom_tabbar.wxml" />
 
-<view class="container">
+<view wx:if="{{pageData.loadFinished}}" class="container">
     <template is="index_Page" data="{{pageData}}" />
     <template is="bottom_tabBar" data="{{bottom_tabBar}}" />
 

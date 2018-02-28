@@ -9,7 +9,7 @@ import Util from '../../../../utils/Util'
 import CoursePageUtils from '../../../../utils/CoursePageUtils'
 
 const app = getApp();
-const pageUtils = new CoursePageUtils.CoursePageUtils();
+const pageUtils = new CoursePageUtils.CoursePageUtils(true);
 
 Page({
 
@@ -81,7 +81,7 @@ Page({
     onLoad: function (options) {
         this.options = options;
         this.route = "create";
-        pageUtils.self = this;
+        pageUtils.pageView = this;
 
         pageUtils.initTabData();
 

@@ -31,9 +31,11 @@
     display: flex;
     flex-direction: row;
     align-items: center;
+    align-content: center;
     height: 90rpx;
-    padding-right: 40rpx;
+    margin-right: 20rpx;
     font-size: 32rpx;
+    justify-content: space-around;
 }
 
 .userinfo-item-value-image {

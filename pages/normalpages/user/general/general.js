@@ -40,6 +40,14 @@ Page({
      * 设置页面的值
      */
     initPageUserInfo: function () {
+        let displayControl = this.data.displayControl;
+
+        // 显示所有项
+        if (this.data.options.route !== "register") {
+            for (let item in displayControl) {
+                displayControl[item] = true;
+            }
+        }
 
         let userInfo = StorageUtils.loadUserInfo();
         let authorities = this.data.authorities;
@@ -73,10 +81,13 @@ Page({
         }
 
         this.setData({
+            displayControl: displayControl,
             genderIdx: genderIdx,
             userInfo: userInfo,
             authorities: authorities
         });
+
+
     },
 
     onChangeAvatar: function (e) {
@@ -92,21 +103,25 @@ Page({
      */
     onPickerChange: function (e) {
         let genderIdx = this.data.genderIdx;
+        let userInfo = this.data.userInfo;
         switch (e.target.id) {
             case "gender":
                 genderIdx = parseInt(e.detail.value);
+                break;
+            case "dateOfBirth":
+                userInfo.dateOfBirth = e.detail.value;
                 break;
             default:
                 break;
         }
 
         this.setData({
+            userInfo: userInfo,
             genderIdx: genderIdx,
         });
     },
 
     onCheckboxChange: function (e) {
-        // console.log(e);
 
     },
 
@@ -198,7 +213,7 @@ Page({
 
         // 准备跳转页面及保存数据
         let pageUrl = '';
-        if (this.data.options.model === "register") {
+        if (this.data.options.route === "register") {
             // 由新建页面进入，创建用户信息，页面设置完成，跳转到首页
             pageUrl = "../../../tabpages/" + userInfo.authorities[0] + "/index";
 
@@ -241,15 +256,12 @@ Page({
     onLoad: function (options) {
         console.log("options:", options);
         let userInfoPageTitle = '';
-        let displayControl = this.data.displayControl;
-        if (options.model === "register") {
+
+        if (options.route === "register") {
             userInfoPageTitle = "填写注册资料";
         } else {
             userInfoPageTitle = "修改资料";
-            // 显示所有项
-            for (let item in displayControl) {
-                displayControl[item] = true;
-            }
+
         }
 
         // 设置标题
@@ -257,13 +269,12 @@ Page({
             title: userInfoPageTitle,
         });
 
-        // 初始化页面数据
-        this.initPageUserInfo();
-
         this.setData({
-            displayControl: displayControl,
             options: options
         });
+
+        // 初始化页面数据
+        this.initPageUserInfo();
     },
 
     /**

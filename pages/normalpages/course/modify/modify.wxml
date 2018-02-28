@@ -58,31 +58,40 @@
                 </view>
             </view>
 
-            <!-- 课程起止日期 -->
+            <!-- 课程开始日期 -->
             <view class="item-box row">
                 <view class='item-name'>
                     {{pageData.courseItems.startDate.name}}
                 </view>
+
                 <view class="item-value">
-
-                    <picker id="{{pageData.courseItems.startDate.id}}" name="{{pageData.courseItems.startDate.id}}" mode='date' start='{{pageData.courseItems.startDate.start}}' value='{{pageData.courseItems.startDate.value}}' bindchange='onPickerChange'>
+                    <!-- 空白占位 -->
+                    <view class='item-value-picker-text' style='width:20rpx'></view>
+                    <picker id="{{pageData.courseItems.startDate.id}}" name="{{pageData.courseItems.startDate.id}}" mode='date' start='{{pageData.courseItems.startDate.start}}' value='{{pageData.courseItems.startDate.value}}' bindchange='onChangePicker'>
                         <view class='item-value-picker'>
-                            <view class='item-value-picker-text'>{{pageData.courseItems.startDate.value}} </view>
-                            <!-- <image class='image-arrow' src='../../image/down_arrow.png'></image> -->
+                            <view class="item-value-picker-text {{pageData.courseItems.startDate.value =='请选择'?'picker-without-value':''}} ">{{pageData.courseItems.startDate.value}} </view>
+                            <image class='image-arrow' src='../../../image/down_arrow.png'></image>
                         </view>
                     </picker>
+                </view>
+            </view>
 
-                    <view class=''>到</view>
-
-                    <picker id="{{pageData.courseItems.endDate.id}}" name="{{pageData.courseItems.endDate.id}}" style='margin-right:60rpx' mode='date' start='{{pageData.courseItems.endDate.start}}' value='{{pageData.courseItems.endDate.value}}' bindchange='onPickerChange'>
-                        <view class='item-value-picker'>
-                            <view class='item-value-picker-text'>{{pageData.courseItems.endDate.value}}</view>
-                            <!-- <image class='image-arrow' src='../../image/down_arrow.png'></image> -->
-                        </view>
-                    </picker>
-
+            <!-- 课程结束日期 -->
+            <view class="item-box row">
+                <view class='item-name'>
+                    {{pageData.courseItems.endDate.name}}
                 </view>
 
+                <view class="item-value">
+                    <!-- 空白占位 -->
+                    <view class='item-value-picker-text' style='width:20rpx'></view>
+                    <picker id="{{pageData.courseItems.endDate.id}}" name="{{pageData.courseItems.endDate.id}}" mode='date' start='{{pageData.courseItems.endDate.start}}' value='{{pageData.courseItems.endDate.value}}' bindchange='onChangePicker'>
+                        <view class='item-value-picker'>
+                            <view class="item-value-picker-text {{pageData.courseItems.endDate.value =='请选择'?'picker-without-value':''}}">{{pageData.courseItems.endDate.value}}</view>
+                            <image class='image-arrow' src='../../../image/down_arrow.png'></image>
+                        </view>
+                    </picker>
+                </view>
             </view>
 
             <!-- 重复规则 -->
@@ -103,7 +112,7 @@
 
             <view class="item-box row" wx:if="{{showRecurringRule}}">
                 <view class="day-selector">
-                    <view class="day-box" wx:for="{{weekVisual}}" wx:key="{{index}}" id="{{item.id}}" data-date="{{item}}" bindtap="onSelectRecurringDay">
+                    <view class="day-box" wx:for="{{pageData.weekVisual}}" wx:key="{{index}}" id="{{item.id}}" data-date="{{item}}" bindtap="onSelectRecurringDay">
                         <view class="day-item {{item.selected?'day-item-selected':''}}">{{item.value}}</view>
                     </view>
                 </view>
@@ -169,8 +178,8 @@
                     {{pageData.courseItems.description.name}}
                 </view>
                 <view class='item-textarea'>
-                    <textarea id="{{pageData.courseItems.description.id}}" name="{{pageData.courseItems.description.id}}" class='decription-item-text' show-confirm-bar='{{false}}' type='text' value='{{pageData.courseItems.description.value}}' placeholder='{{pageData.courseItems.description.tip}}' bindinput='onInput'
-                    />
+                    <textarea id="{{pageData.courseItems.description.id}}" name="{{pageData.courseItems.description.id}}" class='decription-item-text' show-confirm-bar='{{false}}' type='text' value='{{pageData.courseItems.description.value}}' placeholder='{{pageData.courseItems.description.tip}}'
+                        bindinput='onInput' />
                 </view>
             </view>
 
@@ -301,20 +310,20 @@
                     {{pageData.courseItems.description.name}}
                 </view>
                 <view class='item-textarea'>
-                    <textarea id="{{pageData.courseItems.description.id}}" name="{{pageData.courseItems.description.id}}" class='decription-item-text' show-confirm-bar='{{false}}' type='text' value='{{pageData.courseItems.description.value}}' placeholder='{{pageData.courseItems.description.tip}}' bindinput='onInput'
-                    />
+                    <textarea id="{{pageData.courseItems.description.id}}" name="{{pageData.courseItems.description.id}}" class='decription-item-text' show-confirm-bar='{{false}}' type='text' value='{{pageData.courseItems.description.value}}' placeholder='{{pageData.courseItems.description.tip}}'
+                        bindinput='onInput' />
                 </view>
             </view>
 
         </view>
 
-      
+
     </form>
 
 
-  <view class="btn-area">
-            <button type='primary' bindtap="onFormSubmit">确定</button>
-             <button type='primary' bindtap='onDeleteCourse'>删除</button>
-        </view>
+    <view class="btn-area">
+        <button type='primary' bindtap="onFormSubmit">确定</button>
+        <button type='primary' bindtap='onDeleteCourse'>删除</button>
+    </view>
 
 </view>

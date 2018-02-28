@@ -16,7 +16,7 @@ class Storage {
         // 用户信息
         this.WeChatUser = new Record(0, "WeChatUser", "用户信息", true);
         // 用户个人身体测试数据
-        this.UserProfile = new Record(1, "UserProfile", "身体指标", true);
+        this.RequestHeader = new Record(1, "RequestHeader", "访问授权", true);
         // 计划
         this.UserPlanSet = new Record(2, "UserPlanSet", "训练计划", true);
         // 每天记录

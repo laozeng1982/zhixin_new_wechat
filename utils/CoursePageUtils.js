@@ -1,25 +1,32 @@
 /**
- * 初始化页面数据
+ * 课程页面工具类，操作数据
  */
+import Models from "../datamodel/Models";
 import DateTimeUtils from "./DateTimeUtils";
 import StorageUtils from "./StorageUtils";
-import Models from "../datamodel/Models";
-import Util from "./Util";
 import SyncUtils from "./SyncUtils";
+import Util from "./Util";
+
 
 const app = getApp();
-const Sync = new SyncUtils.SyncUtils();
+let timer = '';
 
 class CoursePageUtils {
-    constructor() {
-        this.data = makePageData();
-        this.self = {};
+    constructor(forEdit) {
+        this.data = makePageData(forEdit);
+        this.pageView = {};
+
     }
 
     updatePage() {
-        this.self.setData({
+        console.log("this.data:", this.data);
+        this.data.loadFinished = true;
+        this.pageView.setData({
             pageData: this.data
         });
+        console.log("this.pageView:", this.pageView);
+
+        console.log("this.pageView.data.pageData:", this.pageView.data.pageData);
     }
 
     /**
@@ -28,26 +35,26 @@ class CoursePageUtils {
      *
      */
     initTabData() {
-        console.log("Course Page onLoad call, route:", this.self.route);
-        console.log(this.self.options);
+        console.log("Course Page onLoad call, route:", this.pageView.route);
+        console.log(this.pageView.options);
         // 根据页面传来的参数来决定优先激活哪个Tab
         // 从本地读取数据，用来初始化页面显示课程
         this.data.userInfo = StorageUtils.loadUserInfo();
 
-        switch (this.self.route) {
+        switch (this.pageView.route) {
             case "create":
                 // 从新建页面过来，当前没有课程
                 this.data.currentCourse = new Models.Course();
                 break;
             case "modify":
-                let currentCourseIdx = parseInt(this.self.options.courseId);
+                let currentCourseIdx = parseInt(this.pageView.options.courseId);
 
                 // 当前页面要用的课程
                 if (currentCourseIdx >= 0 && currentCourseIdx <= this.data.userInfo.teacherCourseSet.length - 1) {
                     this.data.currentCourseIdx = currentCourseIdx;
                     this.data.currentCourse = this.data.userInfo.teacherCourseSet[currentCourseIdx];
 
-                    if (typeof this.self.options.date === "undefined") {
+                    if (typeof this.pageView.options.date === "undefined") {
                         this.data.currentTabIdx = 0;
                         this.data.tabData[0].selected = true;
                         this.data.tabData[1].selected = false;
@@ -59,21 +66,20 @@ class CoursePageUtils {
 
                     }
 
-                    for (let item of this.data.weekVisual) {
-                        item.selected = this.data.currentCourse.recurringRule.includes(item.name);
-
-                    }
-
                     console.log("currentCourseIdx:", currentCourseIdx);
                     console.log("currentCourse:", this.data.currentCourse);
 
                 } else {
-                    console.log("Error tab options, options:", this.self.options);
+                    console.log("Error tab options, options:", this.pageView.options);
                 }
 
                 break;
             case "view":
-               Sync.getCourse(this.self);
+                let courseId = this.pageView.options.courseId;
+                console.log("courseId:", courseId);
+                SyncUtils.getCourseAtLaunch(this, courseId);
+                break;
+            default:
                 break;
 
         }
@@ -93,7 +99,46 @@ class CoursePageUtils {
      * 初始化页面课程数据
      */
     initPageCourse() {
-        console.log("Course Page onShow call, route:", this.self.route);
+        console.log("Course Page onShow call, route:", this.pageView.route);
+
+        // 1、准备课程数据
+        switch (this.pageView.route) {
+            case "create":
+                // 从新建页面过来，当前没有课程
+                this.data.currentCourse = new Models.Course();
+                break;
+            case "modify":
+                let currentCourseIdx = parseInt(this.pageView.options.courseId);
+
+                // 当前页面要用的课程
+                if (currentCourseIdx >= 0 && currentCourseIdx <= this.data.userInfo.teacherCourseSet.length - 1) {
+                    this.data.currentCourseIdx = currentCourseIdx;
+                    this.data.currentCourse = this.data.userInfo.teacherCourseSet[currentCourseIdx];
+
+                } else {
+                    console.log("Error tab options, options:", this.pageView.options);
+                }
+
+                break;
+            case "view":
+                console.log("this.data.currentCourse:", this.data.currentCourse);
+                break;
+            default:
+                break;
+
+        }
+
+        // 先判断course是否正确，谨防课程被删除，或者courseId变更以后，拿不到正确的course
+        if (typeof this.data.currentCourse.id === "undefined") {
+            console.log("获取失败！");
+            wx.showModal({
+                title: '获取课程信息失败！',
+                content: '请联系分享者'
+            });
+            this.data.loadFailed = true;
+            this.updatePage();
+            return;
+        }
 
         if (!this.data.fromHide) {
             // 如果首次进入，则全新
@@ -129,6 +174,11 @@ class CoursePageUtils {
             if (app.tempData.recurringRule.length > 0) {
                 this.data.courseItems.recurringRule.value = "每周" + app.tempData.recurringRule.map(DateTimeUtils.transEnDate2ChShortDate).join("、");
             }
+        }
+
+        for (let item of this.data.weekVisual) {
+            item.selected = this.data.currentCourse.recurringRule.includes(item.name);
+
         }
 
         this.updatePage();
@@ -237,6 +287,9 @@ class CoursePageUtils {
 
     }
 
+    /**
+     * 提交
+     */
     submit() {
         let courseItems = this.data.courseItems;
         console.log(courseItems);
@@ -283,7 +336,7 @@ class CoursePageUtils {
         let courseToServer = new Models.Course();
 
         // 3、同步数据
-        if (this.self.route === "create") {
+        if (this.pageView.route === "create") {
             courseToServer.prepare(courseItems, userInfo.id, true);
             // 复制信息
             for (let item in courseToServer) {
@@ -291,9 +344,9 @@ class CoursePageUtils {
                     courseToLocal[item] = courseToServer[item];
                 }
             }
-            Sync.createCourse(courseToServer, courseToLocal);
+            SyncUtils.createCourse(courseToServer, courseToLocal);
 
-        } else if (this.self.route === "modify") {
+        } else if (this.pageView.route === "modify") {
             courseToServer.prepare(courseItems, userInfo.id, false);
             courseToServer.id = this.data.currentCourse.id;
             // 复制信息
@@ -302,27 +355,53 @@ class CoursePageUtils {
                     courseToLocal[item] = courseToServer[item];
                 }
             }
-            Sync.updateCourse(courseToServer, courseToLocal);
+            SyncUtils.updateCourse(courseToServer, courseToLocal);
         }
 
         console.log("courseToServer:", courseToServer);
         console.log("courseToLocal:", courseToLocal);
     }
 
+    /**
+     * 删除课程
+     */
     deleteCourse() {
-        console.log(this.self.options);
+        console.log(this.pageView.options);
         let userInfo = StorageUtils.loadUserInfo();
-        let courseIdx = parseInt(this.self.options.courseId);
+        let courseIdx = parseInt(this.pageView.options.courseId);
         userInfo.teacherCourseSet.splice(parseInt(courseIdx), 1);
 
         StorageUtils.saveUserInfo(userInfo);
         wx.navigateBack({});
     }
+
+    /**
+     * 加入课程
+     * @param courseId
+     */
+    joinCourse(courseId) {
+        // 先同步数据，然后根据不同的路径，最后都跳转到app.afterCreateUser
+        console.log("Joining Course, courseId:", courseId);
+
+        let userInfo = StorageUtils.loadUserInfo();
+
+        if (userInfo.id === -1) {
+            SyncUtils.syncUserInfo();
+        } else {
+            wx.navigateTo({
+                url: '../../user/student/admin/admin',
+            });
+        }
+    }
 }
 
 
-function makePageData() {
-    return {
+function makePageData(forEdit) {
+    let data = {
+        // 数据加载开关
+        loadFinished: false,
+        loadFailed: false,
+
         currentCourse: {},
         currentCourseIdx: 0,
         tabData: [
@@ -341,14 +420,37 @@ function makePageData() {
         ],
         currentTabIdx: 0,
 
-        courseItems: {
+        // 以下用于重复规则设置
+        showRecurringRule: false,
+        weekVisual: [
+            {id: 0, value: '日', longValue: "周日", name: "Sun", selected: false},
+            {id: 1, value: '一', longValue: "周一", name: "Mon", selected: false},
+            {id: 2, value: '二', longValue: "周二", name: "Tue", selected: false},
+            {id: 3, value: '三', longValue: "周三", name: "Wed", selected: false},
+            {id: 4, value: '四', longValue: "周四", name: "Thu", selected: false},
+            {id: 5, value: '五', longValue: "周五", name: "Fri", selected: false},
+            {id: 6, value: '六', longValue: "周六", name: "Sat", selected: false}
+        ],
+
+        selectedDateArray: [],
+        selectedDateLongValue: [],
+
+        // 以下用于控件临时显示
+        timeList: [],
+        timeListIdx: 0,
+
+        fromHide: false
+    }
+
+    if (forEdit) {
+        data.courseItems = {
             name: {
                 // 0
                 id: "name",
                 name: "课程名字*",
                 display: true,
                 tip: "请输入",
-
+                hasValue: false,
                 value: "",
 
             },
@@ -398,7 +500,7 @@ function makePageData() {
             startDate: {
                 // 3
                 id: "startDate",
-                name: "起止日期*",
+                name: "开始日期*",
                 display: true,
                 start: "",
                 tip: "请选择",
@@ -408,7 +510,7 @@ function makePageData() {
             endDate: {
                 // 4
                 id: "endDate",
-                name: "起止日期*",
+                name: "结束日期*",
                 start: "",
                 display: true,
                 tip: "请选择",
@@ -418,7 +520,7 @@ function makePageData() {
             recurringRule: {
                 // 5
                 id: "recurringRule",
-                name: "重复规则*",
+                name: "日期安排*",
                 display: true,
                 tip: "请选择",
                 hasValue: false,
@@ -468,29 +570,129 @@ function makePageData() {
                 tip: "请简要介绍一下课程",
                 value: "",
             },
-        },
-
-        // 以下用于重复规则设置
-        showRecurringRule: false,
-        weekVisual: [
-            {id: 0, value: '日', longValue: "周日", name: "Sun", selected: false},
-            {id: 1, value: '一', longValue: "周一", name: "Mon", selected: false},
-            {id: 2, value: '二', longValue: "周二", name: "Tue", selected: false},
-            {id: 3, value: '三', longValue: "周三", name: "Wed", selected: false},
-            {id: 4, value: '四', longValue: "周四", name: "Thu", selected: false},
-            {id: 5, value: '五', longValue: "周五", name: "Fri", selected: false},
-            {id: 6, value: '六', longValue: "周六", name: "Sat", selected: false}
-        ],
-
-        selectedDateArray: [],
-        selectedDateLongValue: [],
-
-        // 以下用于控件临时显示
-        timeList: [],
-        timeListIdx: 0,
-
-        fromHide: false
+        };
+    } else {
+        data.courseItems = {
+            name: {
+                // 0
+                id: "name",
+                name: "课程名字：",
+                display: true,
+                tip: "请输入",
+                hasValue: false,
+                value: "",
+            },
+            location: {
+                // 1
+                latitude: {
+                    id: "latitude",
+                    name: "纬度",
+                    display: true,
+                    tip: "请输入或选择",
+                    hasValue: false,
+                    value: "",
+                },
+                longitude: {
+                    id: "longitude",
+                    name: "经度",
+                    display: true,
+                    tip: "请输入或选择",
+                    hasValue: false,
+                    value: "",
+                },
+                address: {
+                    id: "address",
+                    name: "详细地址：",
+                    display: true,
+                    tip: "请输入或选择",
+                    hasValue: false,
+                    value: "",
+                },
+                name: {
+                    id: "address_name",
+                    name: "上课地址：",
+                    display: true,
+                    tip: "请输入或选择",
+                    hasValue: false,
+                    value: "",
+                },
+                room: {
+                    id: "room",
+                    name: "教室地址：",
+                    display: true,
+                    tip: "请输入",
+                    hasValue: false,
+                    value: "",
+                },
+            },
+            startDate: {
+                // 3
+                id: "startDate",
+                name: "开始日期：",
+                display: true,
+                start: "",
+                tip: "请选择",
+                hasValue: false,
+                value: "请选择",
+            },
+            endDate: {
+                // 4
+                id: "endDate",
+                name: "结束日期：",
+                start: "",
+                display: true,
+                tip: "请选择",
+                hasValue: false,
+                value: "请选择",
+            },
+            recurringRule: {
+                // 5
+                id: "recurringRule",
+                name: "日期安排：",
+                display: true,
+                tip: "请选择",
+                hasValue: false,
+                value: "请选择",
+            },
+            startTime: {
+                // 6
+                id: "startTime",
+                name: "开始时间：",
+                start: "",
+                display: true,
+                tip: "请选择",
+                hasValue: false,
+                value: "请选择",
+            },
+            duration: {
+                // 7
+                id: "duration",
+                name: "课程时长：",
+                display: true,
+                tip: "请选择",
+                hasValue: false,
+                value: "请选择",
+            },
+            studentSet: {
+                // 8
+                id: "maxCapacity",
+                name: "所有学生：",
+                display: true,
+                tip: "",
+                value: 10,
+            },
+            description: {
+                // 9
+                id: "description",
+                name: "课程描述",
+                display: true,
+                tip: "请简要介绍一下课程",
+                value: "",
+            },
+        };
     }
+
+    return data;
 }
 
 module.exports = {

@@ -30,8 +30,10 @@ function loadData(dataType) {
                     requestData = new Models.WeChatUser();
                     break;
                 case 1:
-                    // 1. UserProfile
-                    requestData = [];
+                    // 1. RequestHeader
+                    requestData = {
+                        Authorization: ""
+                    };
                     break;
                 case 2:
                     // 2. UserPlanSet
@@ -91,10 +93,20 @@ function saveUserInfo(dataToSave) {
     saveData(Settings.Storage.WeChatUser, dataToSave);
 }
 
+function loadRequestHeader() {
+    return loadData(Settings.Storage.RequestHeader);
+}
+
+function saveRequestHeader(dataToSave) {
+    return saveData(Settings.Storage.RequestHeader, dataToSave);
+}
+
 module.exports = {
     loadData: loadData,
     saveData: saveData,
     loadUserInfo: loadUserInfo,
     saveUserInfo: saveUserInfo,
+    loadRequestHeader: loadRequestHeader,
+    saveRequestHeader: saveRequestHeader,
 
 };

@@ -2,7 +2,7 @@
 
 /* 全局通用的一些样式 */
 @import "common.wxss";
-@import "index.wxss";
+@import "role_index.wxss";
 @import "course.wxss";
 @import "user.wxss";
 

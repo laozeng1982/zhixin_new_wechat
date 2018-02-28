@@ -14,6 +14,11 @@ class IndexPageUtils {
     }
 
     update(self) {
+        let userInfo = StorageUtils.loadUserInfo();
+        if (userInfo.id !== -1) {
+            this.data.loadFinished = true;
+        }
+
         self.setData({
             pageData: this.data
         });
@@ -151,7 +156,9 @@ class IndexPageUtils {
 
     selectCourse(courseId) {
         if (this.data.currentAuth === "teacher") {
-            let url = '../../normalpages/course/modify/modify' + "?courseId=" + courseId;
+            // let url = '../../normalpages/course/modify/modify' + "?courseId=" + courseId;
+            // 用来测试view页
+            let url = '../../normalpages/course/view/view' + "?courseId=" + 16;
 
             wx.navigateTo({
                 url: url,
@@ -315,6 +322,9 @@ class IndexPageUtils {
  */
 function makePageData() {
     let pageData = {
+        // 数据加载开关
+        loadFinished: false,
+
         userInfo: {},
         currentAuth: "",  // （当前角色，字符串，可选，默认：空）
         canIUse: wx.canIUse('button.open-type.getUserInfo'),

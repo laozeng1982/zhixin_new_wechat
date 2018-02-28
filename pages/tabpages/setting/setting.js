@@ -14,13 +14,13 @@ Page({
                     {
                         img: "../../image/friend_64px.png",
                         name: "个人信息",
-                        url: "../../normalpages/user/info/info"
+                        url: "../../normalpages/user/general/general"
                     },
-                    // {
-                    //     img: "../../image/writing_64px.png",
-                    //     name: "切换角色",
-                    //     url: "../../normalpages/set_role/set_role"
-                    // },
+                    {
+                        img: "../../image/writing_64px.png",
+                        name: "我的宝贝",
+                        url: "../../normalpages/user/student/admin/admin"
+                    },
                 ]
             },
             {
@@ -63,7 +63,7 @@ Page({
     goToPage: function (event) {
         console.log("going to page: ", event.currentTarget.dataset.log);
         wx.navigateTo({
-            url: event.currentTarget.dataset.url + "?model=fromSetting",
+            url: event.currentTarget.dataset.url + "?route=fromSetting" + "&role=general",
         })
     },
 

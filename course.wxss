@@ -2,6 +2,17 @@
 
 /* 课程页面的样式合计 */
 
+.title {
+    height: 80rpx;
+    align-content: center;
+    align-items: center;
+    text-align: center;
+    font-size: 36rpx;
+    /* font-weight: 400; */
+    margin-left: 40rpx;
+    display: flex;
+}
+
 .item-box {
     width: 100%;
     background: #fff;
@@ -29,6 +40,17 @@
     width: 100%;
     margin-right: 20rpx;
     font-size: 32rpx;
+}
+
+.item-value-view {
+    display: flex;
+    align-items: center;
+    align-content: center;
+    justify-content: space-between;
+    text-align: right;
+    margin-right: 20rpx;
+    font-size: 32rpx;
+    /* color: #888; */
 }
 
 .item-value-input {
