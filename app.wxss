@@ -208,8 +208,6 @@ button {
     border-radius: 5%;
 }
 
-
-
 .performance-item {
     padding-left: 60rpx;
     width: 100%;
@@ -322,7 +320,7 @@ button {
 }
 
 .btn-area {
-    /* position: fixed;
-    bottom: 0; */
+    position: fixed;
+    bottom: 0;
     width: 100%;
 }

@@ -19,14 +19,14 @@ class CoursePageUtils {
     }
 
     updatePage() {
-        console.log("this.data:", this.data);
+        // console.log("this.data:", this.data);
         this.data.loadFinished = true;
         this.pageView.setData({
             pageData: this.data
         });
-        console.log("this.pageView:", this.pageView);
-
-        console.log("this.pageView.data.pageData:", this.pageView.data.pageData);
+        // console.log("this.pageView:", this.pageView);
+        //
+        // console.log("this.pageView.data.pageData:", this.pageView.data.pageData);
     }
 
     /**
@@ -288,6 +288,26 @@ class CoursePageUtils {
     }
 
     /**
+     * 打开位置
+     */
+    openLocation() {
+        console.log("location:", this.data.currentCourse.location);
+        let latitude = this.data.currentCourse.location.latitude;
+        let longitude = this.data.currentCourse.location.longitude;
+
+        if (latitude !== "" && longitude !== "") {
+            wx.openLocation({
+                latitude: latitude,
+                longitude: longitude
+            });
+        } else {
+            // TODO 解析地址
+            // 暂时处理成弹窗
+        }
+
+    }
+
+    /**
      * 提交
      */
     submit() {
@@ -344,7 +364,7 @@ class CoursePageUtils {
                     courseToLocal[item] = courseToServer[item];
                 }
             }
-            SyncUtils.createCourse(courseToServer, courseToLocal);
+            SyncUtils.createCourseByTeacher(courseToServer, courseToLocal);
 
         } else if (this.pageView.route === "modify") {
             courseToServer.prepare(courseItems, userInfo.id, false);
@@ -355,7 +375,7 @@ class CoursePageUtils {
                     courseToLocal[item] = courseToServer[item];
                 }
             }
-            SyncUtils.updateCourse(courseToServer, courseToLocal);
+            SyncUtils.updateCourseByTeacher(courseToServer, courseToLocal);
         }
 
         console.log("courseToServer:", courseToServer);
@@ -386,11 +406,12 @@ class CoursePageUtils {
         let userInfo = StorageUtils.loadUserInfo();
 
         if (userInfo.id === -1) {
-            SyncUtils.syncUserInfo();
+            SyncUtils.syncUserInfo(true);
         } else {
             wx.navigateTo({
-                url: '../../user/student/admin/admin',
+                url: '../../../user/select_role/select_role',
             });
+
         }
     }
 }

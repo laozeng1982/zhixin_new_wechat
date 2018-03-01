@@ -188,6 +188,15 @@ Page({
         });
     },
 
+    onTest: function () {
+        // 用来测试view页
+        let url = '../../normalpages/course/view/join/join' + "?courseId=" + 1;
+
+        wx.navigateTo({
+            url: url,
+        });
+    },
+
     /**
      * 生命周期函数--监听页面加载
      */
@@ -276,7 +285,7 @@ Page({
 
         let userInfo = StorageUtils.loadUserInfo();
 
-        let baseUrl = "/pages/normalpages/course/view/view";
+        let baseUrl = "/pages/normalpages/course/view/join/join";
 
         if (options.from === 'button') {
             // 来自页面内转发按钮

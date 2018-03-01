@@ -41,15 +41,19 @@ Page({
      */
     initPageUserInfo: function () {
         let displayControl = this.data.displayControl;
+        let userInfo;
 
         // 显示所有项
         if (this.data.options.route !== "register") {
             for (let item in displayControl) {
                 displayControl[item] = true;
             }
+            userInfo = StorageUtils.loadUserInfo();
+        } else {
+            userInfo = app.userInfo;
         }
 
-        let userInfo = StorageUtils.loadUserInfo();
+
         let authorities = this.data.authorities;
         let genderIdx = 0;
 
@@ -212,17 +216,27 @@ Page({
         }
 
         // 准备跳转页面及保存数据
-        let pageUrl = '';
+        let page = {
+            url: '',
+            type: ''
+        };
         if (this.data.options.route === "register") {
             // 由新建页面进入，创建用户信息，页面设置完成，跳转到首页
-            pageUrl = "../../../tabpages/" + userInfo.authorities[0] + "/index";
+            if (typeof this.data.options.model === "undefined") {
+                page.path = "../../../tabpages/" + userInfo.authorities[0] + "/index";
+                page.url = "redirect";
+            } else {
+                page.url = '/pages/normalpages/user/select_role/select_role';
+                page.type = "navigate";
+            }
 
-            SyncUtils.createUserInfo(userData, userInfo, pageUrl);
+            SyncUtils.createUserInfo(userData, userInfo, "self", page);
         } else {
             userData.id = userInfo.id;
             // 由新建页面进入，创建用户信息，页面设置完成，跳转设置页
-            pageUrl = '../../../tabpages/setting/setting';
-            SyncUtils.updateUserInfo(userData, userInfo, pageUrl);
+            page.url = '../../../tabpages/setting/setting';
+
+            SyncUtils.updateUserInfo(userInfo);
         }
 
     },
@@ -232,7 +246,7 @@ Page({
      * 恢复到未修改之前
      */
     onFormReset: function () {
-        let userInfo = StorageUtils.loadUserInfo("WeChatUser");
+        let userInfo = StorageUtils.loadUserInfo();
         let authorities = this.data.authorities;
         // 重置角色选项
         if (userInfo.authorities.length > 0) {

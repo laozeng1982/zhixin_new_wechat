@@ -41,6 +41,8 @@ class WeChatUser {
 
         this.weChatInfo = {unionId: ""};  // (WeChatUserBasic, optional)    （用户微信基本账号信息，自定义类）
 
+        this.lastModifiedDate = "";
+
     }
 
     /**
@@ -83,6 +85,7 @@ class UserParent {
     constructor() {
         this.parent = new WeChatUser();  // (WeChatUser, optional),
         this.relationshipFromChildToParent = "";  // (string, optional),    娃娃是长辈的女儿，还是儿子
+        this.lastModifiedDate = "";
     }
 }
 
@@ -90,6 +93,7 @@ class UserChild {
     constructor() {
         this.child = new WeChatUser();  //  (WeChatUser, optional),
         this.relationshipFromParentToChild = "";  //  (string, optional)    长辈是娃娃的爹，妈
+        this.lastModifiedDate = "";
 
     }
 
@@ -117,6 +121,7 @@ class StudentPerformance {
         // 由上级页面直接带入
         this.lesson = "";  // (Lesson, optional),   （具体一节课，自定义类，可选，默认：空）
         this.student = new WeChatUser();  // (WeChatUser, optional) （学生，自定义类，可选，默认：空），学生的信息
+        this.lastModifiedDate = "";
     }
 
 }
@@ -136,6 +141,7 @@ class UserSetting {
         // this.studentFunctionEnabled = false;  // (boolean, optional),   （启用学生功能，布尔值，可选，默认：false）
 
         this.id = -1;  // (integer, optional),  （id，整形，可选，默认：-1）
+        this.lastModifiedDate = "";
 
     }
 
@@ -149,6 +155,7 @@ class UserNotice {
         this.user = {
             id: 0
         };  // (WeChatUser, optional)    学生
+        this.lastModifiedDate = "";
 
     }
 
@@ -157,6 +164,7 @@ class UserNotice {
 class GrantedAuthority {
     constructor() {
         this.authority = "";  // (string, optional)     Teacher，Parent，Student
+        this.lastModifiedDate = "";
     }
 
 }
@@ -171,7 +179,7 @@ class Role {
         this.id = -1;  // (integer, optional),
         this.name = "";  // (string, optional),
         this.privilegeSet = [];  // (Array[Privilege], optional)
-
+        this.lastModifiedDate = "";
     }
 
 }
@@ -208,6 +216,7 @@ class Course {
         this.scoreType = "Five";	// 分制，后台需要修改
 
         this.id = -1; // (integer, optional),  （id，整形，可选，默认：-1）
+        this.lastModifiedDate = "";
 
     }
 
@@ -268,7 +277,7 @@ class Course {
         // 3、整理信息
         // 3.1、删除空值
         for (let item in this) {
-            console.log(this[item]);
+            // console.log(this[item]);
             if (this[item].constructor === Array && this[item].length === 0) {
                 delete this[item];
             }
@@ -299,6 +308,7 @@ class Location {
         this.latitude = "";   // 纬度，浮点数，范围为-90~90，负数表示南纬
         this.longitude = "";   // 经度，浮点数，范围为-180~180，负数表示西经
         this.room = "";
+        this.lastModifiedDate = "";
     }
 
 }
@@ -325,6 +335,7 @@ class Lesson {
         this.teacher = "";  // (WeChatUser, optional),  （本节课老师，自定义类，可选，默认：空）
 
         this.id = -1; // (integer, optional),  （id，整形，可选，默认：-1）
+        this.lastModifiedDate = "";
 
     }
 }
@@ -355,6 +366,7 @@ class Homework {
         this.student = "";  // (WeChatUser, optional),  （本作业的学生，自定义类，可选，默认：空）
 
         this.id = -1; // (integer, optional),  （id，整形，可选，默认：-1）
+        this.lastModifiedDate = "";
     }
 
 }
@@ -377,6 +389,7 @@ class Notice {
         this.sender = "";  // (WeChatUser, optional),   （发送者，字符串，可选，默认：空）
 
         this.id = -1; // (integer, optional),  （id，整形，可选，默认：-1）
+        this.lastModifiedDate = "";
     }
 
 }
@@ -397,6 +410,7 @@ class FileInfo {
         this.time = "";
         this.timeLength = -1;    // 时间长度
         this.url = "";  // (string, optional)   （文件的链接，字符串，可选，默认：空）
+        this.lastModifiedDate = "";
 
     }
 

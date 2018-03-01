@@ -247,6 +247,45 @@ function datesDistance(start, end) {
 }
 
 /**
+ * 获取该日期的真实毫秒数，用来判断日期先后
+ * @param date
+ * @param splitter
+ * @returns {number}
+ */
+function getTimeMills(date, splitter) {
+    if (typeof splitter === "undefined") {
+        splitter = " ";
+    }
+    let itemsArray = date.split(splitter);
+    let year, month, day, hours, minutes, seconds, ms = 0;
+    if (typeof itemsArray[0] !== "undefined") {
+        year = parseInt(itemsArray[0].split("-")[0]);
+        month = parseInt(itemsArray[0].split("-")[1]);
+        day = parseInt(itemsArray[0].split("-")[2]);
+    }
+
+    if (typeof itemsArray[1] !== "undefined") {
+        hours = parseInt(itemsArray[1].split(":")[0]);
+        minutes = parseInt(itemsArray[1].split(":")[1]);
+        seconds = parseInt(itemsArray[1].split(":")[2]);
+    }
+
+    if (typeof itemsArray[2] !== "undefined") {
+        ms = parseInt(itemsArray[2]);
+    }
+
+    let date2Calculate = new Date(Date.UTC(year, month - 1, day, hours, minutes, seconds, ms));
+    //
+    // console.log(year, month, day, hours, minutes, seconds, ms);
+    //
+    // console.log(date2Calculate);
+    //
+    // console.log(date2Calculate.getTime());
+
+    return date2Calculate.getTime();
+}
+
+/**
  *
  * @param startDay
  * @param isNext
@@ -633,5 +672,6 @@ module.exports = {
     getMovedDate: getMovedDate,
     checkDate: checkDate,
     getMonthDateList: getMonthDateList,
-    getWeekDateList: getWeekDateList
+    getWeekDateList: getWeekDateList,
+    getTimeMills: getTimeMills
 };

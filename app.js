@@ -7,9 +7,17 @@ import TabBar from '/pages/common/BottomTabBar.js'
 
 App({
     onLaunch: function (options) {
-        let version = "v0.0.11, modify " + 1;
+        let version = "v0.0.13, modify " + 1;
         console.log("App version is:", version);
-        console.log("App.onLoad");
+
+        // 打印一下当前存储使用量，方便后期观察
+        wx.getStorageInfo({
+            success: function (res) {
+                console.log("App.onLoad, localStorage key:", res.keys);
+                console.log("App.onLoad, localStorage currentSize:", res.currentSize);
+                console.log("App.onLoad, localStorage limitSize:", res.limitSize);
+            }
+        });
 
         console.log("App.onLoad, options:", options);
 
@@ -26,7 +34,7 @@ App({
             });
         } else {
             // 登录，同步用户数据
-            SyncUtils.syncUserInfo(this);
+            SyncUtils.syncUserInfo(false);
             this.loadTab();
         }
 
@@ -51,6 +59,8 @@ App({
 
     currentAuth: "",
 
+    userInfo: {},
+
     // 定义全局变量
     tempData: {
         unionId: "",
@@ -61,6 +71,7 @@ App({
     },
 
     joinCourse: {
+        currentRole: "", //当前以什么身份加入
         courseId: "",
         course: {},
         nextPageUrl: ""

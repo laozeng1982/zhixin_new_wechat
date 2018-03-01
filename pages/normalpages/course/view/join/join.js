@@ -1,7 +1,7 @@
 // pages/normalpages/course/view/view.js
-// 查看课程页面
+// 加入课程页面，查看将要加入的课程
 
-import CoursePageUtils from '../../../../utils/CoursePageUtils'
+import CoursePageUtils from '../../../../../utils/CoursePageUtils'
 
 const pageUtils = new CoursePageUtils.CoursePageUtils(false);
 
@@ -20,19 +20,21 @@ Page({
     },
 
     onOpenLocation: function () {
-        console.log("location:", this.data.pageData.currentCourse.location);
-        let latitude = this.data.pageData.currentCourse.location.latitude;
-        let longitude = this.data.pageData.currentCourse.location.longitude;
+        // console.log("location:", this.data.pageData.currentCourse.location);
+        // let latitude = this.data.pageData.currentCourse.location.latitude;
+        // let longitude = this.data.pageData.currentCourse.location.longitude;
+        //
+        // if (latitude !== "" && longitude !== "") {
+        //     wx.openLocation({
+        //         latitude: latitude,
+        //         longitude: longitude
+        //     });
+        // } else {
+        //     // TODO 解析地址
+        //     // 暂时处理成弹窗
+        // }
 
-        if (latitude !== "" && longitude !== "") {
-            wx.openLocation({
-                latitude: latitude,
-                longitude: longitude
-            });
-        } else {
-            // TODO 解析地址
-            // 暂时处理成弹窗
-        }
+        pageUtils.openLocation();
 
     },
 

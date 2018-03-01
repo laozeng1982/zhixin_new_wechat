@@ -320,10 +320,7 @@
 
     </form>
 
-
-    <view class="btn-area">
-        <button type='primary' bindtap="onFormSubmit">确定</button>
-        <button type='primary' bindtap='onDeleteCourse'>删除</button>
-    </view>
+    <button type='primary' bindtap="onFormSubmit">确定</button>
+    <button type='primary' bindtap='onDeleteCourse'>删除</button>
 
 </view>

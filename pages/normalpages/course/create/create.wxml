@@ -175,9 +175,9 @@
 
         </view>
 
-        <view class="btn-area">
-            <button type='primary' formType="submit">确定</button>
-        </view>
+
+        <button type='primary' formType="submit">确定</button>
+
     </form>
 
 </view>

@@ -25,6 +25,7 @@ class BottomTabBar {
                 case "teacher":
                     list.push({
                         pagePath: "/pages/tabpages/teacher/index",
+                        name: "teacher",
                         text: "老师",
                         iconPath: "/pages/image/tabbar_home_unselected.png",
                         selectedIconPath: "/pages/image/tabbar_home_selected.png",
@@ -37,6 +38,7 @@ class BottomTabBar {
                 case "student":
                     list.push({
                         pagePath: "/pages/tabpages/student/index",
+                        name: "student",
                         text: "学生",
                         iconPath: "/pages/image/tabbar_home_unselected.png",
                         selectedIconPath: "/pages/image/tabbar_home_selected.png",
@@ -49,6 +51,7 @@ class BottomTabBar {
                 case "parent":
                     list.push({
                         pagePath: "/pages/tabpages/parent/index",
+                        name: "parent",
                         text: "家长",
                         iconPath: "/pages/image/tabbar_home_unselected.png",
                         selectedIconPath: "/pages/image/tabbar_home_selected.png",
@@ -65,6 +68,7 @@ class BottomTabBar {
 
         list.push({
             pagePath: "/pages/tabpages/setting/setting",
+            name: "me",
             text: "我的",
             iconPath: "/pages/image/tabbar_me_unselected.png",
             selectedIconPath: "/pages/image/tabbar_me_selected.png",
@@ -110,6 +114,32 @@ class BottomTabBar {
             this.list[idx].active = this.list[idx].pagePath === pagePath;
         }
 
+    }
+
+    /**
+     *
+     * @param role
+     * @returns {string}
+     */
+    changeTabByRole(role) {
+        this.reload();
+        let pagePath = "";
+        for (let item of this.list) {
+            item.active = item.name === role;
+            if (item.active) {
+                pagePath = item.pagePath;
+            }
+        }
+        // console.log("this.list:", this.list);
+        // console.log("role is:", role, "path:", pagePath);
+        return pagePath;
+    }
+
+    getTabPathByRole(role) {
+        for (let item of this.list) {
+            if (item.name === role)
+                return item.pagePath;
+        }
     }
 
 }

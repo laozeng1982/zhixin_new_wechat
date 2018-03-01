@@ -18,7 +18,7 @@
                         <text>头像</text>
                     </view>
                     <view class='userinfo-item-value-container'>
-                        <image class="userinfo-item-value-image" id="avatar" name="avatar" src="{{studentInfo.avatar}}" />
+                        <image class="userinfo-item-value-image" id="avatar" name="avatar" src="{{studentInfo.avatarUrl}}" />
                     </view>
                 </view>
 
@@ -139,8 +139,7 @@
         </view>
 
         <view class="foot-box">
-            <button class='reset-btn' type='default' size='default' formType="reset">重置</button>
-            <button class='confirm-btn' type='primary' size='default' formType="submit">保存</button>
+            <button type='primary' size='default' formType="submit">保存</button>
         </view>
     </form>
 

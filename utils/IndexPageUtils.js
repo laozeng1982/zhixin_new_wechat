@@ -76,6 +76,7 @@ class IndexPageUtils {
         this.data.currentMonth = today.getMonth() + 1;
         this.data.currentDate = today.getDate();
 
+
         this.data.selectedMonth = DateTimeUtils.getMonthDateList(this.data.currentYear, this.data.currentMonth, this.data.currentCourseSet);
 
         // console.log(this.data.selectedDate);
@@ -156,31 +157,40 @@ class IndexPageUtils {
 
     selectCourse(courseId) {
         if (this.data.currentAuth === "teacher") {
-            // let url = '../../normalpages/course/modify/modify' + "?courseId=" + courseId;
-            // 用来测试view页
-            let url = '../../normalpages/course/view/view' + "?courseId=" + 16;
+            let url = '../../normalpages/course/modify/modify' + "?courseId=" + courseId;
 
             wx.navigateTo({
                 url: url,
             });
         } else {
             console.log("view Course");
+            let url = '../../normalpages/course/view/browse/browse' + "?route=view" + "&courseId=" + courseId;
+
+            wx.navigateTo({
+                url: url,
+            });
         }
     }
 
     selectLesson(courseId) {
         console.log(this.data.currentAuth);
+        let url;
         if (this.data.currentAuth === "teacher") {
-            let url = '../../normalpages/course/modify/modify' +
-                "?courseId=" + courseId + "&" +
-                "date=" + this.data.selectedDate.value;
+            url = '../../normalpages/course/modify/modify' +
+                "?courseId=" + courseId +
+                "&date=" + this.data.selectedDate.value;
 
-            wx.navigateTo({
-                url: url,
-            });
         } else {
             console.log("view Lesson");
+            url = '../../normalpages/course/view/browse/browse' +
+                "?courseId=" + courseId +
+                "&date=" + this.data.selectedDate.value;
+
         }
+
+        wx.navigateTo({
+            url: url,
+        });
 
     }
 

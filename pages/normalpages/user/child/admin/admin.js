@@ -1,5 +1,6 @@
 // pages/normalpages/user/child_admin/child_admin.js
 import StorageUtils from '../../../../../utils/StorageUtils'
+import SyncUtils from '../../../../../utils/SyncUtils'
 
 const app = getApp();
 
@@ -9,7 +10,7 @@ Page({
      * 页面的初始数据
      */
     data: {
-        selectedChildren: []
+        selectedChildrenId: []
     },
 
     onAddChild: function () {
@@ -19,17 +20,17 @@ Page({
     },
 
     onSelectChild: function (e) {
-        // console.log(e.detail.value);
-        let selectedChildren = [];
+        console.log(e);
+        let selectedChildrenId = [];
         for (let item of e.detail.value) {
-            selectedChildren.push(parseInt(item));
+            selectedChildrenId.push(parseInt(item));
         }
         this.setData({
-            selectedChildren: selectedChildren,
-            selectedChild: selectedChildren.length > 0
+            selectedChildrenId: selectedChildrenId,
+            selectedChild: selectedChildrenId.length > 0
         });
 
-        console.log(this.data.selectedChildren);
+        console.log(this.data.selectedChildrenId);
     },
 
     onViewChild: function (e) {
@@ -41,14 +42,25 @@ Page({
     },
 
     onJoin: function () {
-        let selectedChildren = this.data.selectedChildren;
-        let userInfo = this.data.userInfo;
-        for (let child of selectedChildren) {
-            userInfo.studentCourseSet.push({
-                child: child,
-                course: app.joinCourse.course
-            });
+        let selectedChildrenId = this.data.selectedChildrenId;
+
+        for (let child of selectedChildrenId) {
+            // TODO 这里要同步加入课程的学生
+            console.log(child);
+            let child_UserInfo = StorageUtils.loadUserInfo(child);
+            child_UserInfo.studentCourseSet.push({id: app.joinCourse.course.id});
+            StorageUtils.saveUserInfo(child_UserInfo);
+            // SyncUtils.createCourseByTeacher(app.joinCourse.course, app.joinCourse.course);
+
         }
+
+        console.log(app.joinCourse.currentRole);
+        let url = app.bottom_tabBar.changeTabByRole(app.joinCourse.currentRole);
+        console.log("url:", url);
+
+        wx.redirectTo({
+            url: url,
+        });
     },
 
     /**
@@ -72,6 +84,15 @@ Page({
     onShow: function () {
         // 装载子女信息
         let userInfo = StorageUtils.loadUserInfo();
+
+        let parentSet = [];
+
+        for (let item of userInfo.parentSet) {
+            let child_UserInfo = StorageUtils.loadUserInfo(item.id);
+            parentSet.push(child_UserInfo);
+        }
+
+        userInfo.parentSet = parentSet;
 
         this.setData({
             userInfo: userInfo

@@ -2,9 +2,11 @@
  * 网络请求类，这里是异步请求，那么get，post等不能直接写到对应的类里面
  */
 import StorageUtils from './StorageUtils'
+import DateTimeUtils from './DateTimeUtils'
 import Settings from '../datamodel/Settings'
 import wxApi from './wxApi'
 import wxRequest from './wxRequest'
+import Util from './Util'
 
 const BASE_URL = "https://www.yongrui.wang/WeChatMiniProgram/";
 const Setting = new Settings.Settings();
@@ -20,22 +22,32 @@ function startSync(type) {
     // 显示同步数据，等待
     wx.showLoading({
         title: '同步数据',
-        duration: 10000
+        duration: 20000
     });
 }
 
-function finishSync(userInfo, pageUrl) {
+function finishSync(userInfo, page) {
     let app = getApp();
-    StorageUtils.saveUserInfo(userInfo);
 
     // 根据状态重新装载Tab
     app.bottom_tabBar.reload();
     wx.hideLoading();
 
-    if (typeof pageUrl !== "undefined") {
-        wx.redirectTo({
-            url: pageUrl,
-        });
+    console.log("page", page);
+
+    if (typeof page !== "undefined") {
+        if (page.type === "redirect") {
+            wx.redirectTo({
+                url: page.url,
+            });
+        } else if (page.type === "navigate") {
+            wx.navigateTo({
+                url: page.url,
+            });
+        }
+
+    } else {
+        wx.navigateBack({});
     }
 
     console.log("sync end!");
@@ -44,11 +56,11 @@ function finishSync(userInfo, pageUrl) {
 /**
  * 同步用户数据
  */
-function syncUserInfo() {
+function syncUserInfo(invited) {
     startSync("syncUserInfo");
 
     // 先读取本地内容
-    let userInfoLocal = StorageUtils.loadData(Setting.Storage.WeChatUser);
+    let wechatUserInfo;
 
     wxLogin().then(res => {
         console.log("wxLogin success, res:", res.code);
@@ -69,9 +81,7 @@ function syncUserInfo() {
                                 // 可以将 res 发送给后台解码出 unionId
                                 console.log("wxGetUserInfo success, userInfo:", res.userInfo);
                                 // 复制微信信息
-                                userInfoLocal.nickName = res.userInfo.nickName;
-                                userInfoLocal.gender = (res.userInfo.gender === 1) ? "Male" : "Female";
-                                userInfoLocal.avatarUrl = res.userInfo.avatarUrl;
+                                wechatUserInfo = res.userInfo;
 
                                 // 取得openId后去获取unionId，并带回服务器上用户的数据
                                 let url = 'https://www.yongrui.wang/WeChatMiniProgram/user/weChatMPUnionIdQuery';
@@ -83,12 +93,13 @@ function syncUserInfo() {
                                 wxRequest.postRequest(url, data)
                                     .then(res => {
                                         // 最核心的部分，获取成功以后，保存信息
-                                        console.log("get data from server success, res:", res);
+                                        console.log("get userInfo from server success, res:", res);
                                         wx.hideLoading();
-                                        saveInfo(userInfoLocal, res);
+                                        saveBasicInfo(wechatUserInfo, res, invited);
                                     })
                                     .catch(res => {
-                                        console.log("get data from server failed, res:", res);
+                                        console.log("get userInfo from server failed, res:", res);
+
                                     });
                             })
                             .catch(res => {
@@ -101,6 +112,7 @@ function syncUserInfo() {
             })
             .catch(res => {
                 console.log("get openId failed, res:", res);
+                // finishSync(userInfo);
             });
     })
         .catch(res => {
@@ -109,7 +121,7 @@ function syncUserInfo() {
         })
         .finally(() => {
             console.log("wxLogin finally!");
-            finishSync(userInfoLocal);
+
         });
 
 }
@@ -120,7 +132,7 @@ function syncUserInfo() {
  * @param userInfo
  * @param pageUrl
  */
-function createUserInfo(userData, userInfo, pageUrl) {
+function createUserInfo(userData, userInfo, createBy, pageUrl) {
     startSync("createUserInfo");
 
     let url = 'https://www.yongrui.wang/WeChatMiniProgram/user/viaWeChat';
@@ -131,6 +143,16 @@ function createUserInfo(userData, userInfo, pageUrl) {
             // 后台创建或更新，并同步保存到本地
             console.log("saved userInfo:", userInfo);
             console.log("createUserInfo success, res.data:", res.data);
+            StorageUtils.saveUserInfo(userInfo);
+            if (createBy === "parent") {
+                let parent_UserInfo = StorageUtils.loadUserInfo();
+                parent_UserInfo.parentSet.push({
+                    id: res.data.id
+                });
+                StorageUtils.saveUserInfo(parent_UserInfo);
+
+                updateUserInfo(parent_UserInfo, parent_UserInfo);
+            }
             // 即时保存，不在complete里完成，以防其他页面再次读取到未更新的数据
         })
         .catch(res => {
@@ -147,15 +169,22 @@ function createUserInfo(userData, userInfo, pageUrl) {
 /**
  * 更新用户数据
  */
-function updateUserInfo(userData, userInfo, pageUrl) {
+function updateUserInfo(userInfo, pageUrl) {
     // 登录，等待服务器反应
     startSync("updateUserInfo");
 
+    let userData = Util.removeNoValueItems(userInfo);
+
+    console.log("updateUserInfo, userData:", userData);
+
     let url = 'https://www.yongrui.wang/WeChatMiniProgram/user/';
 
-    wxRequest.putRequestWithAuth(url, userInfo.request_header, userData)
+    let request_header = StorageUtils.loadRequestHeader();
+
+    wxRequest.putRequestWithAuth(url, request_header, userData)
         .then(res => {
             console.log("updateUserInfo success, res.data:", res.data);
+            StorageUtils.saveUserInfo(userInfo);
         })
         .catch(res => {
             console.log("updateUserInfo success, res.data:", res.data);
@@ -171,16 +200,17 @@ function updateUserInfo(userData, userInfo, pageUrl) {
  * @param courseToServer
  * @param courseToLocal
  */
-function createCourse(courseToServer, courseToLocal) {
-    startSync("createCourse");
+function createCourseByTeacher(courseToServer, courseToLocal) {
+    startSync("createCourseByTeacher");
 
     let userInfo = StorageUtils.loadUserInfo();
+    let request_header = StorageUtils.loadRequestHeader();
 
     let url = 'https://www.yongrui.wang/WeChatMiniProgram/course';
-    wxRequest.postRequestWithAuth(url, userInfo.request_header, courseToServer)
+    wxRequest.postRequestWithAuth(url, request_header, courseToServer)
         .then(res => {
             // 后台创建或更新，并同步保存到本地
-            console.log("createCourse success, res.data:", res.data);
+            console.log("createCourseByTeacher success, res.data:", res.data);
             // 根据返回id，更新本地信息
             courseToLocal.id = res.data.id;
             courseToLocal.location.id = res.data.location.id;
@@ -188,15 +218,14 @@ function createCourse(courseToServer, courseToLocal) {
             userInfo.teacherCourseSet.push(courseToLocal);
             StorageUtils.saveUserInfo(userInfo);
 
-            console.log("saved userInfo:", userInfo);
         })
         .catch(res => {
             // 失败也要保存
             userInfo.teacherCourseSet.push(courseToLocal);
-            console.log("createCourse failed, res:", res);
+            console.log("createCourseByTeacher failed, res:", res);
         })
         .finally(() => {
-            console.log("createCourse finally!");
+            console.log("createCourseByTeacher finally!");
             finishSync(userInfo);
             wx.navigateBack({});
         });
@@ -207,15 +236,15 @@ function createCourse(courseToServer, courseToLocal) {
  * @param courseToServer
  * @param courseToLocal
  */
-function updateCourse(courseToServer, courseToLocal) {
-    startSync("updateCourse");
+function updateCourseByTeacher(courseToServer, courseToLocal) {
+    startSync("updateCourseByTeacher");
 
     let userInfo = StorageUtils.loadUserInfo();
     let url = 'https://www.yongrui.wang/WeChatMiniProgram/course';
     wxRequest.putRequestWithAuth(url, userInfo.request_header, courseToServer)
         .then(res => {
             // 后台创建或更新，并同步保存到本地
-            console.log("updateCourse success, res.data:", res.data);
+            console.log("updateCourseByTeacher success, res.data:", res.data);
             // 根据返回id，更新本地信息
             courseToLocal.id = res.data.id;
             courseToLocal.location.id = res.data.location.id;
@@ -234,10 +263,10 @@ function updateCourse(courseToServer, courseToLocal) {
         .catch(res => {
             // 失败也要保存
             userInfo.teacherCourseSet.push(courseToLocal);
-            console.log("updateCourse failed, res:", res);
+            console.log("updateCourseByTeacher failed, res:", res);
         })
         .finally(() => {
-            console.log("updateCourse finally!");
+            console.log("updateCourseByTeacher finally!");
             finishSync(userInfo);
             wx.navigateBack({});
         });
@@ -252,10 +281,6 @@ function getCourseAtLaunch(self, courseId) {
     startSync("getCourseAtLaunch");
 
     let course = {};
-
-    let request_header = StorageUtils.loadRequestHeader();
-
-    // courseId = courseId + 500;
 
     console.log("getCourseAtLaunch, courseId:", courseId);
     console.log("getCourseAtLaunch with Authorization");
@@ -275,7 +300,6 @@ function getCourseAtLaunch(self, courseId) {
         .finally(() => {
             console.log("getCourseAtLaunch finally!");
         });
-
 
 
 }
@@ -305,10 +329,11 @@ function getCourseById(id) {
 
 /**
  *
- * @param userInfo
+ * @param wechatUserInfo
  * @param response
+ * @param invited
  */
-function saveInfo(userInfo, response) {
+function saveBasicInfo(wechatUserInfo, response, invited) {
     // 形成其他request要的header
     let userAuth = response.data.weChatInfo.unionId + ":password";
     let arrayBuffer = new ArrayBuffer(userAuth.length * 2);
@@ -324,29 +349,56 @@ function saveInfo(userInfo, response) {
     };
 
     console.log(request_header);
-
-    // 将来注册和查询用
-    userInfo.request_header = request_header;
-
     StorageUtils.saveRequestHeader(request_header);
 
-    userInfo.weChatInfo.unionId = response.data.weChatInfo.unionId;
+    let app = getApp();
 
-    // 判断本地是否数据
-    if (userInfo.id === -1) {
-        // 如果未注册，不返回id，去注册页面
-        if (typeof response.data.id === "undefined") {
-            // 先保存，然后在另外一个页面再调用localStorage
-            // StorageUtils.saveUserInfo(userInfo);
+    // 如果未注册，不返回id，去注册页面
+    if (typeof response.data.id === "undefined") {
+        // 如果未返回id，表示服务器端没有注册上，去注册
+        // 清理空间
+        try {
+            wx.clearStorageSync();
+        } catch (e) {
+            // Do something when catch error
+            console.log(e);
+        }
 
+        let userInfo = StorageUtils.loadUserInfo();
+        userInfo.nickName = wechatUserInfo.nickName;
+        userInfo.gender = (wechatUserInfo.gender === 1) ? "Male" : "Female";
+        userInfo.avatarUrl = wechatUserInfo.avatarUrl;
+
+        userInfo.weChatInfo.unionId = response.data.weChatInfo.unionId;
+
+        app.userInfo = userInfo;
+
+        // 先保存一些信息，然后去注册页面调取
+        StorageUtils.saveUserInfo(userInfo);
+
+        if (invited) {
+            wx.redirectTo({
+                url: '/pages/normalpages/user/general/general' + '?route=register' + '&role=general' + '&model=invited',
+            });
+        } else {
             wx.redirectTo({
                 url: '/pages/normalpages/user/general/general' + '?route=register' + '&role=general',
             });
-        } else {
-            // 如果返回id，表示本地删除过小程序，找回用户信息，在获取了用户id之后，更新用户信息，这步必须的。
-            // 复制信息
+        }
+    } else {
+        // 如果返回id，表示已经注册
+        // 需要进一步判断是否本地删除过小程序，如果是，则找回用户信息，在获取了用户id之后，更新用户信息，这步必须的。
+        let userInfo = StorageUtils.loadUserInfo(response.data.id);
+        StorageUtils.saveCurrentId(response.data.id);
+
+        if (userInfo.id === -1) {
+            // 这是本地数据删除的情况
+            console.log("syncUserInfo, local storage is empty, userInfo:", userInfo);
+
+            // 1、同步用户信息
             for (let item in response.data) {
                 if (userInfo.hasOwnProperty(item)) {
+                    // 复制信息
                     userInfo[item] = response.data[item];
                 }
             }
@@ -354,23 +406,104 @@ function saveInfo(userInfo, response) {
             if (typeof response.data.roleSet !== "undefined") {
                 userInfo.authorities = response.data.roleSet.map(transferRole);
             }
-        }
-    } else {
-        // 有的话也要同步，万一多设备登录
-        for (let item in response.data) {
-            if (userInfo.hasOwnProperty(item)) {
-                userInfo[item] = response.data[item];
+
+            // 2、同步课程
+            let url = "https://www.yongrui.wang/WeChatMiniProgram/user/withCourse/" + response.data.id;
+            wxRequest.getRequestWithAuth(url, request_header)
+                .then(res => {
+                    console.log("get user course success, res:", res);
+                    if (typeof res.data.teacherCourseSet !== "undefined") {
+                        userInfo.teacherCourseSet = res.data.teacherCourseSet;
+                        console.log("has teacher course, saved!");
+
+                    }
+                    StorageUtils.saveUserInfo(userInfo);
+
+                    if (invited) {
+                        wx.navigateTo({
+                            url: '/pages/normalpages/user/select_role/select_role'
+                        });
+                    } else {
+                        console.log(app);
+                        let url = app.bottom_tabBar.changeTabByRole(userInfo.authorities[0]);
+                        console.log(userInfo.authorities[0], url);
+
+                        wx.redirectTo({
+                            url: url
+                        });
+                    }
+                })
+                .catch(res => {
+                    console.log("get user course failed,res:", res);
+                    StorageUtils.saveUserInfo(userInfo);
+                });
+
+            // 将来还要同步通知等
+            console.log("syncToLocal", userInfo);
+
+        } else {
+            // TODO 需要进一步考虑逻辑，重要！
+            console.log("syncUserInfo, local storage has data, userInfo:", userInfo);
+            console.log("local storage time:", userInfo.lastModifiedDate);
+            console.log("server storage time:", response.data.lastModifiedDate);
+
+            // 1、同步用户信息
+            let localStorageTime = DateTimeUtils.getTimeMills(userInfo.lastModifiedDate);
+            let serverStorageTime = DateTimeUtils.getTimeMills(response.data.lastModifiedDate);
+
+            if (localStorageTime > serverStorageTime) {
+                console.log("local newer, sync to sever");
+                // syncToServer(userInfo, response);
+
+            } else if (localStorageTime < serverStorageTime) {
+                console.log("sever newer, sync to local");
+                for (let item in response.data) {
+                    if (userInfo.hasOwnProperty(item)) {
+                        // 复制信息
+                        userInfo[item] = response.data[item];
+                    }
+                }
+            }
+
+            // 2、同步用户课程
+            let url = "https://www.yongrui.wang/WeChatMiniProgram/user/withCourse/" + response.data.id;
+            wxRequest.getRequestWithAuth(url, request_header)
+                .then(res => {
+                    console.log("get user course success,res:", res);
+                })
+                .catch(res => {
+                    console.log("get user course failed,res:", res);
+                });
+
+
+            // 页面跳转
+            if (invited) {
+                wx.navigateTo({
+                    url: '/pages/normalpages/user/select_role/select_role'
+                });
+            } else {
+                console.log(app);
+                let url = app.bottom_tabBar.changeTabByRole(userInfo.authorities[0]);
+                console.log(userInfo.authorities[0], url);
+
+                wx.redirectTo({
+                    url: url
+                });
             }
         }
 
-        if (typeof response.data.roleSet !== "undefined") {
-            userInfo.authorities = response.data.roleSet.map(transferRole);
-        }
+        // 保存善后
+
     }
+}
 
-    // 保存善后
-    StorageUtils.saveUserInfo(userInfo);
+function syncToLocal(userInfo, response) {
 
+
+}
+
+function syncToServer(userInfo, response) {
+    console.log("need further");
 }
 
 function transferRole(role) {
@@ -391,8 +524,8 @@ module.exports = {
     syncUserInfo: syncUserInfo,
     updateUserInfo: updateUserInfo,
     createUserInfo: createUserInfo,
-    createCourse: createCourse,
-    updateCourse: updateCourse,
+    createCourseByTeacher: createCourseByTeacher,
+    updateCourseByTeacher: updateCourseByTeacher,
     getCourseAtLaunch: getCourseAtLaunch,
     getCourseById: getCourseById
 };

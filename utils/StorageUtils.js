@@ -1,5 +1,6 @@
 import settings from "../datamodel/Settings";
 import Models from "../datamodel/Models";
+import DateTimeUtils from "./DateTimeUtils"
 
 const Course = new Models.Course();
 
@@ -74,23 +75,48 @@ function loadData(dataType) {
  * 参数2：dataToSave，要存储的数据
  * 调用关系：外部函数，开放接口
  */
-function saveData(dataType, dataToSave) {
+function saveData(key, dataToSave) {
     // 根据类型来判断是否需要替换其中的数据，还是直接覆盖
     try {
+        // dataToSave.lastModifiedDate = DateTimeUtils.formatTimeToString(new Date());
         console.log("saved Data:", dataToSave);
-        wx.setStorageSync(dataType.key, dataToSave);
+        wx.setStorageSync(key, dataToSave);
     } catch (e) {
-        saveData(dataType, dataToSave);
+        saveData(key, dataToSave);
     }
 
 }
 
-function loadUserInfo() {
-    return loadData(Settings.Storage.WeChatUser);
+function loadCurrentId() {
+    return wx.getStorageSync("CurrentId");
+}
+
+function saveCurrentId(id) {
+    wx.setStorageSync("CurrentId", id);
+}
+
+function loadUserInfo(id) {
+    if (typeof id === "undefined") {
+        id = loadCurrentId();
+    }
+    console.log("loadUserInfo, user id:", id);
+
+    let userInfo = wx.getStorageSync("User_" + id);
+    if (userInfo === "") {
+        userInfo = new Models.WeChatUser();
+    }
+
+    console.log("loadUserInfo, userInfo:", userInfo);
+    return userInfo;
 }
 
 function saveUserInfo(dataToSave) {
-    saveData(Settings.Storage.WeChatUser, dataToSave);
+    if (typeof dataToSave.id === "undefined") {
+        dataToSave.id = loadCurrentId();
+    }
+    console.log("saveUserInfo, user id:", dataToSave.id);
+
+    saveData("User_" + dataToSave.id, dataToSave);
 }
 
 function loadRequestHeader() {
@@ -98,7 +124,7 @@ function loadRequestHeader() {
 }
 
 function saveRequestHeader(dataToSave) {
-    return saveData(Settings.Storage.RequestHeader, dataToSave);
+    saveData("RequestHeader", dataToSave);
 }
 
 module.exports = {
@@ -108,5 +134,7 @@ module.exports = {
     saveUserInfo: saveUserInfo,
     loadRequestHeader: loadRequestHeader,
     saveRequestHeader: saveRequestHeader,
+    loadCurrentId: loadCurrentId,
+    saveCurrentId: saveCurrentId
 
 };

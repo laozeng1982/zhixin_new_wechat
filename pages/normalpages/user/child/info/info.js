@@ -2,6 +2,7 @@
 // 用户资料页，可以复用，首次进入，为注册页面精简信息，从个人设置页面，为全信息
 
 import StorageUtils from '../../../../../utils/StorageUtils'
+import Models from '../../../../../datamodel/Models'
 import SyncUtils from '../../../../../utils/SyncUtils'
 
 const app = getApp();
@@ -17,7 +18,7 @@ Page({
         genderEnArray: ["Male", "Female"],
         genderIdx: 0,
         studentInfo: {
-            avatar: "../../../../image/friend_64px.png", // 默认头像
+            avatarUrl: "../../../../image/friend_64px.png", // 默认头像
             nickName: "",
             cnName: "",
             enName: "",
@@ -57,20 +58,20 @@ Page({
      */
     onPickerChange: function (e) {
         let genderIdx = this.data.genderIdx;
-        let studentInfo = this.data.studentInfo;
+        // let studentInfo = this.data.studentInfo;
         switch (e.target.id) {
             case "gender":
                 genderIdx = parseInt(e.detail.value);
                 break;
             case "dateOfBirth":
-                studentInfo.dateOfBirth = e.detail.value;
+                // studentInfo.dateOfBirth = e.detail.value;
                 break;
             default:
                 break;
         }
 
         this.setData({
-            studentInfo: studentInfo,
+            // studentInfo: studentInfo,
             genderIdx: genderIdx,
         });
     },
@@ -88,7 +89,6 @@ Page({
         // 根据入口不同，选择切换不同的Tab
         console.log('form发生了submit事件，携带数据为：', e.detail.value);
         let studentInfo = this.data.studentInfo;
-        let userInfo = StorageUtils.loadUserInfo();
 
         // 准备提交到后端服务器上的数据，为空的数据不能上传
         let userData = {};
@@ -110,6 +110,10 @@ Page({
         // 1.2、收集性别
         studentInfo.gender = e.detail.value.gender;
         userData.gender = e.detail.value.gender;
+
+        // 1.3、设置角色
+        studentInfo.authorities = [{id: 3}];
+        userData.roleSet = [{id: 3}];
 
         // 1.4、收集生日
         studentInfo.dateOfBirth = e.detail.value.dateOfBirth;
@@ -135,22 +139,34 @@ Page({
             userData.email = e.detail.value.email;
         }
 
+        userData.avatarUrl = studentInfo.avatarUrl;
+
         // 准备跳转页面及保存数据
         if (this.data.options.route === "register") {
-            userInfo.parentSet.push(studentInfo);
+            let student_UserInfo = new Models.WeChatUser();
+            for (let item in studentInfo) {
+                if (student_UserInfo.hasOwnProperty(item)) {
+                    student_UserInfo[item] = studentInfo[item];
+                }
+            }
+
+            let parent_UserInfo = StorageUtils.loadUserInfo();
+
+            parent_UserInfo.parentSet.push(studentInfo);
+
+            console.log("new student, userData:", userData);
+
+            console.log("new student, student_UserInfo:", student_UserInfo);
+
+            SyncUtils.createUserInfo(userData, student_UserInfo, "parent");
 
         } else {
-            userData.id = studentInfo.id;
 
             let childIdx = this.data.childIdx;
             if (childIdx !== -1) {
                 userInfo.parentSet.splice(childIdx, 1, studentInfo);
             }
         }
-
-        StorageUtils.saveUserInfo(userInfo);
-        wx.navigateBack({});
-
     },
 
     /**

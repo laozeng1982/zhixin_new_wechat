@@ -1,6 +1,4 @@
-// pages/normalpages/homework/homework.js
-// 家庭作业页面
-
+// pages/normalpages/performance/make/make.js
 Page({
 
   /**
