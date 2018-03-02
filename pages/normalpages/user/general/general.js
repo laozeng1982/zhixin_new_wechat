@@ -23,15 +23,17 @@ Page({
             dateOfBirth: false,
             mobileNumber: false,
             email: false,
-            authorities: true
+            roleSet: true
         },
         genderChArray: ["男", "女"],
         genderEnArray: ["Male", "Female"],
-        authorities: [
-            {name: 'teacher', value: '老师', checked: false, description: '发布课程、通知开课、考勤管理、发布作业以及点评'},
-            {name: 'student', value: '学生', checked: false, description: '加入课程、查看课程、老师评价、上传作业'},
-            {name: 'parent', value: '家长', checked: false, description: '代替小孩加入课程、查看老师评价、上传作业'},
+        roleSet: [
+            {name: 'Teacher', value: '老师', checked: false, description: '发布课程、通知开课、考勤管理、发布作业以及点评'},
+            {name: 'Student', value: '学生', checked: false, description: '加入课程、查看课程、老师评价、上传作业'},
+            {name: 'Parent', value: '家长', checked: false, description: '代替小孩加入课程、查看老师评价、上传作业'},
         ],
+
+        dateOfBirth: "1990-10-01",
         genderIdx: 0,
         userInfo: {}
     },
@@ -54,7 +56,7 @@ Page({
         }
 
 
-        let authorities = this.data.authorities;
+        let roleSet = this.data.roleSet;
         let genderIdx = 0;
 
         console.log("in initPageUserInfo", userInfo);
@@ -74,21 +76,27 @@ Page({
             userInfo.gender = 'Male';
         }
 
-        if (userInfo.authorities.length > 0) {
-            for (let auth of authorities) {
-                for (let item of userInfo.authorities) {
-                    if (auth.name === item) {
-                        auth.checked = true;
+        if (userInfo.roleSet.length > 0) {
+            for (let roleDisplay of roleSet) {
+                for (let roleStored of userInfo.roleSet) {
+                    if (roleDisplay.name === roleStored.name) {
+                        roleDisplay.checked = true;
                     }
                 }
             }
         }
 
+        let dateOfBirth = this.data.dateOfBirth;
+        if (userInfo.dateOfBirth !== 0) {
+            dateOfBirth = userInfo.dateOfBirth;
+        }
+
         this.setData({
             displayControl: displayControl,
             genderIdx: genderIdx,
+            dateOfBirth: dateOfBirth,
             userInfo: userInfo,
-            authorities: authorities
+            roleSet: roleSet,
         });
 
 
@@ -107,20 +115,20 @@ Page({
      */
     onPickerChange: function (e) {
         let genderIdx = this.data.genderIdx;
-        let userInfo = this.data.userInfo;
+        let dateOfBirth = this.data.dateOfBirth;
         switch (e.target.id) {
             case "gender":
                 genderIdx = parseInt(e.detail.value);
                 break;
             case "dateOfBirth":
-                userInfo.dateOfBirth = e.detail.value;
+                dateOfBirth = e.detail.value;
                 break;
             default:
                 break;
         }
 
         this.setData({
-            userInfo: userInfo,
+            dateOfBirth: dateOfBirth,
             genderIdx: genderIdx,
         });
     },
@@ -139,15 +147,11 @@ Page({
         console.log('form发生了submit事件，携带数据为：', e.detail.value);
         let userInfo = this.data.userInfo;
 
-        // 准备提交到后端服务器上的数据，为空的数据不能上传
-        let userData = {};
-
         // 1、校验表单信息
 
         // 1.1、收集昵称
         if (e.detail.value.nickName !== '') {
             userInfo.nickName = e.detail.value.nickName;
-            userData.nickName = e.detail.value.nickName;
         } else {
             wx.showModal({
                 title: 'Warning',
@@ -158,30 +162,30 @@ Page({
 
         // 1.2、收集性别
         userInfo.gender = e.detail.value.gender;
-        userData.gender = e.detail.value.gender;
 
         // 1.3、收集角色
         let roleSet = [];
-        if (e.detail.value.authorities.length !== 0) {
-            userInfo.authorities = e.detail.value.authorities;
-            // userInfo.currentAuth = e.detail.value.authorities[0];
-            for (let item of e.detail.value.authorities) {
+        console.log("userInfo:", userInfo, e.detail.value.roleSet);
+        if (e.detail.value.roleSet.length !== 0) {
+
+            // userInfo.currentAuth = e.detail.value.roleSet[0];
+            for (let item of e.detail.value.roleSet) {
                 switch (item) {
-                    case "teacher":
-                        roleSet.push({id: 2});
+                    case "Teacher":
+                        roleSet.push({id: 2, name: "Teacher"});
                         break;
-                    case "student":
-                        roleSet.push({id: 3});
+                    case "Student":
+                        roleSet.push({id: 3, name: "Student"});
                         break;
-                    case "parent":
-                        roleSet.push({id: 4});
+                    case "Parent":
+                        roleSet.push({id: 4, name: "Parent"});
                         break;
                     default:
                         break;
                 }
             }
 
-            userData.roleSet = roleSet;
+            userInfo.roleSet = roleSet;
             console.log("roleSet:", roleSet);
         } else {
             wx.showModal({
@@ -193,26 +197,21 @@ Page({
 
         // 1.4、收集生日
         userInfo.dateOfBirth = e.detail.value.dateOfBirth;
-        userData.dateOfBirth = e.detail.value.dateOfBirth;
-
-        userData.weChatInfo = userInfo.weChatInfo;
 
         // 1.5、收集其他信息
         if (typeof e.detail.value.cnName !== 'undefined' && e.detail.value.cnName !== '') {
             userInfo.cnName = e.detail.value.cnName;
-            userData.cnName = e.detail.value.cnName;
-        }
+            }
         if (typeof e.detail.value.enName !== 'undefined' && e.detail.value.enName !== '') {
             userInfo.enName = e.detail.value.enName;
-            userData.enName = e.detail.value.enName;
+
         }
         if (typeof e.detail.value.mobileNumber !== 'undefined' && e.detail.value.mobileNumber !== '') {
             userInfo.mobileNumber = e.detail.value.mobileNumber;
-            userData.mobileNumber = e.detail.value.mobileNumber;
+
         }
         if (typeof e.detail.value.email !== 'undefined' && e.detail.value.email !== '') {
             userInfo.email = e.detail.value.email;
-            userData.email = e.detail.value.email;
         }
 
         // 准备跳转页面及保存数据
@@ -220,19 +219,19 @@ Page({
             url: '',
             type: ''
         };
+
         if (this.data.options.route === "register") {
             // 由新建页面进入，创建用户信息，页面设置完成，跳转到首页
             if (typeof this.data.options.model === "undefined") {
-                page.path = "../../../tabpages/" + userInfo.authorities[0] + "/index";
-                page.url = "redirect";
+                page.url = "../../../tabpages/" + userInfo.roleSet[0].name.toLowerCase() + "/index";
+                page.type = "redirect";
             } else {
                 page.url = '/pages/normalpages/user/select_role/select_role';
                 page.type = "navigate";
             }
 
-            SyncUtils.createUserInfo(userData, userInfo, "self", page);
+            SyncUtils.createUserInfo(userInfo, "self", page);
         } else {
-            userData.id = userInfo.id;
             // 由新建页面进入，创建用户信息，页面设置完成，跳转设置页
             page.url = '../../../tabpages/setting/setting';
 
@@ -247,11 +246,11 @@ Page({
      */
     onFormReset: function () {
         let userInfo = StorageUtils.loadUserInfo();
-        let authorities = this.data.authorities;
+        let roleSet = this.data.roleSet;
         // 重置角色选项
-        if (userInfo.authorities.length > 0) {
-            for (let auth of authorities) {
-                for (let item of userInfo.authorities) {
+        if (userInfo.roleSet.length > 0) {
+            for (let auth of roleSet) {
+                for (let item of userInfo.roleSet) {
                     if (auth.name === item) {
                         auth.checked = true;
                     }
@@ -260,7 +259,7 @@ Page({
         }
         this.setData({
             userInfo: userInfo,
-            authorities: authorities
+            roleSet: roleSet
         });
     },
 

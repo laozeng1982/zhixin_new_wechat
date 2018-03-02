@@ -7,8 +7,8 @@
 
     <!-- Tab头 -->
     <view class="tab">
-        <block wx:for="{{tabData}}" wx:key="{{index}}">
-            <view class="tab-list {{currentTabIdx===index ? 'current-highlight': ''}}" data-current="{{index}}" bindtap="onSwitchTab">{{item.name}}</view>
+        <block wx:for="{{pageData.tabData}}" wx:key="{{index}}">
+            <view class="tab-list {{pageData.currentTabIdx===index ? 'current-highlight': ''}}" data-current="{{index}}" bindtap="onSwitchTab">{{item.name}}</view>
         </block>
     </view>
 
@@ -16,19 +16,19 @@
     <!-- 以下是Tab内容 -->
 
     <!-- 基本信息 -->
-    <form wx:if="{{tabData[0].selected}}" class='form-container'>
+    <form wx:if="{{pageData.tabData[0].selected}}" class='form-container'>
 
         <!-- 课程名字 -->
         <view class="item-box row">
             <view class='item-name'>
-                {{courseItems.name.name}}
+                {{pageData.courseItems.name.name}}
             </view>
 
             <view class='item-value'>
                 <!-- 空白占位 -->
                 <view class='item-value-view' style='width:20rpx'></view>
                 <view class='item-value-view'>
-                    {{courseItems.name.value}}
+                    {{pageData.courseItems.name.value}}
                 </view>
             </view>
         </view>
@@ -36,7 +36,7 @@
         <!-- 上课地址 -->
         <view class="item-box row">
             <view class='item-name'>
-                {{courseItems.location.name.name}}
+                {{pageData.courseItems.location.name.name}}
             </view>
 
             <view class='item-value' bindtap='onOpenLocation'>
@@ -44,7 +44,7 @@
                 <view class='item-value-view' style='width:10rpx'></view>
                 <view class='item-value-view'>
                     <view class='item-value-view'>
-                        {{courseItems.location.name.value}}
+                        {{pageData.courseItems.location.name.value}}
                     </view>
                     <image class='image-arrow' src='../../../../image/right_arrow.png'></image>
                 </view>
@@ -54,14 +54,14 @@
         <!-- 上课教室 -->
         <view class="item-box row">
             <view class='item-name'>
-                {{courseItems.location.room.name}}
+                {{pageData.courseItems.location.room.name}}
             </view>
 
             <view class='item-value'>
                 <!-- 空白占位 -->
                 <view class='item-value-view' style='width:20rpx'></view>
                 <view class='item-value-view'>
-                    {{courseItems.location.room.value}}
+                    {{pageData.courseItems.location.room.value}}
                 </view>
             </view>
         </view>
@@ -69,14 +69,14 @@
         <!-- 课程开始日期 -->
         <view class="item-box row">
             <view class='item-name'>
-                {{courseItems.startDate.name}}
+                {{pageData.courseItems.startDate.name}}
             </view>
 
             <view class="item-value">
                 <!-- 空白占位 -->
                 <view class='item-value-view' style='width:20rpx'></view>
                 <view class="item-value-view">
-                    {{courseItems.startDate.value}}
+                    {{pageData.courseItems.startDate.value}}
                 </view>
             </view>
         </view>
@@ -84,14 +84,14 @@
         <!-- 课程结束日期 -->
         <view class="item-box row">
             <view class='item-name'>
-                {{courseItems.endDate.name}}
+                {{pageData.courseItems.endDate.name}}
             </view>
 
             <view class="item-value">
                 <!-- 空白占位 -->
                 <view class='item-value-view' style='width:20rpx'></view>
                 <view class="item-value-view">
-                    {{courseItems.endDate.value}}
+                    {{pageData.courseItems.endDate.value}}
                 </view>
             </view>
         </view>
@@ -99,14 +99,14 @@
         <!-- 日期安排 -->
         <view class="item-box row">
             <view class='item-name'>
-                {{courseItems.recurringRule.name}}
+                {{pageData.courseItems.recurringRule.name}}
             </view>
 
             <view class='item-value' bindtap='onSetRecurringRules'>
                 <!-- 空白占位 -->
                 <view class='item-value-view' style='width:20rpx'></view>
                 <view class="item-value-view">
-                    {{courseItems.recurringRule.value}}
+                    {{pageData.courseItems.recurringRule.value}}
                 </view>
             </view>
         </view>
@@ -114,7 +114,7 @@
         <!-- 隐藏的日期安排 -->
         <view class="item-box row" wx:if="{{showRecurringRule}}">
             <view class="day-selector">
-                <view class="day-box" wx:for="{{weekVisual}}" wx:key="{{index}}" id="{{item.id}}" data-date="{{item}}">
+                <view class="day-box" wx:for="{{pageData.weekVisual}}" wx:key="{{index}}" id="{{item.id}}" data-date="{{item}}">
                     <view class="day-item {{item.selected?'day-item-selected':''}}">{{item.value}}</view>
                 </view>
             </view>
@@ -123,14 +123,14 @@
         <!-- 每次课开始的时间 -->
         <view class="item-box row">
             <view class='item-name'>
-                {{courseItems.startTime.name}}
+                {{pageData.courseItems.startTime.name}}
             </view>
 
             <view class='item-value'>
                 <!-- 空白占位 -->
                 <view class='item-value-view' style='width:100rpx'></view>
                 <view class='item-value-view'>
-                    {{courseItems.startTime.value}}
+                    {{pageData.courseItems.startTime.value}}
                 </view>
             </view>
         </view>
@@ -138,14 +138,14 @@
         <!-- 每次课时间长度 -->
         <view class="item-box row">
             <view class='item-name'>
-                {{courseItems.duration.name}}
+                {{pageData.courseItems.duration.name}}
             </view>
 
             <view class='item-value'>
                 <!-- 空白占位 -->
                 <view class='item-value-view' style='width:100rpx'></view>
                 <view class='item-value-view'>
-                    {{courseItems.duration.value}} 分钟
+                    {{pageData.courseItems.duration.value}} 分钟
                 </view>
             </view>
         </view>
@@ -153,11 +153,11 @@
         <!-- 课程描述 -->
         <view class="item-big-box column">
             <view class='item-name'>
-                {{courseItems.description.name}}
+                {{pageData.courseItems.description.name}}
             </view>
 
             <view class='item-textarea'>
-                {{courseItems.description.value}}
+                {{pageData.courseItems.description.value}}
             </view>
         </view>
     </form>
@@ -170,14 +170,14 @@
                 <!-- 课程名字 -->
                 <view class="item-box row">
                     <view class='item-name'>
-                        {{courseItems.name.name}}
+                        {{pageData.courseItems.name.name}}
                     </view>
 
                     <view class='item-value'>
                         <!-- 空白占位 -->
                         <view class='item-value-view' style='width:20rpx'></view>
                         <view class='item-value-view'>
-                            {{courseItems.name.value}}
+                            {{pageData.courseItems.name.value}}
                         </view>
                     </view>
                 </view>
@@ -185,7 +185,7 @@
                 <!-- 上课地址 -->
                 <view class="item-box row">
                     <view class='item-name'>
-                        {{courseItems.location.name.name}}
+                        {{pageData.courseItems.location.name.name}}
                     </view>
 
                     <view class='item-value' bindtap='onOpenLocation'>
@@ -193,7 +193,7 @@
                         <view class='item-value-view' style='width:10rpx'></view>
                         <view class='item-value-view'>
                             <view class='item-value-view'>
-                                {{courseItems.location.name.value}}
+                                {{pageData.courseItems.location.name.value}}
                             </view>
                             <image class='image-arrow' src='../../../../image/right_arrow.png'></image>
                         </view>
@@ -203,14 +203,14 @@
                 <!-- 上课教室 -->
                 <view class="item-box row">
                     <view class='item-name'>
-                        {{courseItems.location.room.name}}
+                        {{pageData.courseItems.location.room.name}}
                     </view>
 
                     <view class='item-value'>
                         <!-- 空白占位 -->
                         <view class='item-value-view' style='width:20rpx'></view>
                         <view class='item-value-view'>
-                            {{courseItems.location.room.value}}
+                            {{pageData.courseItems.location.room.value}}
                         </view>
                     </view>
                 </view>
@@ -225,7 +225,7 @@
                         <!-- 空白占位 -->
                         <view class='item-value-view' style='width:20rpx'></view>
                         <view class='item-value-view'>
-                            {{options.date}}
+                            {{pageData.options.date}}
                         </view>
                     </view>
                 </view>
@@ -233,14 +233,14 @@
                 <!-- 开始时间 -->
                 <view class="item-box row">
                     <view class='item-name'>
-                        {{courseItems.startTime.name}}
+                        {{pageData.courseItems.startTime.name}}
                     </view>
 
                     <view class='item-value'>
                         <!-- 空白占位 -->
                         <view class='item-value-view' style='width:100rpx'></view>
                         <view class='item-value-view'>
-                            {{courseItems.startTime.value}}
+                            {{pageData.courseItems.startTime.value}}
                         </view>
                     </view>
                 </view>
@@ -248,14 +248,14 @@
                 <!-- 每次课时间长度 -->
                 <view class="item-box row">
                     <view class='item-name'>
-                        {{courseItems.duration.name}}
+                        {{pageData.courseItems.duration.name}}
                     </view>
 
                     <view class='item-value'>
                         <!-- 空白占位 -->
                         <view class='item-value-view' style='width:100rpx'></view>
                         <view class='item-value-view'>
-                            {{courseItems.duration.value}} 分钟
+                            {{pageData.courseItems.duration.value}} 分钟
                         </view>
                     </view>
                 </view>
@@ -263,11 +263,11 @@
                 <!-- 课程描述 -->
                 <view class="item-big-box column">
                     <view class='item-name'>
-                        {{courseItems.description.name}}
+                        {{pageData.courseItems.description.name}}
                     </view>
 
                     <view class='item-textarea'>
-                        {{courseItems.description.value}}
+                        {{pageData.courseItems.description.value}}
                     </view>
                 </view>
             </view>

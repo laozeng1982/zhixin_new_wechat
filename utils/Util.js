@@ -4,7 +4,6 @@
  *
  */
 const _ = require('./underscore.modified');
-const BASE_URL = 'https://www.newpictown.com/';
 
 /**
  * 格式化输出数字，固定位数
@@ -37,11 +36,12 @@ function formatLocation(longitude, latitude) {
  */
 function deepClone(obj) {
 
+
     let clone = obj.constructor === Array ? [] : {};
 
     // 递归
     for (let item in obj) {
-        if (obj.hasOwnProperty(item)) {
+        if (obj.hasOwnProperty(item) && obj[item]) {
             clone[item] = typeof obj[item] === "object" ? deepClone(obj[item]) : obj[item];
         }
     }
@@ -61,21 +61,41 @@ function showModal(title, content) {
 }
 
 /**
- *
+ * 删除数据中的空值（字符串，空数组，空对象），以方便put方法的使用
  * @param obj
  */
 function removeNoValueItems(obj) {
     let copy = deepClone(obj);
+    console.log("copy:", copy);
+
+    console.log("null:", typeof null);
     for (let item in copy) {
-        // console.log(this[item]);
-        if (copy[item] === "") {
-            delete copy[item];
-        } else if (copy[item].constructor === Array && copy[item].length === 0) {
+        // 先要判断是否为null
+        if (isEmptyObject(copy[item])) {
+            console.log("empty obj, delete:", item);
             delete copy[item];
         }
     }
-
     return copy;
+}
+
+/**
+ * 判断一个对象是否为空
+ * @param obj
+ * @returns {boolean}
+ */
+function isEmptyObject(obj) {
+    if (typeof obj === "number") {
+        return false;
+    } else if (typeof obj === "string") {
+        return obj === "";
+    } else if (typeof obj === "object") {
+        for (let key in obj) {
+            return false;//返回false，不为空对象
+        }
+    }
+
+    return true;//返回true，为空对象
 }
 
 module.exports = {
@@ -85,5 +105,4 @@ module.exports = {
     isEqual: isEqual,
     showModal: showModal,
     removeNoValueItems: removeNoValueItems
-
 };

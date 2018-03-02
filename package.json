@@ -49,7 +49,7 @@
   },
   "noticeSet": [],
   "parentSet": [],
-  "authorities": [
+  "roleSet": [
     "teacher",
     "student"
   ],

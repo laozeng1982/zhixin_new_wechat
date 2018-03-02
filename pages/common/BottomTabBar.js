@@ -11,7 +11,6 @@ class BottomTabBar {
         this.borderStyle = "#ccc";
         this.list = this.makeList();
 
-
     }
 
     makeList() {
@@ -19,13 +18,13 @@ class BottomTabBar {
         let list = [];
 
         // 根据总的角色来决定宽度
-        let width = 100 / (userInfo.authorities.length + 1) + "%";
-        for (let auth of userInfo.authorities) {
-            switch (auth) {
-                case "teacher":
+        let width = 100 / (userInfo.roleSet.length + 1) + "%";
+        for (let auth of userInfo.roleSet) {
+            switch (auth.id) {
+                case 2:
                     list.push({
                         pagePath: "/pages/tabpages/teacher/index",
-                        name: "teacher",
+                        name: "Teacher",
                         text: "老师",
                         iconPath: "/pages/image/tabbar_home_unselected.png",
                         selectedIconPath: "/pages/image/tabbar_home_selected.png",
@@ -35,10 +34,10 @@ class BottomTabBar {
                         active: false
                     });
                     break;
-                case "student":
+                case 3:
                     list.push({
                         pagePath: "/pages/tabpages/student/index",
-                        name: "student",
+                        name: "Student",
                         text: "学生",
                         iconPath: "/pages/image/tabbar_home_unselected.png",
                         selectedIconPath: "/pages/image/tabbar_home_selected.png",
@@ -48,10 +47,10 @@ class BottomTabBar {
                         active: false
                     });
                     break;
-                case "parent":
+                case 4:
                     list.push({
                         pagePath: "/pages/tabpages/parent/index",
-                        name: "parent",
+                        name: "Parent",
                         text: "家长",
                         iconPath: "/pages/image/tabbar_home_unselected.png",
                         selectedIconPath: "/pages/image/tabbar_home_selected.png",
@@ -81,15 +80,16 @@ class BottomTabBar {
         // 默认选中第一个
         list[0].active = true;
 
-        console.log("tabs", this);
+        console.log("current tabs:", list);
 
         return list;
     }
 
     reload() {
         delete this.list;
+        console.log("tabBar reload!");
         this.list = this.makeList();
-        console.log("tabBar reload()");
+
     }
 
     /**

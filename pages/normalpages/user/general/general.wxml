@@ -97,7 +97,7 @@
                     <picker id='dateOfBirth' mode="date" name="dateOfBirth" value="{{userInfo.dateOfBirth}}" start="1900-01-01" end="2099-12-31" bindchange="onPickerChange">
                         <view class='userinfo-item-value-container'>
                             <view class='userinfo-item-picker'>
-                                {{userInfo.dateOfBirth}}
+                                {{dateOfBirth}}
                             </view>
                             <image class='userinfo-item-image' src='../../../image/down_arrow.png'> </image>
                         </view>
@@ -137,15 +137,15 @@
             </view>
 
             <!-- 角色设置 -->
-            <view wx:if="{{displayControl.authorities}}">
+            <view wx:if="{{displayControl.roleSet}}">
                 <view class='userinfo-item-box'>
                     <view class='userinfo-item-name'>
                         角色*
                     </view>
                 </view>
 
-                <checkbox-group bindchange="onCheckboxChange" id="authorities" name="authorities">
-                    <label class="items-container" wx:for="{{authorities}}" wx:key="{{index}}">
+                <checkbox-group bindchange="onCheckboxChange" id="roleSet" name="roleSet">
+                    <label class="items-container" wx:for="{{roleSet}}" wx:key="{{index}}">
                         <view class='checkbox-item'>
                             <checkbox id="{{item.name}}" value="{{item.name}}" checked="{{item.checked}}" />{{item.value}}
                         </view>

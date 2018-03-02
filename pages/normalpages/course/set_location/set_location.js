@@ -1,6 +1,6 @@
 // pages/normalpages/set_location/set_location.js
 
-import DataStructure from '../../../datamodel/Models'
+import DataStructure from '../../../../datamodel/Models'
 
 const app = getApp();
 
@@ -48,7 +48,7 @@ Page({
     onChooseLocation: function () {
         let host = this;
 
-        wx.chooseLocation({
+        wx.selectLocation({
             success: function (res) {
                 console.log(res);
                 let selectedLocation = new DataStructure.Location();

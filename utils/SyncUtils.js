@@ -128,14 +128,19 @@ function syncUserInfo(invited) {
 
 /**
  * 去服务器注册
- * @param userData
  * @param userInfo
+ * @param createBy
  * @param pageUrl
  */
-function createUserInfo(userData, userInfo, createBy, pageUrl) {
+function createUserInfo(userInfo, createBy, pageUrl) {
     startSync("createUserInfo");
 
     let url = 'https://www.yongrui.wang/WeChatMiniProgram/user/viaWeChat';
+
+    let userData = Util.removeNoValueItems(userInfo);
+
+    // // TODO 暂时删除userSetting，为了测试是否userSetting影响
+    // delete userData.userSetting;
 
     wxRequest.postRequest(url, userData)
         .then(res => {
@@ -143,15 +148,19 @@ function createUserInfo(userData, userInfo, createBy, pageUrl) {
             // 后台创建或更新，并同步保存到本地
             console.log("saved userInfo:", userInfo);
             console.log("createUserInfo success, res.data:", res.data);
-            StorageUtils.saveUserInfo(userInfo);
+
             if (createBy === "parent") {
                 let parent_UserInfo = StorageUtils.loadUserInfo();
                 parent_UserInfo.parentSet.push({
                     id: res.data.id
                 });
-                StorageUtils.saveUserInfo(parent_UserInfo);
 
-                updateUserInfo(parent_UserInfo, parent_UserInfo);
+                StorageUtils.saveUserInfo(parent_UserInfo);
+                updateUserInfo(parent_UserInfo);
+
+            } else {
+                StorageUtils.saveCurrentId(res.data.id);
+                StorageUtils.saveUserInfo(userInfo);
             }
             // 即时保存，不在complete里完成，以防其他页面再次读取到未更新的数据
         })
@@ -174,6 +183,9 @@ function updateUserInfo(userInfo, pageUrl) {
     startSync("updateUserInfo");
 
     let userData = Util.removeNoValueItems(userInfo);
+
+    // // TODO 暂时删除userSetting，为了测试是否userSetting影响
+    // delete userData.userSetting;
 
     console.log("updateUserInfo, userData:", userData);
 
@@ -357,12 +369,6 @@ function saveBasicInfo(wechatUserInfo, response, invited) {
     if (typeof response.data.id === "undefined") {
         // 如果未返回id，表示服务器端没有注册上，去注册
         // 清理空间
-        try {
-            wx.clearStorageSync();
-        } catch (e) {
-            // Do something when catch error
-            console.log(e);
-        }
 
         let userInfo = StorageUtils.loadUserInfo();
         userInfo.nickName = wechatUserInfo.nickName;
@@ -374,7 +380,7 @@ function saveBasicInfo(wechatUserInfo, response, invited) {
         app.userInfo = userInfo;
 
         // 先保存一些信息，然后去注册页面调取
-        StorageUtils.saveUserInfo(userInfo);
+        // StorageUtils.saveUserInfo(userInfo);
 
         if (invited) {
             wx.redirectTo({
@@ -403,10 +409,6 @@ function saveBasicInfo(wechatUserInfo, response, invited) {
                 }
             }
 
-            if (typeof response.data.roleSet !== "undefined") {
-                userInfo.authorities = response.data.roleSet.map(transferRole);
-            }
-
             // 2、同步课程
             let url = "https://www.yongrui.wang/WeChatMiniProgram/user/withCourse/" + response.data.id;
             wxRequest.getRequestWithAuth(url, request_header)
@@ -425,8 +427,8 @@ function saveBasicInfo(wechatUserInfo, response, invited) {
                         });
                     } else {
                         console.log(app);
-                        let url = app.bottom_tabBar.changeTabByRole(userInfo.authorities[0]);
-                        console.log(userInfo.authorities[0], url);
+                        let url = app.bottom_tabBar.changeTabByRole(userInfo.roleSet[0].name);
+                        console.log(userInfo.roleSet[0].name, url);
 
                         wx.redirectTo({
                             url: url
@@ -483,8 +485,8 @@ function saveBasicInfo(wechatUserInfo, response, invited) {
                 });
             } else {
                 console.log(app);
-                let url = app.bottom_tabBar.changeTabByRole(userInfo.authorities[0]);
-                console.log(userInfo.authorities[0], url);
+                let url = app.bottom_tabBar.changeTabByRole(userInfo.roleSet[0].name);
+                console.log(userInfo.roleSet[0].name, url);
 
                 wx.redirectTo({
                     url: url
@@ -506,18 +508,6 @@ function syncToServer(userInfo, response) {
     console.log("need further");
 }
 
-function transferRole(role) {
-    switch (role.id) {
-        case 2:
-            return "teacher";
-        case 3:
-            return "student";
-        case 4:
-            return "parent";
-        default:
-            break;
-    }
-}
 
 module.exports = {
     // SyncUtils: SyncUtils,

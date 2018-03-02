@@ -34,7 +34,7 @@ class WeChatUser {
         // UI不需要展示的部分
         this.accountNonExpired = false;  // (boolean, optional),    （账户是否过期，布尔值，可选，默认：false）
         this.accountNonLocked = false;  // (boolean, optional),    （账户是否锁定，布尔值，可选，默认：false）
-        this.authorities = [];  // (Array[GrantedAuthority], optional),     （权限字段，自定义类型，可选，默认：空）
+        this.roleSet = [];  // (Array[GrantedAuthority], optional),     （权限字段，自定义类型，可选，默认：空）
 
         this.credentialsNonExpired = false;  // (boolean, optional),   （证书过期，布尔值，可选，默认：false）
 

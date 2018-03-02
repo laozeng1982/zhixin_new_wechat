@@ -11,7 +11,7 @@
     <view class='gray-space-small'></view>
 
     <radio-group bindchange="onSelectRole">
-        <view id="{{index}}" class='role-item-box' wx:for="{{authorities}}" wx:key="{{index}}">
+        <view id="{{index}}" class='role-item-box' wx:for="{{roleSet}}" wx:key="{{index}}">
             <radio id='{{index}}' value='{{item.name}}' class='role-raido-item'>
                 <view class='role-item-name'>
                     {{item.value}}
@@ -25,7 +25,7 @@
 
     </radio-group>
 
-    <view wx:if="{{userInfo.authorities.length > 0}}" class='tips-area'>
+    <view wx:if="{{userInfo.roleSet.length > 0}}" class='tips-area'>
         请选择身份
     </view>
 

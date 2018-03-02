@@ -7,7 +7,7 @@ import TabBar from '/pages/common/BottomTabBar.js'
 
 App({
     onLaunch: function (options) {
-        let version = "v0.0.13, modify " + 1;
+        let version = "v0.0.14, modify " + 1;
         console.log("App version is:", version);
 
         // 打印一下当前存储使用量，方便后期观察

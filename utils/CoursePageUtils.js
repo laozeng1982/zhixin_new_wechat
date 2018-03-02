@@ -9,7 +9,6 @@ import Util from "./Util";
 
 
 const app = getApp();
-let timer = '';
 
 class CoursePageUtils {
     constructor(forEdit) {
@@ -18,15 +17,21 @@ class CoursePageUtils {
 
     }
 
-    updatePage() {
-        // console.log("this.data:", this.data);
+    /**
+     * 更新页面数据
+     * @param item
+     * @param value
+     */
+    updatePageData(item, value) {
         this.data.loadFinished = true;
-        this.pageView.setData({
-            pageData: this.data
-        });
-        // console.log("this.pageView:", this.pageView);
-        //
-        // console.log("this.pageView.data.pageData:", this.pageView.data.pageData);
+        if (typeof item !== "undefined") {
+            let data = {};
+            data[item] = value;
+            console.log("update data:", data);
+            this.pageView.setData(data);
+        } else {
+            this.pageView.setData(this.data);
+        }
     }
 
     /**
@@ -86,13 +91,17 @@ class CoursePageUtils {
 
     }
 
+    /**
+     * 处理Tab切换
+     * @param currentTabIdx
+     */
     switchTab(currentTabIdx) {
         this.data.currentTabIdx = currentTabIdx;
         for (let idx = 0; idx < this.data.tabData.length; idx++) {
             this.data.tabData[idx].selected = (idx === currentTabIdx);
         }
 
-        this.updatePage();
+        this.updatePageData();
     }
 
     /**
@@ -101,7 +110,7 @@ class CoursePageUtils {
     initPageCourse() {
         console.log("Course Page onShow call, route:", this.pageView.route);
 
-        // 1、准备课程数据
+        // 1.1、准备课程数据
         switch (this.pageView.route) {
             case "create":
                 // 从新建页面过来，当前没有课程
@@ -128,7 +137,7 @@ class CoursePageUtils {
 
         }
 
-        // 先判断course是否正确，谨防课程被删除，或者courseId变更以后，拿不到正确的course
+        // 1.2、先判断course是否正确，谨防课程被删除，或者courseId变更以后，拿不到正确的course
         if (typeof this.data.currentCourse.id === "undefined") {
             console.log("获取失败！");
             wx.showModal({
@@ -136,15 +145,17 @@ class CoursePageUtils {
                 content: '请联系分享者'
             });
             this.data.loadFailed = true;
-            this.updatePage();
+            this.updatePageData();
             return;
         }
 
+        // 2.1、根据页面进入状态初始化
         if (!this.data.fromHide) {
             // 如果首次进入，则全新
 
             // 1、根据课程初始化页面数据，需要分别处理上课地址和重复规律
             for (let item in this.data.currentCourse) {
+                // 1、初始化存储数据
                 for (let displayItem in this.data.courseItems)
                     if (displayItem === item && displayItem !== "location") {
                         this.data.courseItems[displayItem].value = this.data.currentCourse[item];
@@ -157,6 +168,15 @@ class CoursePageUtils {
             this.data.courseItems.location.address.value = this.data.currentCourse.location.address;
             this.data.courseItems.location.name.value = this.data.currentCourse.location.name;
             this.data.courseItems.location.room.value = this.data.currentCourse.location.room;
+
+            // 3、初始化显示数据
+            for (let item in this.data.currentCourse) {
+                if (this.data.hasOwnProperty(item)) {
+                    this.data[item] = this.data.currentCourse[item];
+                }
+            }
+            this.data.locationName = this.data.currentCourse.location.name;
+            this.data.locationRoom = this.data.currentCourse.location.room;
 
             this.data.timeList = [45, 50, 55, 60, 75, 90, 100, 120];
 
@@ -173,6 +193,7 @@ class CoursePageUtils {
         if (app.tempData.recurringRule.constructor === Array) {
             if (app.tempData.recurringRule.length > 0) {
                 this.data.courseItems.recurringRule.value = "每周" + app.tempData.recurringRule.map(DateTimeUtils.transEnDate2ChShortDate).join("、");
+                this.data.recurringRule = "每周" + app.tempData.recurringRule.map(DateTimeUtils.transEnDate2ChShortDate).join("、");
             }
         }
 
@@ -181,7 +202,7 @@ class CoursePageUtils {
 
         }
 
-        this.updatePage();
+        this.updatePageData();
     }
 
     /**
@@ -209,10 +230,13 @@ class CoursePageUtils {
         if (app.tempData.recurringRule.constructor === Array) {
             if (app.tempData.recurringRule.length > 0) {
                 this.data.courseItems.recurringRule.value = "每周" + app.tempData.recurringRule.map(DateTimeUtils.transEnDate2ChShortDate).join("、");
+            } else {
+                this.data.courseItems.recurringRule.value = "请选择";
             }
         }
 
-        this.updatePage();
+        this.updatePageData("weekVisual", this.data.weekVisual);
+        this.updatePageData("recurringRule", this.data.courseItems.recurringRule.value);
     }
 
     /**
@@ -221,58 +245,41 @@ class CoursePageUtils {
      * @param value
      */
     changePicker(id, value) {
-
-        for (let item in this.data.courseItems) {
-            if (item === id) {
-                switch (item) {
-                    case "duration":
-                        this.data.courseItems[item].value = this.data.timeList[parseInt(value)];
-                        this.data.timeListIdx = parseInt(value);
-                        break;
-                    case "startDate":
-                        this.data.courseItems[item].value = value;
-                        break;
-                    case "endDate":
-                        this.data.courseItems[item].value = value;
-                        break;
-                    default:
-                        // console.log("default");
-                        this.data.courseItems[item].value = value;
-                        break;
-                }
-
+        switch (id) {
+            case "startDate":
+                this.data.startDate = value;
                 break;
-            }
+            case "endDate":
+                this.data.endDate = value;
+                break;
+            case "startTime":
+                this.data.startTime = value;
+                break;
+            case "duration":
+                this.data.timeListIdx = parseInt(value);
+                id = "timeListIdx";
+                break;
+            default:
+                break;
         }
 
-        this.updatePage();
-    }
+        // 转换一下
+        // if (id === "duration") {
+        //     id = "timeListIdx";
+        // }
 
-    /**
-     * 执行输入
-     * @param id
-     * @param value
-     */
-    input(id, value) {
-
-        if (id === "address_name") {
-            this.data.courseItems.location.name.value = value;
-        } else if (id === "room") {
-            this.data.courseItems.location.room.value = value;
-        } else {
-            this.data.courseItems[id].value = value;
-        }
-
-        this.updatePage();
+        this.updatePageData(id, value);
     }
 
     /**
      * 选择位置
      */
-    chooseLocation() {
+    selectLocation() {
         let that = this;
 
         this.data.fromHide = true;
+
+        console.log("selectLocation:", that.data.courseItems.location);
 
         wx.chooseLocation({
             success: function (res) {
@@ -282,6 +289,8 @@ class CoursePageUtils {
                 that.data.courseItems.location.name.value = res.name;
 
                 console.log("Get Location:", that.data.courseItems.location);
+
+                that.updatePageData("locationName", res.name);
             }
         });
 
@@ -309,16 +318,28 @@ class CoursePageUtils {
 
     /**
      * 提交
+     * 因为涉及到跳转页面，所以数据还是要用courseItems来收集
      */
-    submit() {
-        let courseItems = this.data.courseItems;
-        console.log(courseItems);
+    submit(e) {
 
+        console.log("表单提交：", e.detail.value);
+        let courseItems = this.data.courseItems;
+
+
+        // 先给courseItems赋值，然后利用他来检查输入
+        for (let item in e.detail.value) {
+            if (courseItems.hasOwnProperty(item)) {
+                courseItems[item].value = e.detail.value[item];
+            }
+        }
+        courseItems.location.room.value = e.detail.value["room"];
+
+        console.log(courseItems);
 
         let title = "缺少必要信息";
         let content = "";
 
-        // 1、先检查信息，直接根据courseItems来判断信息，有为空的即弹出信息提示用户
+        // 2、先检查信息，直接根据courseItems来判断信息，有为空的即弹出信息提示用户
         for (let item in courseItems) {
             console.log(item, ":", courseItems[item].value);
 
@@ -456,12 +477,24 @@ function makePageData(forEdit) {
         selectedDateArray: [],
         selectedDateLongValue: [],
 
-        // 以下用于控件临时显示
+        // 以下用于控件临时显示，缓存值，需要初始化
+        name: "",
+        locationName: "",
+        locationRoom: "",
+        startDate: "请选择",
+        endDate: "请选择",
+        recurringRule: "请选择",
+        startTime: "09:00",
+        duration: 45,
+        maxCapacity: 10,
+        description: "",
+
+        // 时长选择控件
         timeList: [],
         timeListIdx: 0,
 
         fromHide: false
-    }
+    };
 
     if (forEdit) {
         data.courseItems = {

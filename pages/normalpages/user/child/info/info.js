@@ -27,6 +27,7 @@ Page({
             mobileNumber: "",
             email: "",
         },
+        dateOfBirth: "2000-01-01",
         childIdx: -1
     },
 
@@ -38,7 +39,9 @@ Page({
             let childIdx = this.data.options.idx;
 
             let userInfo = StorageUtils.loadUserInfo();
+            let dateOfBirth = userInfo.dateOfBirth;
             this.setData({
+                dateOfBirth: dateOfBirth,
                 childIdx: childIdx,
                 studentInfo: userInfo.parentSet[childIdx]
             })
@@ -58,13 +61,14 @@ Page({
      */
     onPickerChange: function (e) {
         let genderIdx = this.data.genderIdx;
+        let dateOfBirth;
         // let studentInfo = this.data.studentInfo;
         switch (e.target.id) {
             case "gender":
                 genderIdx = parseInt(e.detail.value);
                 break;
             case "dateOfBirth":
-                // studentInfo.dateOfBirth = e.detail.value;
+                dateOfBirth = e.detail.value;
                 break;
             default:
                 break;
@@ -72,6 +76,7 @@ Page({
 
         this.setData({
             // studentInfo: studentInfo,
+            dateOfBirth: dateOfBirth,
             genderIdx: genderIdx,
         });
     },
@@ -112,8 +117,8 @@ Page({
         userData.gender = e.detail.value.gender;
 
         // 1.3、设置角色
-        studentInfo.authorities = [{id: 3}];
-        userData.roleSet = [{id: 3}];
+        studentInfo.roleSet = [{ id: 3 }];
+        userData.roleSet = [{ id: 3 }];
 
         // 1.4、收集生日
         studentInfo.dateOfBirth = e.detail.value.dateOfBirth;

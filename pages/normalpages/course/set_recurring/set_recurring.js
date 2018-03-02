@@ -1,6 +1,6 @@
 // pages/normalpages/set_recurring/set_recurring.js
 // 设置重复规则页面
-import StorageUtils from '../../../utils/StorageUtils'
+import StorageUtils from '../../../../utils/StorageUtils'
 
 const app = getApp();
 

@@ -9,7 +9,7 @@ Page({
      * 页面的初始数据
      */
     data: {
-        authorities: [
+        roleSet: [
             {name: "teacher", value: "老师", description: "我以老师的身份进入，一同管理该课程。"},
             {name: "student", value: "学生", description: "我以学生的身份进入，为我自己加入该课程。"},
             {name: "parent", value: "家长", description: "我以家长的身份进入，为我的宝贝加入该课程。"}

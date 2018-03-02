@@ -10,10 +10,7 @@ Page({
     /**
      * 页面的初始数据
      */
-    data: {
-        pageData: {}
-
-    },
+    data: {},
 
     onChangeStudentSet: function (e) {
         console.log("go to change");
@@ -40,9 +37,7 @@ Page({
         this.setData({
             showRecurringRule: showRecurringRule
         });
-        // wx.navigateTo({
-        //     url: '../set_recurring/set_recurring',
-        // });
+
     },
 
     /**
@@ -58,20 +53,11 @@ Page({
 
     },
 
-    onInput: function (e) {
-        // console.log(e.currentTarget.id, e.detail.value);
-        let id = e.currentTarget.id;
-        let value = e.detail.value;
-
-        pageUtils.input(id, value);
-
-    },
-
     /**
      * 响应选择位置
      */
     onChooseLocation: function () {
-        pageUtils.chooseLocation();
+        pageUtils.selectLocation();
 
     },
 
@@ -79,7 +65,8 @@ Page({
      * 提交表单
      */
     onFormSubmit: function (e) {
-        pageUtils.submit();
+        console.log()
+        pageUtils.submit(e);
 
     },
 
@@ -122,11 +109,11 @@ Page({
      */
     onHide: function () {
         console.log("onHide");
-        let pageData = this.data.pageData;
-        pageData.fromHide = true;
-        this.setData({
-            pageData: pageData
-        });
+        // let pageData = this.data.pageData;
+        // pageData.fromHide = true;
+        // this.setData({
+        //     pageData: pageData
+        // });
     },
 
     /**

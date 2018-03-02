@@ -97,7 +97,7 @@
                     <picker id='dateOfBirth' mode="date" name="dateOfBirth" value="{{studentInfo.dateOfBirth}}" start="1900-01-01" end="2099-12-31" bindchange="onPickerChange">
                         <view class='userinfo-item-value-container'>
                             <view class='userinfo-item-picker'>
-                                {{studentInfo.dateOfBirth}}
+                                {{dateOfBirth}}
                             </view>
                             <image class='userinfo-item-image' src='../../../../image/down_arrow.png'> </image>
                         </view>

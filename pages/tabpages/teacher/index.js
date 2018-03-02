@@ -165,7 +165,14 @@ Page({
      * @param e
      */
     onCreatedNewNotice: function (e) {
+        console.log("create new notice");
         pageUtils.createNewNotice(this);
+        // wx.chooseLocation({
+        //         success: function (res) {
+        //             console.log(res);
+        //         }
+        //     }
+        // );
     },
 
     /**
