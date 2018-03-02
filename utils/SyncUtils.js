@@ -209,14 +209,15 @@ function updateUserInfo(userInfo, pageUrl) {
 
 /**
  *
- * @param courseToServer
- * @param courseToLocal
+ * @param course
  */
-function createCourseByTeacher(courseToServer, courseToLocal) {
+function createCourseByTeacher(course) {
     startSync("createCourseByTeacher");
 
     let userInfo = StorageUtils.loadUserInfo();
     let request_header = StorageUtils.loadRequestHeader();
+
+    let courseToServer = Util.removeNoValueItems(course);
 
     let url = 'https://www.yongrui.wang/WeChatMiniProgram/course';
     wxRequest.postRequestWithAuth(url, request_header, courseToServer)
@@ -224,16 +225,16 @@ function createCourseByTeacher(courseToServer, courseToLocal) {
             // 后台创建或更新，并同步保存到本地
             console.log("createCourseByTeacher success, res.data:", res.data);
             // 根据返回id，更新本地信息
-            courseToLocal.id = res.data.id;
-            courseToLocal.location.id = res.data.location.id;
+            course.id = res.data.id;
+            course.location.id = res.data.location.id;
 
-            userInfo.teacherCourseSet.push(courseToLocal);
+            userInfo.teacherCourseSet.push(course);
             StorageUtils.saveUserInfo(userInfo);
 
         })
         .catch(res => {
             // 失败也要保存
-            userInfo.teacherCourseSet.push(courseToLocal);
+            userInfo.teacherCourseSet.push(course);
             console.log("createCourseByTeacher failed, res:", res);
         })
         .finally(() => {
@@ -245,25 +246,28 @@ function createCourseByTeacher(courseToServer, courseToLocal) {
 
 /**
  *
- * @param courseToServer
- * @param courseToLocal
+ * @param course
  */
-function updateCourseByTeacher(courseToServer, courseToLocal) {
+function updateCourseByTeacher(course) {
     startSync("updateCourseByTeacher");
 
     let userInfo = StorageUtils.loadUserInfo();
+    let request_header = StorageUtils.loadRequestHeader();
     let url = 'https://www.yongrui.wang/WeChatMiniProgram/course';
-    wxRequest.putRequestWithAuth(url, userInfo.request_header, courseToServer)
+
+    let courseToServer = Util.removeNoValueItems(course);
+
+    wxRequest.putRequestWithAuth(url, request_header, courseToServer)
         .then(res => {
             // 后台创建或更新，并同步保存到本地
             console.log("updateCourseByTeacher success, res.data:", res.data);
             // 根据返回id，更新本地信息
-            courseToLocal.id = res.data.id;
-            courseToLocal.location.id = res.data.location.id;
+            course.id = res.data.id;
+            course.location.id = res.data.location.id;
             for (let idx = 0; idx < userInfo.teacherCourseSet.length; idx++) {
                 if (userInfo.teacherCourseSet[idx].id === res.data.id) {
                     // 插入新数据
-                    userInfo.teacherCourseSet.splice(idx, 1, courseToLocal);
+                    userInfo.teacherCourseSet.splice(idx, 1, course);
                     break;
                 }
             }
@@ -274,7 +278,7 @@ function updateCourseByTeacher(courseToServer, courseToLocal) {
         })
         .catch(res => {
             // 失败也要保存
-            userInfo.teacherCourseSet.push(courseToLocal);
+            userInfo.teacherCourseSet.push(course);
             console.log("updateCourseByTeacher failed, res:", res);
         })
         .finally(() => {

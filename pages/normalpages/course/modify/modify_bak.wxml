@@ -185,9 +185,8 @@
 
         </view>
 
-        <!-- <view class="btn-area">
-            <button type='primary' formType="submit">确定</button>
-        </view> -->
+        <button type='primary' formType="submit">确定</button>
+
     </form>
 
     <form wx:else class='form-container' bindsubmit="onFormSubmit">
@@ -318,10 +317,6 @@
 
         </view>
 
-
     </form>
-
-    <button type='primary' bindtap="onFormSubmit">确定</button>
-    <button type='primary' bindtap='onDeleteCourse'>删除</button>
 
 </view>

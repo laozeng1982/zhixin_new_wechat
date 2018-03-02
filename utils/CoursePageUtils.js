@@ -374,32 +374,32 @@ class CoursePageUtils {
         let userInfo = StorageUtils.loadUserInfo();
 
         let courseToLocal = new Models.Course();
-        let courseToServer = new Models.Course();
+        // let courseToServer = new Models.Course();
 
         // 3、同步数据
         if (this.pageView.route === "create") {
-            courseToServer.prepare(courseItems, userInfo.id, true);
+            courseToLocal.prepare(courseItems, userInfo.id, true);
             // 复制信息
-            for (let item in courseToServer) {
-                if (courseToLocal.hasOwnProperty(item)) {
-                    courseToLocal[item] = courseToServer[item];
-                }
-            }
-            SyncUtils.createCourseByTeacher(courseToServer, courseToLocal);
+            // for (let item in courseToServer) {
+            //     if (courseToLocal.hasOwnProperty(item)) {
+            //         courseToLocal[item] = courseToServer[item];
+            //     }
+            // }
+            SyncUtils.createCourseByTeacher( courseToLocal);
 
         } else if (this.pageView.route === "modify") {
-            courseToServer.prepare(courseItems, userInfo.id, false);
-            courseToServer.id = this.data.currentCourse.id;
+            courseToLocal.prepare(courseItems, userInfo.id, false);
+            courseToLocal.id = this.data.currentCourse.id;
             // 复制信息
-            for (let item in courseToServer) {
-                if (courseToLocal.hasOwnProperty(item)) {
-                    courseToLocal[item] = courseToServer[item];
-                }
-            }
-            SyncUtils.updateCourseByTeacher(courseToServer, courseToLocal);
+            // for (let item in courseToServer) {
+            //     if (courseToLocal.hasOwnProperty(item)) {
+            //         courseToLocal[item] = courseToServer[item];
+            //     }
+            // }
+            SyncUtils.updateCourseByTeacher(courseToLocal);
         }
 
-        console.log("courseToServer:", courseToServer);
+        // console.log("courseToServer:", courseToServer);
         console.log("courseToLocal:", courseToLocal);
     }
 

@@ -1,4 +1,4 @@
-<!--pages/normalpages/modify_course/modify_course.wxml-->
+<!--pages/normalpages/course/modify/modify.wxml-->
 
 <view class="container">
 
@@ -25,7 +25,7 @@
 
                 <view class='item-value'>
                     <view class='item-value-input'>
-                        <input id="{{courseItems.name.id}}" name="{{courseItems.name.id}}" type='text' value='{{name}}' placeholder='{{courseItems.name.tip}}' bindinput='onInput' />
+                        <input id="{{courseItems.name.id}}" name="{{courseItems.name.id}}" type='text' value='{{name}}' placeholder='{{courseItems.name.tip}}' />
                     </view>
                 </view>
             </view>
@@ -38,7 +38,7 @@
 
                 <view class='item-value'>
                     <view class='item-value-input' style='margin-right:0'>
-                        <input id="{{courseItems.location.name.id}}" name="{{courseItems.location.name.id}}" value='{{locationName}}' placeholder='{{courseItems.location.name.tip}}' bindinput='onInput' />
+                        <input id="{{courseItems.location.name.id}}" name="{{courseItems.location.name.id}}" value='{{locationName}}' placeholder='{{courseItems.location.name.tip}}' />
                     </view>
                     <image class='image-arrow' src='../../../image/right_arrow.png' bindtap='onChooseLocation'></image>
                 </view>
@@ -51,7 +51,7 @@
                 </view>
                 <view class='item-value'>
                     <view class='item-value-input'>
-                        <input id="{{courseItems.location.room.id}}" name="{{courseItems.location.room.id}}" type='text' value='{{locationRoom}}' placeholder='{{courseItems.location.room.tip}}' bindinput='onInput' />
+                        <input id="{{courseItems.location.room.id}}" name="{{courseItems.location.room.id}}" type='text' value='{{locationRoom}}' placeholder='{{courseItems.location.room.tip}}' />
                     </view>
                 </view>
             </view>
@@ -141,7 +141,7 @@
                 </view>
 
                 <view class='item-value'>
-                    <input class='item-input-text' id="{{courseItems.duration.id}}" name="{{courseItems.duration.id}}" type='number' value='{{timeList[timeListIdx]}}' bindinput='onInput' />
+                    <input class='item-input-text' id="{{courseItems.duration.id}}" name="{{courseItems.duration.id}}" type='number' value='{{timeList[timeListIdx]}}' />
 
                     <picker id="{{courseItems.duration.id}}" mode='selector' value="{{timeListIdx}}" range='{{timeList}}' bindchange='onPickerChange'>
                         <view class='item-value-picker'>
@@ -165,7 +165,7 @@
                 </view>
                 <view class='item-value'>
                     <view class='item-value-input'>
-                        <input id="{{courseItems.maxCapacity.id}}" name="{{courseItems.maxCapacity.id}}" type='number' value='{{courseItems.maxCapacity.value}}' placeholder='{{maxCapacity}}' bindinput='onInput' />
+                        <input id="{{courseItems.maxCapacity.id}}" name="{{courseItems.maxCapacity.id}}" type='number' value='{{courseItems.maxCapacity.value}}' placeholder='{{maxCapacity}}' />
                     </view>
                 </view>
             </view>
@@ -176,14 +176,14 @@
                     {{courseItems.description.name}}
                 </view>
                 <view class='item-textarea'>
-                    <textarea id="{{courseItems.description.id}}" name="{{courseItems.description.id}}" class='decription-item-text' show-confirm-bar='{{false}}' type='text' value='{{description}}' placeholder='{{courseItems.description.tip}}' bindinput='onInput' />
+                    <textarea id="{{courseItems.description.id}}" name="{{courseItems.description.id}}" class='decription-item-text' show-confirm-bar='{{false}}' type='text' value='{{description}}' placeholder='{{courseItems.description.tip}}' />
                 </view>
             </view>
 
         </view>
 
-        <button type='primary' form-type="onFormSubmit">确定</button>
-        <button type='primary' formType='onDeleteCourse'>删除</button>
+        <button type='primary' form-type="submit">确定</button>
+        <button type='primary' form-type='submit'>删除</button>
     </form>
 
     <form wx:else class='form-container' bindsubmit="onFormSubmit">
@@ -197,7 +197,7 @@
 
                 <view class='item-value'>
                     <view class='item-value-input'>
-                        <input id="{{courseItems.name.id}}" name="{{courseItems.name.id}}" type='text' value='{{courseItems.name.value}}' placeholder='{{courseItems.name.tip}}' bindinput='onInput' />
+                        <input id="{{courseItems.name.id}}" name="{{courseItems.name.id}}" type='text' value='{{courseItems.name.value}}' placeholder='{{courseItems.name.tip}}' />
                     </view>
                 </view>
 
@@ -211,7 +211,7 @@
 
                 <view class='item-value'>
                     <view class='item-value-input' style='margin-right:0'>
-                        <input id="{{courseItems.location.name.id}}" name="{{courseItems.location.name.id}}" value='{{courseItems.location.name.value}}' placeholder='{{courseItems.location.name.tip}}' bindinput='onInput' />
+                        <input id="{{courseItems.location.name.id}}" name="{{courseItems.location.name.id}}" value='{{courseItems.location.name.value}}' placeholder='{{courseItems.location.name.tip}}' />
                     </view>
                     <image class='image-arrow' src='../../../image/right_arrow.png' bindtap='onChooseLocation'></image>
                 </view>
@@ -225,7 +225,7 @@
                 </view>
                 <view class='item-value'>
                     <view class='item-value-input'>
-                        <input id="{{courseItems.location.room.id}}" name="{{courseItems.location.room.id}}" type='text' value='{{courseItems.location.room.value}}' placeholder='{{courseItems.location.room.tip}}' bindinput='onInput' />
+                        <input id="{{courseItems.location.room.id}}" name="{{courseItems.location.room.id}}" type='text' value='{{courseItems.location.room.value}}' placeholder='{{courseItems.location.room.tip}}' />
                     </view>
                 </view>
             </view>
@@ -256,7 +256,7 @@
                 </view>
 
                 <view class='item-value'>
-                    <input class='item-input-text' id="{{courseItems.duration.id}}" name="{{courseItems.duration.id}}" type='number' value='{{courseItems.duration.value}}' bindinput='onInput' />
+                    <input class='item-input-text' id="{{courseItems.duration.id}}" name="{{courseItems.duration.id}}" type='number' value='{{courseItems.duration.value}}' />
 
                     <picker id="{{courseItems.duration.id}}" mode='selector' value="{{timeListIdx}}" range='{{timeList}}' bindchange='onPickerChange'>
                         <view class='item-value-picker'>
@@ -280,7 +280,7 @@
                 </view>
                 <view class='item-value'>
                     <view class='item-value-input'>
-                        <input id="{{courseItems.maxCapacity.id}}" name="{{courseItems.maxCapacity.id}}" type='number' value='{{courseItems.maxCapacity.value}}' placeholder='{{courseItems.maxCapacity.tip}}' bindinput='onInput' />
+                        <input id="{{courseItems.maxCapacity.id}}" name="{{courseItems.maxCapacity.id}}" type='number' value='{{courseItems.maxCapacity.value}}' placeholder='{{courseItems.maxCapacity.tip}}' />
                     </view>
                 </view>
             </view>
@@ -306,15 +306,15 @@
                     {{courseItems.description.name}}
                 </view>
                 <view class='item-textarea'>
-                    <textarea id="{{courseItems.description.id}}" name="{{courseItems.description.id}}" class='decription-item-text' show-confirm-bar='{{false}}' type='text' value='{{courseItems.description.value}}' placeholder='{{courseItems.description.tip}}' bindinput='onInput'
+                    <textarea id="{{courseItems.description.id}}" name="{{courseItems.description.id}}" class='decription-item-text' show-confirm-bar='{{false}}' type='text' value='{{courseItems.description.value}}' placeholder='{{courseItems.description.tip}}'
                     />
                 </view>
             </view>
 
         </view>
 
-        <button type='primary' formType="onFormSubmit">确定</button>
-        <button type='primary' formType='onDeleteCourse'>删除</button>
+        <button type='primary' form-type="submit">确定</button>
+        <button type='primary' form-type='submit'>删除</button>
     </form>
 
 </view>
