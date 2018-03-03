@@ -257,6 +257,8 @@ function updateCourseByTeacher(course) {
 
     let courseToServer = Util.removeNoValueItems(course);
 
+    wx.setStorageSync("temp", courseToServer);
+
     wxRequest.putRequestWithAuth(url, request_header, courseToServer)
         .then(res => {
             // 后台创建或更新，并同步保存到本地

@@ -3,9 +3,7 @@
   <component name="ChangeListManager">
     <list default="true" id="03a8d97c-c09c-4181-bebb-81947607b556" name="Default" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change beforePath="$PROJECT_DIR$/pages/normalpages/course/modify/modify.wxml" afterPath="$PROJECT_DIR$/pages/normalpages/course/modify/modify.wxml" />
-      <change beforePath="$PROJECT_DIR$/pages/normalpages/course/modify/modify_bak.wxml" afterPath="$PROJECT_DIR$/pages/normalpages/course/modify/modify_bak.wxml" />
-      <change beforePath="$PROJECT_DIR$/utils/CoursePageUtils.js" afterPath="$PROJECT_DIR$/utils/CoursePageUtils.js" />
+      <change beforePath="$PROJECT_DIR$/storage.json" afterPath="$PROJECT_DIR$/storage.json" />
       <change beforePath="$PROJECT_DIR$/utils/SyncUtils.js" afterPath="$PROJECT_DIR$/utils/SyncUtils.js" />
     </list>
     <ignored path="$PROJECT_DIR$/.tmp/" />
@@ -40,11 +38,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="CoursePageUtils.js" pinned="false" current-in-tab="true">
+      <file leaf-file-name="CoursePageUtils.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/utils/CoursePageUtils.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="679">
-              <caret line="402" column="53" lean-forward="true" selection-start-line="402" selection-start-column="53" selection-end-line="402" selection-end-column="53" />
+            <state relative-caret-position="553">
+              <caret line="486" column="27" lean-forward="true" selection-start-line="486" selection-start-column="27" selection-end-line="486" selection-end-column="27" />
               <folding>
                 <element signature="n#!!block;n#initTabData#0;n#CoursePageUtils#0" expanded="false" />
                 <element signature="n#!!block;n#openLocation#0;n#CoursePageUtils#0" expanded="false" />
@@ -56,7 +54,7 @@
       <file leaf-file-name="Models.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/datamodel/Models.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="293">
+            <state relative-caret-position="4725">
               <caret line="228" column="4" lean-forward="false" selection-start-line="228" selection-start-column="4" selection-end-line="228" selection-end-column="4" />
               <folding />
             </state>
@@ -76,8 +74,8 @@
       <file leaf-file-name="create.wxml" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/pages/normalpages/course/create/create.wxml">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="588">
-              <caret line="171" column="0" lean-forward="true" selection-start-line="171" selection-start-column="0" selection-end-line="171" selection-end-column="0" />
+            <state relative-caret-position="3591">
+              <caret line="171" column="0" lean-forward="false" selection-start-line="171" selection-start-column="0" selection-end-line="171" selection-end-column="0" />
               <folding />
             </state>
           </provider>
@@ -86,14 +84,24 @@
       <file leaf-file-name="SyncUtils.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/utils/SyncUtils.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="536">
-              <caret line="230" column="42" lean-forward="true" selection-start-line="230" selection-start-column="42" selection-end-line="230" selection-end-column="42" />
+            <state relative-caret-position="249">
+              <caret line="259" column="46" lean-forward="true" selection-start-line="259" selection-start-column="46" selection-end-line="259" selection-end-column="46" />
               <folding>
                 <element signature="n#!!doc" expanded="true" />
                 <element signature="e#49#90#0" expanded="true" />
                 <element signature="n#!!block;n#getCourseAtLaunch#0" expanded="false" />
                 <element signature="n#!!block;n#getCourseById#0" expanded="false" />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="storage.json" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/storage.json">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="189">
+              <caret line="9" column="17" lean-forward="true" selection-start-line="9" selection-start-column="17" selection-end-line="9" selection-end-column="17" />
+              <folding />
             </state>
           </provider>
         </entry>
@@ -110,7 +118,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>console.log(e);</find>
       <find>model</find>
       <find>route</find>
       <find>userInfo</find>
@@ -140,6 +147,7 @@
       <find>pageData</find>
       <find>pageData.</find>
       <find>update</find>
+      <find>updateCourseByTeacher</find>
     </findStrings>
     <replaceStrings>
       <replace>tabId</replace>
@@ -203,7 +211,6 @@
         <option value="$PROJECT_DIR$/app.js" />
         <option value="$PROJECT_DIR$/pages/normalpages/user/child/info/info.wxml" />
         <option value="$PROJECT_DIR$/pages/normalpages/user/child/admin/admin.js" />
-        <option value="$PROJECT_DIR$/storage.json" />
         <option value="$PROJECT_DIR$/pages/normalpages/course/student_set/student_set.js" />
         <option value="$PROJECT_DIR$/datamodel/Models.js" />
         <option value="$PROJECT_DIR$/pages/normalpages/user/select_role/select_role.wxml" />
@@ -220,8 +227,9 @@
         <option value="$PROJECT_DIR$/pages/normalpages/course/create/create.js" />
         <option value="$PROJECT_DIR$/pages/normalpages/course/modify/modify.wxml" />
         <option value="$PROJECT_DIR$/pages/normalpages/course/modify/modify.js" />
-        <option value="$PROJECT_DIR$/utils/SyncUtils.js" />
         <option value="$PROJECT_DIR$/utils/CoursePageUtils.js" />
+        <option value="$PROJECT_DIR$/utils/SyncUtils.js" />
+        <option value="$PROJECT_DIR$/storage.json" />
       </list>
     </option>
   </component>
@@ -232,8 +240,8 @@
     <sorting>DEFINITION_ORDER</sorting>
   </component>
   <component name="ProjectFrameBounds" extendedState="6">
-    <option name="x" value="2161" />
-    <option name="y" value="346" />
+    <option name="x" value="469" />
+    <option name="y" value="320" />
     <option name="width" value="1696" />
     <option name="height" value="1026" />
   </component>
@@ -252,6 +260,8 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="Scratches" />
+      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -384,8 +394,6 @@
           <select />
         </subPane>
       </pane>
-      <pane id="Scratches" />
-      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -537,11 +545,12 @@
       <workItem from="1519914460781" duration="3079000" />
       <workItem from="1519954116908" duration="22087000" />
       <workItem from="1519978697541" duration="1020000" />
+      <workItem from="1520047552790" duration="442000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="172968000" />
+    <option name="totallyTimeSpent" value="173410000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -553,7 +562,7 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="1912" y="-8" width="1936" height="1096" extended-state="6" />
+    <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
     <layout>
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.17864694" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3296582" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
@@ -710,9 +719,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="2730">
           <caret line="132" column="4" lean-forward="false" selection-start-line="132" selection-start-column="4" selection-end-line="132" selection-end-column="4" />
-          <folding>
-            <element signature="e#0#45#0" expanded="false" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -723,13 +729,6 @@
           <folding>
             <element signature="e#20#61#0" expanded="false" />
           </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/storage.json">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="1" lean-forward="false" selection-start-line="0" selection-start-column="1" selection-end-line="0" selection-end-column="1" />
         </state>
       </provider>
     </entry>
@@ -751,9 +750,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="399">
           <caret line="57" column="31" lean-forward="true" selection-start-line="57" selection-start-column="31" selection-end-line="57" selection-end-column="31" />
-          <folding>
-            <element signature="n#!!doc" expanded="false" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -911,24 +907,35 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/pages/normalpages/course/create/create.wxml">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="588">
-          <caret line="171" column="0" lean-forward="true" selection-start-line="171" selection-start-column="0" selection-end-line="171" selection-end-column="0" />
+        <state relative-caret-position="3591">
+          <caret line="171" column="0" lean-forward="false" selection-start-line="171" selection-start-column="0" selection-end-line="171" selection-end-column="0" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/datamodel/Models.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="293">
+        <state relative-caret-position="4725">
           <caret line="228" column="4" lean-forward="false" selection-start-line="228" selection-start-column="4" selection-end-line="228" selection-end-column="4" />
           <folding />
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/utils/CoursePageUtils.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="553">
+          <caret line="486" column="27" lean-forward="true" selection-start-line="486" selection-start-column="27" selection-end-line="486" selection-end-column="27" />
+          <folding>
+            <element signature="n#!!block;n#initTabData#0;n#CoursePageUtils#0" expanded="false" />
+            <element signature="n#!!block;n#openLocation#0;n#CoursePageUtils#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/utils/SyncUtils.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="536">
-          <caret line="230" column="42" lean-forward="true" selection-start-line="230" selection-start-column="42" selection-end-line="230" selection-end-column="42" />
+        <state relative-caret-position="249">
+          <caret line="259" column="46" lean-forward="true" selection-start-line="259" selection-start-column="46" selection-end-line="259" selection-end-column="46" />
           <folding>
             <element signature="n#!!doc" expanded="true" />
             <element signature="e#49#90#0" expanded="true" />
@@ -938,14 +945,11 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/utils/CoursePageUtils.js">
+    <entry file="file://$PROJECT_DIR$/storage.json">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="679">
-          <caret line="402" column="53" lean-forward="true" selection-start-line="402" selection-start-column="53" selection-end-line="402" selection-end-column="53" />
-          <folding>
-            <element signature="n#!!block;n#initTabData#0;n#CoursePageUtils#0" expanded="false" />
-            <element signature="n#!!block;n#openLocation#0;n#CoursePageUtils#0" expanded="false" />
-          </folding>
+        <state relative-caret-position="189">
+          <caret line="9" column="17" lean-forward="true" selection-start-line="9" selection-start-column="17" selection-end-line="9" selection-end-column="17" />
+          <folding />
         </state>
       </provider>
     </entry>
